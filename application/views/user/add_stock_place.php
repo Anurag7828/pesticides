@@ -39,10 +39,10 @@
 											<label class="text-dark dark:text-white text-[13px] mb-2"> Address </label>
 											<input type="text" name="address" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" placeholder="address" required>
 										</div>
-                                        <div class="sm:w-1/2 w-full mb-[30px]">
-											<label class="text-dark dark:text-white text-[13px] mb-2">capacity</label>
-											<input type="text" name="capacity" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" placeholder="Capacity">
-										</div>				
+										<div class="sm:w-1/2 w-full mb-[30px]">
+									
+											<input type="checkbox" name="default" value="1" class="form-control "> set Default
+										</div>
 
 									</div>
 								</div>

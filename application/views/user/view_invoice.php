@@ -199,18 +199,24 @@
                                                                         <?= "" ?>
                                                                     <?php } ?>
                                                                 </td>
-                                                                <td
+                                                    <td            
                                                                     class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
-                                                                    ₹ <?= $customer_info['final_total'] ?></td>
-                                                                <?php
-                                                                $payment = $this->CommonModal->getRowByIdOrderByLimit('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'id', 'DESC', '1');
-                                                                $paymentsum = $this->CommonModal->getRowByIdSum('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'paid'); ?>
-                                                                <td
-                                                                    class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
-                                                                    ₹ <?= number_format((float)$paymentsum[0]['total_sum'], 2) ?></td>
-                                                                <td
-                                                                    class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
-                                                                    ₹ <?= number_format((float)$payment[0]['due'], 2) ?></td>
+                                                                 ₹ <?= number_format($customer_info['final_total'] + $customer_info['interest_amount'], 2) ?></td>
+                                                                 <?php
+$payment = $this->CommonModal->getRowByIdOrderByLimit('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'id', 'DESC', '1');
+$paymentsum = $this->CommonModal->getRowByIdSum('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'paid');
+
+$final_total_with_interest = $customer_info['final_total'] + $customer_info['interest_amount'];
+$total_paid = (float) $paymentsum[0]['total_sum'];  
+$due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no negative values
+?>
+
+<td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
+    ₹ <?= number_format($total_paid, 2) ?>
+</td>
+<td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
+    ₹ <?= number_format($due_amount, 2) ?>
+</td>
 
                                                                 <?php if ($paymentsum[0]['total_sum'] < $payment[0]['total'] && $paymentsum[0]['total_sum'] !=0) { ?>
                                                                     <td

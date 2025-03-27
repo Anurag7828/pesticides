@@ -1400,9 +1400,12 @@ $transfer = $select[0]['transfer_quantity'] +  $_POST['quantity'];
         if (count($_POST) > 0) {
 
             $post = $this->input->post();
-
+            $is_default = $this->input->post('default') ? 1 : 0;
             // $post['image'] = imageUpload('image', 'uploads/users/');
-
+            if ($is_default == 1) {
+                
+                $this->db->update('stock_place', ['default' => 0]);
+            }
             $savedata = $this->CommonModal->insertRowReturnId('stock_place', $post);
 
             if ($savedata) {
@@ -1437,6 +1440,12 @@ $transfer = $select[0]['transfer_quantity'] +  $_POST['quantity'];
             $post = $this->input->post();
             $id = $post['id'];
             $uid = $post['user_id'];
+            $is_default = $this->input->post('default') ? 1 : 0;
+         
+            if ($is_default == 1) {
+                
+                $this->db->update('stock_place', ['default' => 0]);
+            }
             $category_id = $this->CommonModal->updateRowById('stock_place', 'id', $id, $post);
 
             if ($category_id) {
@@ -1625,36 +1634,66 @@ if($add){
     public function invoice($id)
     {
         $data['title'] = "Invoice List";
-        // Get Vendor ID from the URL query strin
         $tid = decryptId($id);
         $ID = $this->input->get('id');
     
-        // Decrypt user ID
+        // Get User Details
         $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
-     $uid = $this->CommonModal->getRowById('users', 'id', $tid);
-        // Modify the query to join the customer table and get customer names
-        $this->db->select('invoice.invoice_no, invoice.status as stat, invoice.branch_id as branch, invoice.customer_name as c_id,invoice.date as bill_date,customer.name as customer_name, COUNT(*) as product_count, final_total as final_total'); // Count of products and sum of grand totals
+        $uid = $data['user'];
+    
+        // Fetch Invoices
+        $this->db->select('invoice.invoice_no, invoice.status as stat, invoice.branch_id as branch, invoice.customer_name as c_id, invoice.date as bill_date, customer.name as customer_name, COUNT(*) as product_count, final_total, include_interest');
         $this->db->from('invoice');
         $this->db->join('customer', 'customer.id = invoice.customer_name', 'left'); 
-          $this->db->where('invoice.user_id', $uid[0]['id']);
+        $this->db->where('invoice.user_id', $uid[0]['id']);
         $this->db->group_by(array('invoice.invoice_no', 'customer.name')); 
         $this->db->order_by('invoice.id', 'DESC');
-        $data['invoice'] = $this->db->get()->result_array();
+        $invoices = $this->db->get()->result_array();
+    
+        // Interest Calculation for Each Invoice
+        foreach ($invoices as &$invoice) {
+            $final_total = floatval($invoice['final_total']);
+            $customer_id = $invoice['c_id']; 
+    
+            // Fetch Customer Details
+            $customer = $this->CommonModal->getRowById('customer', 'id', $customer_id);
+            $interest_rate = !empty($customer) ? floatval($customer[0]['interest_rate']) : 0;
+            $interest_days = !empty($customer) ? intval($customer[0]['interest_days']) : 0;
+    
+            $bill_date = strtotime($invoice['bill_date']);
+            $current_date = strtotime(date('Y-m-d'));
+            $due_date = strtotime("+$interest_days days", $bill_date);
+    
+            if ($current_date > $due_date) {
+                $days_late = ceil(($current_date - $due_date) / (60 * 60 * 24));
+                $daily_interest = ($final_total * ($interest_rate / 100)) / 365;
+                $interest_amount = $daily_interest * $days_late;
+            } else {
+                $days_late = 0;
+                $interest_amount = 0;
+            }
+    
+            $invoice['interest_amount'] = round($interest_amount, 2);
+            $invoice['interest_rate'] = $interest_rate;
+            $invoice['interest_days'] = $interest_days;
+            $invoice['days_late'] = $days_late;
+            $invoice['grand_total_with_interest'] = $final_total + $invoice['interest_amount'];
+        }
+    
+        $data['invoice'] = $invoices; // Pass updated invoice data with interest
     
         // Delete functionality
         if ($ID) {
             $iid = decryptId($id);
             $this->CommonModal->deleteRowByuserId('invoice', array('invoice_no' => $ID), array('user_id' => $iid));
             $this->CommonModal->deleteRowByuserId('return_invoice', array('invoice_no' => $ID), array('user_id' => $iid));
-
             $this->CommonModal->deleteRowByuserId('payment', array('invoice_no' => $ID), array('user_id' => $iid));
             $this->CommonModal->deleteRowByuserId('return_invoice_payment', array('invoice_no' => $ID), array('user_id' => $iid));
-
-
+    
             redirect(base_url('admin_Dashboard/invoice/' . encryptId($iid)));
         }
     
-        // Load the view
+        // Load View
         $this->load->view('user/view_invoice', $data);
     }
     public function tax_invoice($id, $invoice_number)
@@ -1670,20 +1709,46 @@ if($add){
   
     $this->load->view('user/tax_invoice', $data);
 }
-    public function print_invoice($id, $invoice_number)
-    {
-        $data['title'] = "Invoice";
-        // Get Vendor ID from the URL query string
-        $tid = decryptId($id);
-       
-        // Decrypt user ID
-        $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
-        // Fetch all vendors
-        $data['invoice'] = $this->CommonModal->getRowByMultitpleId('invoice', 'invoice_no', $invoice_number,'user_id',$tid);
-      
-        $this->load->view('user/invoice', $data);
+public function print_invoice($id, $invoice_number)
+{
+    $data['title'] = "Invoice";
+    $tid = decryptId($id);
+
+    $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
+    $data['invoice'] = $this->CommonModal->getRowByMultitpleId('invoice', 'invoice_no', $invoice_number, 'user_id', $tid);
+
+    if (!empty($data['invoice'])) {
+        foreach ($data['invoice'] as &$invoice) {
+            $final_total = floatval($invoice['final_total']);
+            $customer_id = $invoice['customer_name']; 
+
+            $customer = $this->CommonModal->getRowById('customer', 'id', $customer_id);
+            $interest_rate = !empty($customer) ? floatval($customer[0]['interest_rate']) : 0;
+            $interest_days = !empty($customer) ? intval($customer[0]['interest_days']) : 0;
+
+            $bill_date = strtotime($invoice['date']); 
+            $current_date = strtotime(date('Y-m-d')); 
+
+            $due_date = strtotime("+$interest_days days", $bill_date);
+
+            if ($current_date > $due_date) {
+                $days_late = ceil(($current_date - $due_date) / (60 * 60 * 24));
+                $daily_interest = ($final_total * ($interest_rate / 100)) / 365;
+                $interest_amount = $daily_interest * $days_late;
+            } else {
+                $days_late = 0;
+                $interest_amount = 0;
+            }
+
+            $invoice['interest_amount'] = round($interest_amount, 2);
+            $invoice['interest_rate'] = $interest_rate;
+            $invoice['interest_days'] = $interest_days;
+            $invoice['days_late'] = $days_late;
+        }
     }
-      public function normal_invoice($id, $invoice_number)
+
+    $this->load->view('user/invoice', $data);
+}      public function normal_invoice($id, $invoice_number)
     {
         $data['title'] = "Invoice";
         // Get Vendor ID from the URL query string
@@ -1756,149 +1821,150 @@ if($add){
     
         // Output the PDF file
         $mpdf->Output("invoice_$invoice_number.pdf", 'D');  // 'D' forces download, 'I' to display inline
-    }
-public function add_invoice($id)
-{
-    $data['title'] = "Add Invoice";
-    $data['tag'] = "add";
-    $tid = decryptId($id);
-    $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
-     $uid = $this->CommonModal->getRowById('users', 'id', $tid);
-    $data['account'] = $this->CommonModal->getRowByIdDesc('account', 'user_id', $uid[0]['id'], 'id', 'DESC');
-    
-    if ($_POST) {
-        $post = $this->input->post();
-        $c_names = $post['customer_name'];
-        $stock_place = $post['stock_place'];
-        $d_type = $post['discount_type'];
-        $date = $post['date'];
-        $discount = floatval($post['discount']);
-         $total_without_tax = floatval($post['total_without_tax']);
-          $tax = floatval($post['tax_amount']);
-        $final = floatval($post['final_total']);
-        $paid = floatval($post['paid']);
-        $mode = $post['mode'];
-        $cheque_no = $post['cheque_no'];
-        $bank = floatval($post['bank']);
-        $due = $final - $paid;
-       
-        // Generate invoice number
-        $invoice_number = $this->generate_invoice_number($uid[0]['id']);
-
-        // Assuming 'product_name', 'packing', 'quantity', 'unit_rate', 'total_price' are array inputs
-        $product_names = $post['p_name'];
-        $product_ids = $post['p_id'];
-        $packings = $post['packing'];
-        $quantities = $post['quantity'];
-        $available_quantities = $post['available_quantity'];
-        $unit_rates = $post['unit_rate'];
-        $unit = $post['unit'];
-        $total_prices = $post['total_price'];
-
-        $grand_total = array_sum($total_prices);
-
-        $discount_amountt = "";
+    }public function add_invoice($id)
+    {
+        $data['title'] = "Add Invoice";
+        $data['tag'] = "add";
+        $tid = decryptId($id);
+        $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
+         $uid = $this->CommonModal->getRowById('users', 'id', $tid);
+        $data['account'] = $this->CommonModal->getRowByIdDesc('account', 'user_id', $uid[0]['id'], 'id', 'DESC');
         
-        if($post['discount_type'] == 'rupee'){
-            $discount_amountt = $post['discount'];
-        } else{ 
-            $discount_am = $grand_total * $post['discount'];
-            $discount_amountt = $discount_am/100;
-        }
-        // Insert invoice items
-        foreach ($product_names as $index => $product_name) {
-            $new_available_quantity = $available_quantities[$index] - $quantities[$index];
-
-            // Prepare data for each row
-            $data_to_insert = [
-                'customer_name' => $c_names,
-                'stock_place' => $stock_place,
-                'date' => $date,
-                'user_id' => $tid,
-                'invoice_no' => $invoice_number,
-                'p_name' => $product_name,
-                'packing' => $packings[$index],
-                'quantity' => $quantities[$index],
-                'unit_rate' => $unit_rates[$index],
-                'unit' => $unit[$index],
-                'total_price' => $total_prices[$index],
-                'grand_total' => $grand_total,
-                'discount_type' => $d_type,
-                'discount' => $discount,
-                'discount_amount' => $discount_amountt,
-                'total_without_tax' => $total_without_tax,
-                'tax_amount' => $tax, 
-                'final_total' => $final
-            ];
-
-            $savedata = $this->CommonModal->insertRowReturnId('invoice', $data_to_insert);
-
-            if ($savedata) {
-                $select = $this->CommonModal->getRowById('purchase_product', 'p_id', $product_ids[$index]);
-                $selling = $select[0]['selling_quantity'] + $quantities[$index];
-
-                // Update available_quantity and selling_quantity
-                $updatedata = $this->CommonModal->updateColumnValue(
-                    'purchase_product',
-                    'p_id',
-                    $product_ids[$index],
-                    'availabile_quantity',
-                    $new_available_quantity
-                );
-
-                $updatesellingdata = $this->CommonModal->updateColumnValue(
-                    'purchase_product',
-                    'p_id',
-                    $product_ids[$index],
-                    'selling_quantity',
-                    $selling
-                );
-
-                if (!$updatedata || !$updatesellingdata) {
-                    $this->session->set_userdata('msg', '<div class="alert alert-danger">Error updating product quantities.</div>');
+        if ($_POST) {
+            $post = $this->input->post();
+            $c_names = $post['customer_name'];
+            $stock_place = $post['stock_place'];
+            $d_type = $post['discount_type'];
+            $date = $post['date'];
+            $discount = floatval($post['discount']);
+             $total_without_tax = floatval($post['total_without_tax']);
+              $tax = floatval($post['tax_amount']);
+            $final = floatval($post['final_total']);
+            $paid = floatval($post['paid']);
+            $mode = $post['mode'];
+            $cheque_no = $post['cheque_no'];
+            $bank = floatval($post['bank']);
+            $include_interest = $post['include_interest'];
+            $due = $final - $paid;
+           
+            // Generate invoice number
+            $invoice_number = $this->generate_invoice_number($uid[0]['id']);
+    
+            // Assuming 'product_name', 'packing', 'quantity', 'unit_rate', 'total_price' are array inputs
+            $product_names = $post['p_name'];
+            $product_ids = $post['p_id'];
+            $packings = $post['packing'];
+            $quantities = $post['quantity'];
+            $available_quantities = $post['available_quantity'];
+            $unit_rates = $post['unit_rate'];
+            $unit = $post['unit'];
+            $total_prices = $post['total_price'];
+    
+            $grand_total = array_sum($total_prices);
+    
+            $discount_amountt = "";
+            
+            if($post['discount_type'] == 'rupee'){
+                $discount_amountt = $post['discount'];
+            } else{ 
+                $discount_am = $grand_total * $post['discount'];
+                $discount_amountt = $discount_am/100;
+            }
+            // Insert invoice items
+            foreach ($product_names as $index => $product_name) {
+                $new_available_quantity = $available_quantities[$index] - $quantities[$index];
+    
+                // Prepare data for each row
+                $data_to_insert = [
+                    'customer_name' => $c_names,
+                    'stock_place' => $stock_place,
+                    'date' => $date,
+                    'user_id' => $tid,
+                    'invoice_no' => $invoice_number,
+                    'p_name' => $product_name,
+                    'packing' => $packings[$index],
+                    'quantity' => $quantities[$index],
+                    'unit_rate' => $unit_rates[$index],
+                    'unit' => $unit[$index],
+                    'total_price' => $total_prices[$index],
+                    'grand_total' => $grand_total,
+                    'discount_type' => $d_type,
+                    'discount' => $discount,
+                    'discount_amount' => $discount_amountt,
+                    'total_without_tax' => $total_without_tax,
+                    'include_interest' => $include_interest, 
+                    'tax_amount' => $tax, 
+                    'final_total' => $final
+                ];
+    
+                $savedata = $this->CommonModal->insertRowReturnId('invoice', $data_to_insert);
+    
+                if ($savedata) {
+                    $select = $this->CommonModal->getRowById('purchase_product', 'p_id', $product_ids[$index]);
+                    $selling = $select[0]['selling_quantity'] + $quantities[$index];
+    
+                    // Update available_quantity and selling_quantity
+                    $updatedata = $this->CommonModal->updateColumnValue(
+                        'purchase_product',
+                        'p_id',
+                        $product_ids[$index],
+                        'availabile_quantity',
+                        $new_available_quantity
+                    );
+    
+                    $updatesellingdata = $this->CommonModal->updateColumnValue(
+                        'purchase_product',
+                        'p_id',
+                        $product_ids[$index],
+                        'selling_quantity',
+                        $selling
+                    );
+    
+                    if (!$updatedata || !$updatesellingdata) {
+                        $this->session->set_userdata('msg', '<div class="alert alert-danger">Error updating product quantities.</div>');
+                        redirect(base_url('admin_Dashboard/invoice/' . $id));
+                        return;
+                    }
+                } else {
+                    $this->session->set_userdata('msg', '<div class="alert alert-danger">Error adding invoice item.</div>');
                     redirect(base_url('admin_Dashboard/invoice/' . $id));
                     return;
                 }
-            } else {
-                $this->session->set_userdata('msg', '<div class="alert alert-danger">Error adding invoice item.</div>');
-                redirect(base_url('admin_Dashboard/invoice/' . $id));
-                return;
             }
-        }
-
-        // Insert payment data if paid amount is provided
-        if ($paid >= 0) {
-            $pay_to_insert = [
-                'customer_id' => $c_names,
-                'user_id' => $tid,
-                'invoice_no' => $invoice_number,
-                'paid' => $paid,
-                  'date' => $date,
-                'mode' => $mode,
-                'total' => $final,
-                'due' => $due,
-                'bank' => $bank,
-                'cheque_no' =>$cheque_no
-            ];
-
-            $savedata1 = $this->CommonModal->insertRowReturnId('payment', $pay_to_insert);
-
-            if (!$savedata1) {
-                $this->session->set_userdata('msg', '<div class="alert alert-danger">Error adding payment information.</div>');
-                redirect(base_url('admin_Dashboard/invoice/' . $id));
-                return;
+    
+            // Insert payment data if paid amount is provided
+            if ($paid >= 0) {
+                $pay_to_insert = [
+                    'customer_id' => $c_names,
+                    'user_id' => $tid,
+                    'invoice_no' => $invoice_number,
+                    'paid' => $paid,
+                      'date' => $date,
+                    'mode' => $mode,
+                    'total' => $final,
+                    'due' => $due,
+                    'bank' => $bank,
+                    'cheque_no' =>$cheque_no
+                ];
+    
+                $savedata1 = $this->CommonModal->insertRowReturnId('payment', $pay_to_insert);
+    
+                if (!$savedata1) {
+                    $this->session->set_userdata('msg', '<div class="alert alert-danger">Error adding payment information.</div>');
+                    redirect(base_url('admin_Dashboard/invoice/' . $id));
+                    return;
+                }
             }
+    
+            $this->session->set_userdata('msg', '<div class="alert alert-success">Invoice added successfully.</div>');
+            redirect(base_url('admin_Dashboard/print_invoice/' . $id . '/' . $invoice_number));
+        } else {
+            $data['customer_list'] = $this->CommonModal->getRowByIdDesc('customer', 'user_id', $uid[0]['id'], 'id', 'DESC');
+            $data['stock_list'] = $this->CommonModal->getRowByIdDesc('stock_place', 'user_id', $uid[0]['id'], 'id', 'DESC');
+            $data['product_list'] = $this->CommonModal->getRowByIdDesc('product', 'user_id', $uid[0]['id'], 'id', 'DESC');
+            $this->load->view('user/add_invoice', $data);
         }
-
-        $this->session->set_userdata('msg', '<div class="alert alert-success">Invoice added successfully.</div>');
-        redirect(base_url('admin_Dashboard/print_invoice/' . $id . '/' . $invoice_number));
-    } else {
-        $data['customer_list'] = $this->CommonModal->getRowByIdDesc('customer', 'user_id', $uid[0]['id'], 'id', 'DESC');
-        $data['stock_list'] = $this->CommonModal->getRowByIdDesc('stock_place', 'user_id', $uid[0]['id'], 'id', 'DESC');
-        $data['product_list'] = $this->CommonModal->getRowByIdDesc('product', 'user_id', $uid[0]['id'], 'id', 'DESC');
-        $this->load->view('user/add_invoice', $data);
     }
-}
 
 public function edit_invoice()
 {

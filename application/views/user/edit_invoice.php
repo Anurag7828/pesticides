@@ -93,7 +93,7 @@
                                                 <div class="xl:w-6/4 lg:w-4/3">
                                                     <div class="card flex flex-col max-sm:mb-[30px] profile-card">
 
-                                                        <div class="sm:p-10 sm:pb-2.5 p-[25px] pb-0">
+                                                        <div class="pb-0">
                                                             <?php
                                                             $i=0;
                                                              $p_produc = $this->CommonModal->getRowByMultitpleId('invoice', 'invoice_no', $invoice[0]['invoice_no'], 'user_id', $user[0]['id']); ?>
@@ -117,7 +117,6 @@
         </option>
     <?php } ?>
 </select>
-
                                                                         </div>
 
                                                                         <div class="sm:w-1/6 w-full mb-[30px]">
@@ -136,27 +135,28 @@
                                                                             </select>
                                                                          
                                                                         </div>
-                                                                        <div class="sm:w-1/6 w-full mb-[30px]">
+                                                                        <div class="sm:w-1/6 mb-[30px]" style="width:150px !important">
                                                                             <label
                                                                                 class="text-dark dark:text-white text-[13px] mb-2">Quantity</label>
-                                                                            <input type="text" name="available_quantity[]"
+                                                                            <input type="hidden" name="available_quantity[]"
                                                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); " 
                                      onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 
                                                                                 id="available<?=$i?>" required readonly
                                                                                 value="<?= $pp_produc[0]['availabile_quantity'] ?> ">
                                                                                 <?php $newava=$pp_produc[0]['availabile_quantity'] + $p_info['quantity'] ?>
-                                                                            <input type="text"
+                                                                            <input type="hidden"
                                                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
                                                                                 id="availablee<?=$i?>" required readonly
                                                                                 value="<?= $newava ?>">
 
                                                                             <input type="text" name="quantity[]"
-                                                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full "oninput="this.value = this.value.replace(/[^0-9.]/g, ''); " 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 
+                                                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full "
+
                                                
                                                                                 placeholder="Quantity" id="blankquantity<?=$i?>" required
                                                                                 oninput="calculateTotalPrice(this.closest('.row'))"
                                                                                 value="<?= $p_info['quantity'] ?> ">
+                                                     
                                                                         </div>
                                                                         <div class="sm:w-1/6 w-full mb-[30px]">
                                                                             <label
@@ -189,6 +189,11 @@
                                                                                 placeholder="Total Price" required
                                                                                 value="<?= $p_info['total_price'] ?> ">
                                                                         </div>
+                                                                        <!-- <div class="sm:w-1/6  mb-[30px] d-flex align-items-center" style="width: 20px !important;margin-top: 27px;">
+                <button type="button" class="btn btn-danger form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none " onclick="deleteProductForm(this)">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div> -->
                                                                     </div>
                                                                 </div>
                                                             <?php endforeach; ?>
@@ -437,6 +442,8 @@
                     var selectedPacking = $(this).val();
                    
                     var availableQuantity = $('#available<?=$i?>');
+                    var newavailableQuantity = $('#availablee<?=$i?>');
+
                     var pid = $('#p_id<?=$i?>');
                     var quantityField = $('#blankquantity<?=$i?>');
                     // Fetch the unit rate based on the selected packing
@@ -452,6 +459,8 @@
                                 if (data) {
                                   // Set the unit rate
                                     availableQuantity.val(data.availabile_quantity);
+                                    newavailableQuantity.val(data.availabile_quantity);
+
                                     pid.val(data.p_id);
                                     quantityField.val(''); 
                                     calculateTotalPrice(row);
@@ -459,6 +468,8 @@
                                 } else {
                                 // Clear if no unit rate found
                                     availableQuantity.val(' ');
+                                    newavailableQuantity.val(' ');
+
                                     quantityField.val(''); 
                                     pid.val('');
                                 }
@@ -470,6 +481,8 @@
                     } else {
                         // Reset if no packing is selected
                         availableQuantity.val('');
+                        newavailableQuantity.val('');
+
                         pid.val('');
                     }
                 });
@@ -509,18 +522,39 @@ document.getElementById('paymentMode').addEventListener('change', toggleBankDeta
 // Call the function on page load to handle pre-selected values
 window.onload = toggleBankDetails;
 
+function deleteProductForm(button) {
+                const productRow = button.closest('.product-row');
+                productRow.remove();
+                updateGrandTotal();
+            }
+function calculateTotalPrice(row) {
+    if (!row) {
+        console.error('Row not found!');
+        return;
+    }
 
-
-            function calculateTotalPrice(row) {
-    const quantity = parseFloat(row.querySelector('input[name="quantity[]"]').value) || 0;
-    const unitRate = parseFloat(row.querySelector('input[name="unit_rate[]"]').value) || 0;
+    const quantityInput = row.querySelector('input[name="quantity[]"]');
+    const unitRateInput = row.querySelector('input[name="unit_rate[]"]');
     const totalPriceInput = row.querySelector('input[name="total_price[]"]');
 
+    if (!quantityInput || !unitRateInput || !totalPriceInput) {
+        console.error('Missing input fields');
+        return;
+    }
+
+    const quantity = parseFloat(quantityInput.value) || 0;
+    const unitRate = parseFloat(unitRateInput.value) || 0;
+
+    // Calculate total price
     const totalPrice = (quantity * unitRate).toFixed(2);
     totalPriceInput.value = totalPrice;
 
+    console.log(`Quantity: ${quantity}, Unit Rate: ${unitRate}, Total Price: ${totalPrice}`);
     updateGrandTotal();
 }
+
+
+
 
             // Function to update the grand total and final total
             function updateGrandTotal() {
@@ -571,36 +605,82 @@ window.onload = toggleBankDetails;
              $i=0;
         $p_produc = $this->CommonModal->getRowByMultitpleId('invoice', 'invoice_no', $invoice[0]['invoice_no'], 'user_id', $user[0]['id']); ?>
       <?php foreach ($p_produc as $p_info): $i++;?>
-document.addEventListener("DOMContentLoaded", function () {
-    let productSelects = {}; // Store Choices.js instances for each dropdown
+// Store Choices.js instances globally
+let productSelects = {}; 
 
-    function initializeChoices() {
-        document.querySelectorAll(".category-select").forEach((select) => {
-            const index = select.dataset.index;
-            if (!productSelects[index]) { 
-                productSelects[index] = new Choices(select, {
-                    searchEnabled: true,
-                    itemSelectText: "",
-                    shouldSort: false
-                });
-            }
+// Initialize Choices.js
+function initializeChoices() {
+    document.querySelectorAll(".category-select").forEach((select) => {
+        const index = select.dataset.index;
+        
+        // Check if Choices.js is already initialized and destroy it
+        if (productSelects[index] && productSelects[index].destroy) {
+            productSelects[index].destroy();
+            delete productSelects[index]; // Remove from memory
+        }
+
+        // Reinitialize Choices.js
+        productSelects[index] = new Choices(select, {
+            searchEnabled: true,
+            itemSelectText: "",
+            shouldSort: false
         });
+    });
+}
 
-     
-    }
+document.addEventListener("DOMContentLoaded", function () {
     // Set default stock place products on load
     const defaultStockPlaceId = document.getElementById('stock_place').value;
     if (defaultStockPlaceId) {
-        updateProductOptionsForAllRows(defaultStockPlaceId);
+        filterProducts(defaultStockPlaceId); // Show default products
     }
 
     // Stock place change event
     document.getElementById('stock_place').addEventListener('change', function () {
-        updateProductOptionsForAllRows(this.value);
+        filterProducts(this.value); // Fetch and display new products
     });
 
     initializeChoices();
 });
+
+// Filter Products and Maintain Selected Product
+function filterProducts(stockPlaceId) {
+    console.log("Selected Stock Place:", stockPlaceId); 
+
+    if (stockPlaceId) {
+        $.ajax({
+            url: '<?= base_url("Admin_Dashboard/get_products_by_stock_place") ?>',
+            type: 'POST',
+            data: { stock_place_id: stockPlaceId },
+            dataType: 'json',
+            success: function(products) {
+                if (products && products.length > 0) {
+                    $('.category-select').each(function() {
+                        const productSelect = $(this);
+                        const index = productSelect.data('index');
+                        const selectedProductId = productSelect.attr('data-selected'); // Capture previously selected product
+
+                        productSelect.html('<option value="">Select Product</option>'); // Reset options
+                        
+                        // Append new options
+                        products.forEach(function(product) {
+                            const isSelected = (product.pro_id == selectedProductId) ? 'selected' : '';
+                            productSelect.append('<option value="' + product.pro_id + '" ' + isSelected + '>' + product.product_id + ' - ' + product.product_name + ' - ' + product.unit + ' - ' + product.packing + product.net_unit + '</option>');
+                        });
+                    });
+
+                    // Re-initialize Choices.js for the updated selects
+                    initializeChoices();
+                } else {
+                    console.warn('No products found for the selected stock place.');
+                }
+            },
+            error: function() {
+                console.error('Failed to fetch products.');
+            }
+        });
+    }
+}
 
 //
 
@@ -639,37 +719,9 @@ $(document).on('input', 'input[name="quantity[]"]', function () {
             }
                 
             <?php endforeach; ?>
-            function filterProducts() {
-    var stockPlaceId = document.getElementById('stock_place').value;
+       
 
-    // Clear existing product selections
-    document.querySelectorAll('.category-select').forEach(function(select) {
-        select.innerHTML = '<option value="">Select Product</option>'; // Reset options
-    });
 
-    if (stockPlaceId) {
-        $.ajax({
-            url: '<?= base_url("Admin_Dashboard/get_products_by_stock/") ?>' + stockPlaceId,
-            type: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                if (data && data.length > 0) {
-                    data.forEach(function(product) {
-                        // Append product options to each product select
-                        document.querySelectorAll('.category-select').forEach(function(select) {
-                            select.innerHTML += '<option value="' + product.id + '">' + product.product_name + '</option>';
-                        });
-                    });
-                    // Re-initialize Choices.js for the updated selects
-                    initializeChoices();
-                }
-            },
-            error: function() {
-                console.error('Failed to fetch products.');
-            }
-        });
-    }
-}
         </script>
         <?php include "includes2/footer-links.php" ?>
     </div>

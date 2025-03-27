@@ -41,8 +41,8 @@
 											<input type="text" name="address" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" placeholder="Address" value="<?= $stock_place['0']['address']?>" >
 										</div>
 										<div class="sm:w-1/2 w-full mb-[30px]">
-											<label class="text-dark dark:text-white text-[13px] mb-2">capacity</label>
-											<input type="text" name="capacity" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" placeholder="capacity" value="<?= $stock_place['0']['capacity']?>" >
+									
+											<input type="checkbox" <?= (($stock_place['0']['default'] == '1') ? 'checked' : '' )?> name="default" value= "1" class="form-control "> set Default
 										</div>
                                         									
 									</div>

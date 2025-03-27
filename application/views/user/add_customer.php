@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>	
-  
+<head>
    <?php include "includes2/header-links.php" ?>
 	
 </head>
@@ -44,15 +43,25 @@
 										
                                         
                                         <hr>
-                                        <div class="sm:w-1/2 w-full mb-[30px]">
-											<label class="text-dark dark:text-white text-[13px] mb-2">Contact</label>
-											<input type="text" name="contact" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" placeholder="Contact Number" required>
-										</div>
+										<div class="sm:w-1/2 w-full mb-[30px]">
+    <label class="text-dark dark:text-white text-[13px] mb-2">Contact</label>
+    <input type="text" name="contact" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Contact Number" required maxlength="12" pattern="\d{10,12}" title="Enter a number">
+</div>
+
                                         <div class="sm:w-1/2 w-full mb-[30px]">
 											<label class="text-dark dark:text-white text-[13px] mb-2">email</label>
 											<input type="text" name="email" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" placeholder="email">
 										</div>
-                                        
+                                        <div class="sm:w-1/2 w-full mb-[30px]">
+    <label class="text-dark dark:text-white text-[13px] mb-2">Interest Rate (%)</label>
+    <input type="text" step="0.01" name="interest_rate" class="form-control text-[13px] text-body-color border border-b-color rounded-md py-1.5 px-3 w-full" placeholder="Enter interest rate" required>
+</div>
+
+<div class="sm:w-1/2 w-full mb-[30px]">
+    <label class="text-dark dark:text-white text-[13px] mb-2">Interest Days</label>
+    <input type="text" name="interest_days" class="form-control text-[13px] text-body-color border border-b-color rounded-md py-1.5 px-3 w-full" placeholder="Enter interest days" required>
+</div>
+
 									</div>
 								</div>
 								<div class="sm:py-5 sm:px-10 p-[25px] flex items-center justify-between border-t border-b-color">

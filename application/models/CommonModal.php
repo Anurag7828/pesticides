@@ -7,7 +7,7 @@ class CommonModal extends CI_Model
 {
     public function get_products_by_stock_place($stock_place_id) {
     // Select distinct product names to ensure no duplicates
-    $this->db->select('DISTINCT(purchase_product.product_name) as pro_id ,purchase_product.exp_date, product.unit,product.net_unit,product.packing, product.product_name,product.product_id');
+    $this->db->select('DISTINCT(purchase_product.product_name) as pro_id ,purchase_product.*,purchase_product.exp_date, product.unit,product.net_unit,product.packing, product.product_name,product.product_id');
     $this->db->from('purchase_product');
     $this->db->join('product', 'product.id = purchase_product.product_name');
     $this->db->where('purchase_product.stock_place_name', $stock_place_id);
