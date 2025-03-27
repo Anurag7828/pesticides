@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('no direct access allowed');
-require FCPATH.'vendor/autoload.php';
+
 class Admin_Dashboard extends CI_Controller
 {
 
