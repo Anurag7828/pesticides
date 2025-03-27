@@ -1706,7 +1706,35 @@ if($add){
     $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
     // Fetch all vendors
     $data['invoice'] = $this->CommonModal->getRowByMultitpleId('invoice', 'invoice_no', $invoice_number,'user_id',$tid);
-  
+    if (!empty($data['invoice'])) {
+        foreach ($data['invoice'] as &$invoice) {
+            $final_total = floatval($invoice['final_total']);
+            $customer_id = $invoice['customer_name']; 
+
+            $customer = $this->CommonModal->getRowById('customer', 'id', $customer_id);
+            $interest_rate = !empty($customer) ? floatval($customer[0]['interest_rate']) : 0;
+            $interest_days = !empty($customer) ? intval($customer[0]['interest_days']) : 0;
+
+            $bill_date = strtotime($invoice['date']); 
+            $current_date = strtotime(date('Y-m-d')); 
+
+            $due_date = strtotime("+$interest_days days", $bill_date);
+
+            if ($current_date > $due_date) {
+                $days_late = ceil(($current_date - $due_date) / (60 * 60 * 24));
+                $daily_interest = ($final_total * ($interest_rate / 100)) / 365;
+                $interest_amount = $daily_interest * $days_late;
+            } else {
+                $days_late = 0;
+                $interest_amount = 0;
+            }
+
+            $invoice['interest_amount'] = round($interest_amount, 2);
+            $invoice['interest_rate'] = $interest_rate;
+            $invoice['interest_days'] = $interest_days;
+            $invoice['days_late'] = $days_late;
+        }
+    }
     $this->load->view('user/tax_invoice', $data);
 }
 public function print_invoice($id, $invoice_number)
@@ -1748,7 +1776,8 @@ public function print_invoice($id, $invoice_number)
     }
 
     $this->load->view('user/invoice', $data);
-}      public function normal_invoice($id, $invoice_number)
+}      
+public function normal_invoice($id, $invoice_number)
     {
         $data['title'] = "Invoice";
         // Get Vendor ID from the URL query string
@@ -1758,9 +1787,39 @@ public function print_invoice($id, $invoice_number)
         $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
         // Fetch all vendors
         $data['invoice'] = $this->CommonModal->getRowByMultitpleId('invoice', 'invoice_no', $invoice_number,'user_id',$tid);
-      
+       
+        if (!empty($data['invoice'])) {
+            foreach ($data['invoice'] as &$invoice) {
+                $final_total = floatval($invoice['final_total']);
+                $customer_id = $invoice['customer_name']; 
+    
+                $customer = $this->CommonModal->getRowById('customer', 'id', $customer_id);
+                $interest_rate = !empty($customer) ? floatval($customer[0]['interest_rate']) : 0;
+                $interest_days = !empty($customer) ? intval($customer[0]['interest_days']) : 0;
+    
+                $bill_date = strtotime($invoice['date']); 
+                $current_date = strtotime(date('Y-m-d')); 
+    
+                $due_date = strtotime("+$interest_days days", $bill_date);
+    
+                if ($current_date > $due_date) {
+                    $days_late = ceil(($current_date - $due_date) / (60 * 60 * 24));
+                    $daily_interest = ($final_total * ($interest_rate / 100)) / 365;
+                    $interest_amount = $daily_interest * $days_late;
+                } else {
+                    $days_late = 0;
+                    $interest_amount = 0;
+                }
+    
+                $invoice['interest_amount'] = round($interest_amount, 2);
+                $invoice['interest_rate'] = $interest_rate;
+                $invoice['interest_days'] = $interest_days;
+                $invoice['days_late'] = $days_late;
+            }
+        }
         $this->load->view('user/normal_invoice', $data);
     }
+    
     public function generate_invoice_number($uid) {
         $last_invoice = $this->CommonModal->getLastRow('invoice', 'invoice_no','user_id',$uid); // Replace with your actual method to get the last invoice number
         if ($last_invoice) {
