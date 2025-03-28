@@ -53,7 +53,8 @@
                                                 required>
                                                 <option value="">Select Stock</option>
                                                 <?php foreach ($stock_list as $stock_info) { ?>
-                                                    <option value="<?= $stock_info['id']; ?>" <?= (($stock_info['default'] == '1') ? 'selected' : '' )?>>
+                                                    <option value="<?= $stock_info['id']; ?>"
+                                                        <?= (($stock_info['default'] == '1') ? 'selected' : '') ?>>
                                                         <?= $stock_info['place_name']; ?>
                                                     </option>
                                                 <?php } ?>
@@ -88,11 +89,11 @@
 
                                         </div>
                                         <div class="sm:w-1/3 w-full mb-[30px]">
-    <label class="text-dark dark:text-white text-[13px] mb-2">Date</label>
-    <input type="date" name="date"
-        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-        value="<?= date('Y-m-d'); ?>" required>
-</div>
+                                            <label class="text-dark dark:text-white text-[13px] mb-2">Date</label>
+                                            <input type="date" name="date"
+                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                value="<?= date('Y-m-d'); ?>" required>
+                                        </div>
                                         <hr>
                                         <div class="container-fluid">
 
@@ -105,28 +106,27 @@
                                                                 <!-- Product fields that will be cloned -->
                                                                 <div class="row product-row">
                                                                     <!-- Product Dropdown in the Row -->
-                                                                    <div class="sm:w-1/3 w-full mb-[30px]">
+                                                                    <div class="sm:w-1/4 w-full mb-[30px]">
                                                                         <label
                                                                             class="text-dark dark:text-white text-[13px] mb-2">Select
                                                                             Product</label>
-                                                                        <input type="text" 
+                                                                        <input type="text"
                                                                             class=" product-input form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full "
                                                                             placeholder="Click to select product"
                                                                             readonly onclick="openProductModal()">
-                                                                            <input type="hidden" id="product-input-value"name="p_name[]" 
-                                                                            class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full "
-                                                                           >
+                                                                        <input type="hidden" id="product-input-value"
+                                                                            name="p_name[]"
+                                                                            class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full ">
                                                                     </div>
                                                                     <div class="sm:w-1/6 w-full mb-[30px]">
                                                                         <label
                                                                             class="text-dark dark:text-white text-[13px] mb-2">Packing</label>
-                                                                            <input type="text" 
+                                                                        <input type="text"
                                                                             class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
                                                                             placeholder="packing" id="packing-unit"
-                                                                           readonly
-                                                                            required>
+                                                                            readonly required>
 
-                                                                       
+
                                                                     </div>
                                                                     <div class="sm:w-1/6 w-full mb-[30px]">
                                                                         <label
@@ -150,7 +150,7 @@
                                                                         <input type="hidden" name="p_id[]"
                                                                             class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
                                                                             id="p_id" required readonly>
-                                                                            <input type="hidden" name="packing[]"
+                                                                        <input type="hidden" name="packing[]"
                                                                             class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
                                                                             id="packing" required readonly>
                                                                         <input type="number" name="unit_rate[]"
@@ -167,7 +167,7 @@
                                                                             class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
                                                                             placeholder="Total Price" required>
                                                                     </div>
-
+                                     
                                                                 </div>
                                                             </div>
                                                             <div
@@ -250,16 +250,24 @@
                                                                         placeholder="Final Total">
                                                                 </div>
                                                                 <div class="sm:w-1/4 w-full mb-[30px]">
-        <label class="text-dark dark:text-white text-[14px] font-semibold mb-2 block">Do you want to include interest?</label>
+                                                                    <label
+                                                                        class="text-dark dark:text-white text-[14px] font-semibold mb-2 block">Do
+                                                                        you want to include interest?</label>
 
-        <div class="flex items-center">
-            <input type="radio" id="interest-yes" name="include_interest" value="1" class="mr-2">
-            <label for="interest-yes" class="text-dark dark:text-white text-[13px] mr-4">Yes</label>
+                                                                    <div class="flex items-center">
+                                                                        <input type="radio" id="interest-yes"
+                                                                            name="include_interest" value="1"
+                                                                            class="mr-2">
+                                                                        <label for="interest-yes"
+                                                                            class="text-dark dark:text-white text-[13px] mr-4">Yes</label>
 
-            <input type="radio" id="interest-no" name="include_interest" value="0" class="mr-2" checked>
-            <label for="interest-no" class="text-dark dark:text-white text-[13px]">No</label>
-        </div>
-    </div>
+                                                                        <input type="radio" id="interest-no"
+                                                                            name="include_interest" value="0"
+                                                                            class="mr-2" checked>
+                                                                        <label for="interest-no"
+                                                                            class="text-dark dark:text-white text-[13px]">No</label>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                             <hr>
                                                             <div class="row">
@@ -338,8 +346,8 @@
         <div id="productModal"
             class="modal fade fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-[1055]">
             <div class="modal-dialog-centered w-full max-w-4xl">
-                <div
-                    class="modal-content flex flex-col relative rounded-md bg-white dark:bg-[#182237] pointer-events-auto" style="box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;margin-left: 158px;margin-top: 158px" >
+                <div class="modal-content flex flex-col relative rounded-md bg-white dark:bg-[#182237] pointer-events-auto"
+                    style="box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;margin-left: 158px;margin-top: 158px">
 
                     <!-- Modal Header -->
                     <div
@@ -351,9 +359,17 @@
 
                     <!-- Modal Body -->
                     <div class="modal-body p-6">
+                        <div class="row">
+                    <div class="sm:w-1/2 w-full mb-[30px]">
                         <input type="text" id="productSearch" class="form-control mb-4 p-2 border rounded-md w-full"
                             placeholder="Search Product..." oninput="filterModalProducts()">
-
+                            </div>
+                            <div class="sm:w-1/4 w-full mb-[30px]">
+                            <a href="<?= base_url('Admin_Dashboard/add_product/' . encryptId($user['0']['id'])) ?>"
+                                    class="btn btn-primary sm:py-[0.719rem] px-2 sm:px-[1.563rem] py-2 sm:text-[15px] text-xs font-medium rounded text-white bg-primary leading-5 inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary dz-modal-btn">
+                                    Add New product</a>
+                                    </div>
+                                    </div>
                         <div class="overflow-y-auto max-h-80 border rounded-md">
                             <table class="w-full text-left border-collapse">
                                 <thead class="bg-gray-100 dark:bg-gray-800">
@@ -364,7 +380,7 @@
                                         <th class="py-2 px-4">Packing</th>
                                         <th class="py-2 px-4">Expire Date</th>
                                         <th class="py-2 px-4">Available Quantity</th>
-                                 
+
                                         <!-- <th class="py-2 px-4">Select</th> -->
                                     </tr>
                                 </thead>
@@ -375,7 +391,7 @@
 
                     <!-- Modal Footer -->
                     <div class="modal-footer flex justify-end py-4 px-6 border-t border-gray-200 dark:border-gray-700">
-                        <button class="px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600"
+                        <button class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-auto"
                             onclick="closeProductModal()">Close</button>
                     </div>
                 </div>
@@ -576,8 +592,8 @@
 
                 newProductRow.innerHTML = `
         <div class="row product-row" data-index="${rowIndex}">
-            <div class="sm:w-1/3 w-full mb-[40px]">
-                   <label class="text-dark dark:text-white text-[13px] mb-2">Select Product</label>
+            <div class="sm:w-1/4 w-full mb-[40px]" style="width: 298px !important;">
+                  
 <input type="text" class="product-input form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full " 
        placeholder="Click to select product" 
        readonly onclick="openProductClassModal(${rowIndex})"
@@ -587,32 +603,32 @@
                                                                            >
             </div>
              
-            <div class="sm:w-1/6 w-full mb-[30px]">
-                <label class="text-dark dark:text-white text-[13px] mb-2">Packing</label>
+            <div class="sm:w-1/6 w-full mb-[30px]" style="width: 203px !important;">
+              
                     
                     <input type="hidden" name="packing[]" class="form-control b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full packing" data-index="${rowIndex}" oninput="this.value = this.value.replace(/[^0-9.]/g, '');" 
        onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"   required readonly>
               
                 <input type="text"  class="packing-unit form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full " placeholder="Packing" required data-index="${rowIndex}" readonly >
             </div>
-            <div class="sm:w-1/6 w-full mb-[30px]">
-                <label class="text-dark dark:text-white text-[13px] mb-2">Quantity</label>
+            <div class="sm:w-1/6 w-full mb-[30px]" style="width: 202px !important;">
+               
                     
                     <input type="hidden"  name="available_quantity[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full available-quantity" data-index="${rowIndex}" oninput="this.value = this.value.replace(/[^0-9.]/g, '');" 
        onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"   required readonly>
               
                 <input type="number" id="pp" name="quantity[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full quantityy" placeholder="Quantity" required oninput="calculateTotalPrice(this.closest('.product-row'))" data-index="${rowIndex}">
             </div>
-            <div class="sm:w-1/6 w-full mb-[30px]">
-                <label class="text-dark dark:text-white text-[13px] mb-2">Unit Rate</label>
+            <div class="sm:w-1/6 w-full mb-[30px]" style="width: 200px !important;">
+              
                                 <input type="hidden" name="p_id[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full  p-id-select" data-index="${rowIndex}" required >
                 <input type="number" name="unit_rate[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full  unit-rate-select" data-index="${rowIndex}" placeholder="Unit Rate" required oninput="calculateTotalPrice(this.closest('.product-row'))">
             </div>
-            <div class="sm:w-1/6 w-full mb-[30px]">
-                <label class="text-dark dark:text-white text-[13px] mb-2">Total Price</label>
+            <div class="sm:w-1/6 w-full mb-[30px]" style="width: 200px !important;">
+             
                 <input type="number" name="total_price[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full  relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Total Price" readonly>
             </div>
-            <div class="sm:w-1/6 w-full mb-[30px] d-flex align-items-center">
+                                          <div class=" mb-[30px] d-flex align-items-center" style="width: 20px;">
                 <button type="button" class="btn btn-danger form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none " onclick="deleteProductForm(this)">
                     <i class="fas fa-trash-alt"></i>
                 </button>
@@ -637,29 +653,29 @@
             }
 
 
-// Open Product Modal
-function openProductClassModal(rowIndex) {
-    const stockPlaceId = document.getElementById('stock_place').value;
+            // Open Product Modal
+            function openProductClassModal(rowIndex) {
+                const stockPlaceId = document.getElementById('stock_place').value;
 
-    if (!stockPlaceId) {
-        alert('Please select a stock place first.');
-        return;
-    }
+                if (!stockPlaceId) {
+                    alert('Please select a stock place first.');
+                    return;
+                }
 
-    $.ajax({
-        url: '<?= base_url("Admin_Dashboard/get_products_by_stock_place") ?>',
-        type: 'POST',
-        data: { stock_place_id: stockPlaceId },
-        dataType: 'json',
-        success: function (products) {
-            const tableBody = document.getElementById('productTableBody');
-            tableBody.innerHTML = '';
+                $.ajax({
+                    url: '<?= base_url("Admin_Dashboard/get_products_by_stock_place") ?>',
+                    type: 'POST',
+                    data: { stock_place_id: stockPlaceId },
+                    dataType: 'json',
+                    success: function (products) {
+                        const tableBody = document.getElementById('productTableBody');
+                        tableBody.innerHTML = '';
 
-            if (products.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan='7' class='text-center text-gray-500'>No products available</td></tr>`;
-            } else {
-                products.forEach(product => {
-                    const row = `<tr class='border-b'>
+                        if (products.length === 0) {
+                            tableBody.innerHTML = `<tr><td colspan='7' class='text-center text-gray-500'>No products available</td></tr>`;
+                        } else {
+                            products.forEach(product => {
+                                const row = `<tr class='border-b'>
                         <td class="py-2 px-4">${product.product_id}</td>
                         <td class="py-2 px-4"><button onclick="selectaddProduct('${product.pro_id}', '${product.product_name}', '${product.unit}', '${product.packing}', '${product.net_unit}', '${product.p_id}', '${rowIndex}')">${product.product_name}</button></td>
                         <td class="py-2 px-4">${product.unit}</td>
@@ -667,82 +683,82 @@ function openProductClassModal(rowIndex) {
                         <td class="py-2 px-4">${product.exp_date}</td>
                         <td class="py-2 px-4">${product.availabile_quantity}</td>
                     </tr>`;
-                    tableBody.innerHTML += row;
+                                tableBody.innerHTML += row;
+                            });
+                        }
+
+                        document.getElementById('productModal').classList.remove('hidden');
+                    },
+                    error: function () {
+                        console.error('Failed to fetch products.');
+                    }
                 });
             }
 
-            document.getElementById('productModal').classList.remove('hidden');
-        },
-        error: function () {
-            console.error('Failed to fetch products.');
-        }
-    });
-}
+            //  Select Product from Modal
+            function selectaddProduct(proId, productName, unit, packing, netUnit, pId, rowIndex) {
+                const productInput = document.querySelector(`input.product-input[data-index="${rowIndex}"]`);
+                const productInputvalue = document.querySelector(`input.product-input-value[data-index="${rowIndex}"]`);
+                const unitRateField = document.querySelector(`input.unit-rate-select[data-index="${rowIndex}"]`);
+                const availableQuantity = document.querySelector(`input.available-quantity[data-index="${rowIndex}"]`);
+                const packingInput = document.querySelector(`input.packing[data-index="${rowIndex}"]`);
+                const row = document.querySelector(`.product-row[data-index="${rowIndex}"]`);
+                const packingunit = document.querySelector(`input.packing-unit[data-index="${rowIndex}"]`);
 
-//  Select Product from Modal
-function selectaddProduct(proId, productName, unit, packing, netUnit, pId, rowIndex) {
-    const productInput = document.querySelector(`input.product-input[data-index="${rowIndex}"]`);
-    const productInputvalue = document.querySelector(`input.product-input-value[data-index="${rowIndex}"]`);
-    const unitRateField = document.querySelector(`input.unit-rate-select[data-index="${rowIndex}"]`);
-    const availableQuantity = document.querySelector(`input.available-quantity[data-index="${rowIndex}"]`);
-    const packingInput = document.querySelector(`input.packing[data-index="${rowIndex}"]`);
-    const row = document.querySelector(`.product-row[data-index="${rowIndex}"]`);
-    const packingunit = document.querySelector(`input.packing-unit[data-index="${rowIndex}"]`);
+                const pIdField = document.querySelector(`input.p-id-select[data-index="${rowIndex}"]`);
+                const quantity = document.querySelector(`input.quantityy[data-index="${rowIndex}"]`);
+                productInput.value = `${productName} `;
+                packingInput.value = `${pId} `;
+                unitRateField.value = ''; // Clear previous rate
+                availableQuantity.value = ''; // Clear previous quantity
+                pIdField.value = pId; // Store product ID
 
-    const pIdField = document.querySelector(`input.p-id-select[data-index="${rowIndex}"]`);
-    const quantity = document.querySelector(`input.quantityy[data-index="${rowIndex}"]`);
-    productInput.value = `${productName} `;
-    packingInput.value = `${pId} `;
-    unitRateField.value = ''; // Clear previous rate
-    availableQuantity.value = ''; // Clear previous quantity
-    pIdField.value = pId; // Store product ID
-   
-    closeProductModal();
-    
-    $.ajax({
-        url: `<?= base_url("Admin_Dashboard/get_product_details/") ?>${proId}`,
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            if (data && data.id && data.selling_price && data.packing && data.net_unit) {
-    unitRateField.value = data.selling_price;
-    productInput.value = `${productName}`;
-    productInputvalue.value = data.id;
-    packingunit.value = data.packing + data.net_unit;
-    quantity.value = '1';
-    calculateTotalPrice(row);
-}
- else {
-                alert(data.error || 'Error fetching product details.');
+                closeProductModal();
+
+                $.ajax({
+                    url: `<?= base_url("Admin_Dashboard/get_product_details/") ?>${proId}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data && data.id && data.selling_price && data.packing && data.net_unit) {
+                            unitRateField.value = data.selling_price;
+                            productInput.value = `${productName}`;
+                            productInputvalue.value = data.id;
+                            packingunit.value = data.packing + data.net_unit;
+                            quantity.value = '1';
+                            calculateTotalPrice(row);
+                        }
+                        else {
+                            alert(data.error || 'Error fetching product details.');
+                        }
+                    },
+                    error: function () {
+                        alert('Error fetching product details.');
+                    }
+                });
+
+                // Fetch available quantity
+                $.ajax({
+                    url: `<?= base_url("Admin_Dashboard/get_unit_rate/") ?>${pId}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data) {
+                            availableQuantity.value = data.availabile_quantity || '0';
+                        } else {
+                            availableQuantity.value = '0';
+                        }
+                    },
+                    error: function () {
+                        alert('Failed to fetch unit rate.');
+                    }
+                });
             }
-        },
-        error: function () {
-            alert('Error fetching product details.');
-        }
-    });
 
-    // Fetch available quantity
-    $.ajax({
-        url: `<?= base_url("Admin_Dashboard/get_unit_rate/") ?>${pId}`,
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            if (data) {
-                availableQuantity.value = data.availabile_quantity || '0';
-            } else {
-                availableQuantity.value = '0';
+            // Close Modal
+            function closeProductModal() {
+                document.getElementById('productModal').classList.add('hidden');
             }
-        },
-        error: function () {
-            alert('Failed to fetch unit rate.');
-        }
-    });
-}
-
-// Close Modal
-function closeProductModal() {
-    document.getElementById('productModal').classList.add('hidden');
-}
 
 
 
@@ -755,22 +771,22 @@ function closeProductModal() {
 
             // Function to calculate total price based on quantity and unit rate
             function calculateTotalPrice(row) {
-    const quantityInput = row.querySelector('input[name="quantity[]"]');
-    const unitRate = parseFloat(row.querySelector('input[name="unit_rate[]"]').value) || 0;
-    const totalPriceInput = row.querySelector('input[name="total_price[]"]');
+                const quantityInput = row.querySelector('input[name="quantity[]"]');
+                const unitRate = parseFloat(row.querySelector('input[name="unit_rate[]"]').value) || 0;
+                const totalPriceInput = row.querySelector('input[name="total_price[]"]');
 
-    // Set default quantity to 1 if empty
-    if (!quantityInput.value) {
-        quantityInput.value = 1;
-    }
+                // Set default quantity to 1 if empty
+                if (!quantityInput.value) {
+                    quantityInput.value = 1;
+                }
 
-    const quantity = parseFloat(quantityInput.value) || 1;
-    const totalPrice = (quantity * unitRate).toFixed(2);
-    totalPriceInput.value = totalPrice;
+                const quantity = parseFloat(quantityInput.value) || 1;
+                const totalPrice = (quantity * unitRate).toFixed(2);
+                totalPriceInput.value = totalPrice;
 
-    // Update grand total after calculating each row's total price
-    updateGrandTotal();
-}
+                // Update grand total after calculating each row's total price
+                updateGrandTotal();
+            }
 
             // Function to update the grand total
             function updateGrandTotal() {
@@ -813,7 +829,7 @@ function closeProductModal() {
                 document.getElementById('tax-amount').value = taxAmount.toFixed(2);
                 document.getElementById('final-total').value = finalTotalWithTax.toFixed(2);
             }
-           
+
             function formatDate(dateString) {
                 const date = new Date(dateString);
                 if (isNaN(date.getTime())) {
@@ -825,22 +841,22 @@ function closeProductModal() {
                 return `${day}-${month}-${year}`;
             }
             // Fetch Unit Rate and Quantity
-        
+
             $(document).on('input', '.quantity-input', function () {
-    var row = $(this).closest('.product-row');
-    var rowIndex = row.find('select.category-select').data('index');
-    checkAvailablQuantity(row, rowIndex);
-});
+                var row = $(this).closest('.product-row');
+                var rowIndex = row.find('select.category-select').data('index');
+                checkAvailablQuantity(row, rowIndex);
+            });
 
-function checkAvailablQuantity(row, rowIndex) {
-    var availableQuantity = parseFloat($(`.available-quantity[data-index="${rowIndex}"]`).val()) || 0;
-    var enteredQuantity = parseFloat(row.find('input[name="quantity[]"]').val()) || 0;
+            function checkAvailablQuantity(row, rowIndex) {
+                var availableQuantity = parseFloat($(`.available-quantity[data-index="${rowIndex}"]`).val()) || 0;
+                var enteredQuantity = parseFloat(row.find('input[name="quantity[]"]').val()) || 0;
 
-    if (enteredQuantity > availableQuantity) {
-        alert(`Product quantity is not available. Maximum available: ${availableQuantity.toFixed(2)}`);
-        row.find('input[name="quantity[]"]').val(''); // Clear the input field
-    }
-}
+                if (enteredQuantity > availableQuantity) {
+                    alert(`Product quantity is not available. Maximum available: ${availableQuantity.toFixed(2)}`);
+                    row.find('input[name="quantity[]"]').val(''); // Clear the input field
+                }
+            }
 
 
 
@@ -854,30 +870,30 @@ function checkAvailablQuantity(row, rowIndex) {
         </script>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-       
+
         <script>
-                $(document).on('input', 'input[name="quantity[]"]', function () {
-                    var row = $(this).closest('.product-row');
-                    var p_id = row.find('input[name="p_id[]"]').val();
-                    checkAvailableQuantity(row, p_id);
-                });
+            $(document).on('input', 'input[name="quantity[]"]', function () {
+                var row = $(this).closest('.product-row');
+                var p_id = row.find('input[name="p_id[]"]').val();
+                checkAvailableQuantity(row, p_id);
+            });
 
-                function checkAvailableQuantity(row, p_id) {
-                    // Ensure p_id is present
-                    if (!p_id) {
-                        console.error('Product ID not found.');
-                        return;
-                    }
-
-                    var availableQuantity = parseFloat(row.find('input[name="available_quantity[]"]').val()) || 0;
-                    var enteredQuantity = parseFloat(row.find('input[name="quantity[]"]').val()) || 0;
-
-
-                    if (enteredQuantity > availableQuantity) {
-                        alert("Product quantity is not available. Maximum available: " + availableQuantity);
-                        row.find('input[name="quantity[]"]').val('');
-                    }
+            function checkAvailableQuantity(row, p_id) {
+                // Ensure p_id is present
+                if (!p_id) {
+                    console.error('Product ID not found.');
+                    return;
                 }
+
+                var availableQuantity = parseFloat(row.find('input[name="available_quantity[]"]').val()) || 0;
+                var enteredQuantity = parseFloat(row.find('input[name="quantity[]"]').val()) || 0;
+
+
+                if (enteredQuantity > availableQuantity) {
+                    alert("Product quantity is not available. Maximum available: " + availableQuantity);
+                    row.find('input[name="quantity[]"]').val('');
+                }
+            }
             document.addEventListener("DOMContentLoaded", function () {
                 document.querySelectorAll(".choices").forEach(select => {
                     new Choices(select, {
@@ -942,60 +958,60 @@ function checkAvailablQuantity(row, rowIndex) {
                 closeProductModal();
             }
             function selectProduct(pro_id, product_name, unit, packing, net_unit, p_id) {
-    const productInputs = document.getElementsByClassName('product-input');
-    const productInputValue = document.getElementById('product-input-value');
+                const productInputs = document.getElementsByClassName('product-input');
+                const productInputValue = document.getElementById('product-input-value');
 
-    if (productInputs.length > 0) {
-        productInputs[0].value = `${product_name}`; // Set product name in the input
-        productInputValue.value = `${pro_id}`; // Set product ID in hidden input
-        closeProductModal();
+                if (productInputs.length > 0) {
+                    productInputs[0].value = `${product_name}`; // Set product name in the input
+                    productInputValue.value = `${pro_id}`; // Set product ID in hidden input
+                    closeProductModal();
 
-        // Set the selected product ID
-        $('#p_id').val(p_id);
-        $('#packing').val(p_id);
-      
+                    // Set the selected product ID
+                    $('#p_id').val(p_id);
+                    $('#packing').val(p_id);
 
-        // Trigger category and subcategory-related actions using AJAX
-        $.ajax({
-            url: `<?= base_url("Admin_Dashboard/get_product_details/") ?>${pro_id}`,
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                if (data && !data.error) {
-                    $('#unit-rate').val(data.selling_price);
-                    $('#packing-unit').val(data.packing + data.net_unit);
-                    $('#p').val(1);
-    calculateTotalPrice($('#p').closest('.product-row')[0]); 
+
+                    // Trigger category and subcategory-related actions using AJAX
+                    $.ajax({
+                        url: `<?= base_url("Admin_Dashboard/get_product_details/") ?>${pro_id}`,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data && !data.error) {
+                                $('#unit-rate').val(data.selling_price);
+                                $('#packing-unit').val(data.packing + data.net_unit);
+                                $('#p').val(1);
+                                calculateTotalPrice($('#p').closest('.product-row')[0]);
+                            } else {
+                                alert(data.error || 'Error fetching product details.');
+                            }
+                        },
+                        error: function () {
+                            alert('Error fetching product details.');
+                        }
+                    });
+
+                    // Fetch available quantity
+                    $.ajax({
+                        url: `<?= base_url("Admin_Dashboard/get_unit_rate/") ?>${p_id}`,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data) {
+                                $('#available').val(data.availabile_quantity || '0');
+                            } else {
+                                $('#available').val('0');
+                            }
+                        },
+                        error: function () {
+                            alert('Failed to fetch unit rate.');
+                        }
+                    });
+
                 } else {
-                    alert(data.error || 'Error fetching product details.');
+                    console.error('Product input field not found!');
                 }
-            },
-            error: function () {
-                alert('Error fetching product details.');
             }
-        });
-
-        // Fetch available quantity
-        $.ajax({
-            url: `<?= base_url("Admin_Dashboard/get_unit_rate/") ?>${p_id}`,
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                if (data) {
-                    $('#available').val(data.availabile_quantity || '0');
-                } else {
-                    $('#available').val('0');
-                }
-            },
-            error: function () {
-                alert('Failed to fetch unit rate.');
-            }
-        });
-
-    } else {
-        console.error('Product input field not found!');
-    }
-}
 
 
             function closeProductModal() {
@@ -1014,151 +1030,151 @@ function checkAvailablQuantity(row, rowIndex) {
                 });
             }
         </script>
-         <script>
-     
-     document.getElementById('paymentMode').addEventListener('change', function () {
-         var bankDetails = document.getElementById('bankDetails');
-         var selectDetails = document.getElementById('bankAccount');
-         if (this.value === 'Bank') {
-             bankDetails.style.display = 'block';
-             selectDetails.setAttribute('required', 'required')
-         } else {
-             bankDetails.style.display = 'none';
-             selectDetails.removeAttribute('required');
-         }
-     });
-     document.getElementById('paymentMode').addEventListener('change', function () {
-         var chequeDetails = document.getElementById('chequeDetails');
-         var selectDetails = document.getElementById('cheque');
-         if (this.value === 'Cheque') {
-             chequeDetails.style.display = 'block';
-             selectDetails.setAttribute('required', 'required')
-         } else {
-             chequeDetails.style.display = 'none';
-             selectDetails.removeAttribute('required');
-         }
-     });
-     document.getElementById('paymentMode').addEventListener('change', function () {
-         var paidInput = document.querySelector('input[name="paid"]');
+        <script>
 
-         if (this.value === 'None') {
-             paidInput.value = '0';  // Set the value to 0 if 'None' is selected
-         } else {
-             paidInput.value = '';   // Clear the value for other options
-         }
-     });
-     function calculateTotalPrice(row) {
-    const quantityInput = row.querySelector('input[name="quantity[]"]');
-    const unitRate = parseFloat(row.querySelector('input[name="unit_rate[]"]').value) || 0;
-    const totalPriceInput = row.querySelector('input[name="total_price[]"]');
+            document.getElementById('paymentMode').addEventListener('change', function () {
+                var bankDetails = document.getElementById('bankDetails');
+                var selectDetails = document.getElementById('bankAccount');
+                if (this.value === 'Bank') {
+                    bankDetails.style.display = 'block';
+                    selectDetails.setAttribute('required', 'required')
+                } else {
+                    bankDetails.style.display = 'none';
+                    selectDetails.removeAttribute('required');
+                }
+            });
+            document.getElementById('paymentMode').addEventListener('change', function () {
+                var chequeDetails = document.getElementById('chequeDetails');
+                var selectDetails = document.getElementById('cheque');
+                if (this.value === 'Cheque') {
+                    chequeDetails.style.display = 'block';
+                    selectDetails.setAttribute('required', 'required')
+                } else {
+                    chequeDetails.style.display = 'none';
+                    selectDetails.removeAttribute('required');
+                }
+            });
+            document.getElementById('paymentMode').addEventListener('change', function () {
+                var paidInput = document.querySelector('input[name="paid"]');
 
-    // Set default quantity to 1 if empty
-    if (!quantityInput.value) {
-        quantityInput.value = 1;
-    }
+                if (this.value === 'None') {
+                    paidInput.value = '0';  // Set the value to 0 if 'None' is selected
+                } else {
+                    paidInput.value = '';   // Clear the value for other options
+                }
+            });
+            function calculateTotalPrice(row) {
+                const quantityInput = row.querySelector('input[name="quantity[]"]');
+                const unitRate = parseFloat(row.querySelector('input[name="unit_rate[]"]').value) || 0;
+                const totalPriceInput = row.querySelector('input[name="total_price[]"]');
 
-    const quantity = parseFloat(quantityInput.value) || 1;
-    const totalPrice = (quantity * unitRate).toFixed(2);
-    totalPriceInput.value = totalPrice;
+                // Set default quantity to 1 if empty
+                if (!quantityInput.value) {
+                    quantityInput.value = 1;
+                }
 
-    // Update grand total after calculating each row's total price
-    updateGrandTotal();
-}
+                const quantity = parseFloat(quantityInput.value) || 1;
+                const totalPrice = (quantity * unitRate).toFixed(2);
+                totalPriceInput.value = totalPrice;
 
-
-     // Function to update the grand total and final total
-     function updateGrandTotal() {
-         const totalPriceInputs = document.querySelectorAll('input[name="total_price[]"]');
-         let grandTotal = 0;
-
-         // Sum up all total prices
-         totalPriceInputs.forEach(input => {
-             grandTotal += parseFloat(input.value) || 0;
-         });
-
-         // Get discount value and type
-         const discountValue = parseFloat(document.getElementById('discount-value').value) || 0;
-         const discountType = document.getElementById('discount-type').value;
-
-         let discountAmount = 0; // Declare discountAmount here to ensure it's accessible
-
-         // Apply the discount based on the selected discount type
-         if (discountType === 'percent') {
-             discountAmount = (grandTotal * discountValue) / 100;
-         } else if (discountType === 'rupee') {
-             discountAmount = discountValue;
-         }
-
-         // Ensure grand total does not become negative after applying discount
-         const finalTotalWithoutTax = Math.max(grandTotal - discountAmount, 0);
-
-         // Calculate tax
-         const tax = parseFloat(document.getElementById('tax').value) || 0;
-         const taxAmount = (finalTotalWithoutTax * tax) / 100;
-
-         // Calculate final total including tax
-         const finalTotalWithTax = finalTotalWithoutTax + taxAmount;
-
-         // Update the input fields
-         document.getElementById('grand-total').value = grandTotal.toFixed(2);
-         document.getElementById('total-without').value = finalTotalWithoutTax.toFixed(2);
-         document.getElementById('tax-amount').value = taxAmount.toFixed(2);
-         document.getElementById('final-total').value = finalTotalWithTax.toFixed(2);
-     }
-
-     // Add event listener to the discount input to update totals when changed
-     document.getElementById('discount-value').addEventListener('input', updateGrandTotal);
-     document.getElementById('discount-type').addEventListener('change', updateGrandTotal);
-
-     document.addEventListener("DOMContentLoaded", function () {
-         const productSelect = new Choices("#category-select", {
-             searchEnabled: true,
-             itemSelectText: "",
-             shouldSort: false
-         });
-
-      
-
-         // Quantity Check
-         $(document).on('input', 'input[name="quantity[]"]', function () {
-             var row = $(this).closest('.product-row');
-             var p_id = row.find('input[name="p_id[]"]').val();
-             checkAvailableQuantity(row, p_id);
-         });
-
-         function checkAvailableQuantity(row, p_id) {
-             // Ensure p_id is present
-             if (!p_id) {
-                 console.error('Product ID not found.');
-                 return;
-             }
-
-             var availableQuantity = parseFloat(row.find('input[name="available_quantity[]"]').val()) || 0;
-             var enteredQuantity = parseFloat(row.find('input[name="quantity[]"]').val()) || 0;
+                // Update grand total after calculating each row's total price
+                updateGrandTotal();
+            }
 
 
-             if (enteredQuantity > availableQuantity) {
-                 alert("Product quantity is not available. Maximum available: " + availableQuantity);
-                 row.find('input[name="quantity[]"]').val('');
-             }
-         }
+            // Function to update the grand total and final total
+            function updateGrandTotal() {
+                const totalPriceInputs = document.querySelectorAll('input[name="total_price[]"]');
+                let grandTotal = 0;
 
-     });
+                // Sum up all total prices
+                totalPriceInputs.forEach(input => {
+                    grandTotal += parseFloat(input.value) || 0;
+                });
 
-     $(document).on('input', 'input[name="paid"]', function () {
-         checkAvailablePaid($(this));
-     });
+                // Get discount value and type
+                const discountValue = parseFloat(document.getElementById('discount-value').value) || 0;
+                const discountType = document.getElementById('discount-type').value;
 
-     function checkAvailablePaid(element) {
-         var grandTotal = parseFloat($('#final-total').val()) || 0;
-         var paid = parseFloat(element.val()) || 0;
+                let discountAmount = 0; // Declare discountAmount here to ensure it's accessible
 
-         if (paid > grandTotal) {
-             alert("Paid amount exceeds the Grand Total of " + grandTotal);
-             element.val(''); // Reset the input field
-         }
-     }
- </script>
+                // Apply the discount based on the selected discount type
+                if (discountType === 'percent') {
+                    discountAmount = (grandTotal * discountValue) / 100;
+                } else if (discountType === 'rupee') {
+                    discountAmount = discountValue;
+                }
+
+                // Ensure grand total does not become negative after applying discount
+                const finalTotalWithoutTax = Math.max(grandTotal - discountAmount, 0);
+
+                // Calculate tax
+                const tax = parseFloat(document.getElementById('tax').value) || 0;
+                const taxAmount = (finalTotalWithoutTax * tax) / 100;
+
+                // Calculate final total including tax
+                const finalTotalWithTax = finalTotalWithoutTax + taxAmount;
+
+                // Update the input fields
+                document.getElementById('grand-total').value = grandTotal.toFixed(2);
+                document.getElementById('total-without').value = finalTotalWithoutTax.toFixed(2);
+                document.getElementById('tax-amount').value = taxAmount.toFixed(2);
+                document.getElementById('final-total').value = finalTotalWithTax.toFixed(2);
+            }
+
+            // Add event listener to the discount input to update totals when changed
+            document.getElementById('discount-value').addEventListener('input', updateGrandTotal);
+            document.getElementById('discount-type').addEventListener('change', updateGrandTotal);
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const productSelect = new Choices("#category-select", {
+                    searchEnabled: true,
+                    itemSelectText: "",
+                    shouldSort: false
+                });
+
+
+
+                // Quantity Check
+                $(document).on('input', 'input[name="quantity[]"]', function () {
+                    var row = $(this).closest('.product-row');
+                    var p_id = row.find('input[name="p_id[]"]').val();
+                    checkAvailableQuantity(row, p_id);
+                });
+
+                function checkAvailableQuantity(row, p_id) {
+                    // Ensure p_id is present
+                    if (!p_id) {
+                        console.error('Product ID not found.');
+                        return;
+                    }
+
+                    var availableQuantity = parseFloat(row.find('input[name="available_quantity[]"]').val()) || 0;
+                    var enteredQuantity = parseFloat(row.find('input[name="quantity[]"]').val()) || 0;
+
+
+                    if (enteredQuantity > availableQuantity) {
+                        alert("Product quantity is not available. Maximum available: " + availableQuantity);
+                        row.find('input[name="quantity[]"]').val('');
+                    }
+                }
+
+            });
+
+            $(document).on('input', 'input[name="paid"]', function () {
+                checkAvailablePaid($(this));
+            });
+
+            function checkAvailablePaid(element) {
+                var grandTotal = parseFloat($('#final-total').val()) || 0;
+                var paid = parseFloat(element.val()) || 0;
+
+                if (paid > grandTotal) {
+                    alert("Paid amount exceeds the Grand Total of " + grandTotal);
+                    element.val(''); // Reset the input field
+                }
+            }
+        </script>
 
         <?php include "includes2/footer-links.php" ?>
     </div>

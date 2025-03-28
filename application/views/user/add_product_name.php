@@ -26,14 +26,18 @@
                         <form class="profile-form" action="<?= base_url('admin_Dashboard/add_product_name/'.encryptId($user['0']['id']).'/0') ?>" method="post" enctype="multipart/form-data">
                             <div class="sm:p-10 sm:pb-2.5 p-[25px] pb-0">
                                 <div class="row">
-                                    <div class="sm:w-1/2 w-full mb-[30px]">
+                                    <div class="sm:w-1/3 w-full mb-[30px]">
                                         <label class="text-dark dark:text-white text-[13px] mb-2">Product Name</label>
                                         <input type="text" name="product_name" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Product Name" value="" id="product_name" required>
                                         <!-- <div id="product_name_error" class="error-message text-[12px] mt-2"></div> -->
                                         
                                         <input type="hidden" name="user_id" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" value="<?= $user['0']['id']?>">
                                     </div>
-                                    <div class="sm:w-1/2 w-full mb-[30px]">
+                                    <div class="sm:w-1/3 w-full mb-[30px]">
+                                        <label class="text-dark dark:text-white text-[13px] mb-2">Technical Name</label>
+                                        <input type="text" name="teach_name" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Technical Name" value="">
+                                    </div>
+                                    <div class="sm:w-1/3 w-full mb-[30px]">
                                         <label class="text-dark dark:text-white text-[13px] mb-2">Company Name</label>
                                         <input type="text" name="company_name" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Company Name" value="">
                                     </div>
@@ -65,7 +69,42 @@
 																				<option value="Box">Box</option>
 																			
 																			</select>
-																		</div> <div class="sm:w-1/4 w-full mb-[30px]">
+																		</div>
+                                                                        <script>
+                                                                            document.addEventListener('DOMContentLoaded', function() {
+    const unitSelects = document.querySelectorAll('select[name="unit"]');
+
+    unitSelects.forEach(unitSelect => {
+        unitSelect.addEventListener('change', function() {
+            const row = this.closest('.product-row');
+            const perQuantityContainer = row.querySelector('.per-quantity-container');
+
+            if (this.value === 'Box') {
+                if (!perQuantityContainer) {
+                    const newFields = document.createElement('div');
+                    newFields.classList.add('per-quantity-container', 'flex', 'gap-4', 'mt-2');
+                    newFields.innerHTML = `
+                        <div class="w-1/2">
+                            <label class="text-dark dark:text-white text-[13px] mb-2">Per Box Quantity</label>
+                            <input type="number" name="box_quantity[]" class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="Box Quantity" required>
+                        </div>
+                        <div class="w-1/2">
+                            <label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Price</label>
+                            <input type="number" name="per_quantity_price[]" class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="Per Quantity Price" required>
+                        </div>
+                    `;
+                    row.appendChild(newFields);
+                }
+            } else {
+                if (perQuantityContainer) {
+                    perQuantityContainer.remove();
+                }
+            }
+        });
+    });
+});
+
+                                                                        </script> <div class="sm:w-1/4 w-full mb-[30px]">
                                         <label class="text-dark dark:text-white text-[13px] mb-2">Purchase Price</label>
                                         <input type="text" name="purchase_price" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Purchase Price" value="">
                                     </div> 
@@ -119,6 +158,7 @@
 <?php include "includes2/footer.php" ?>
 
 <script>
+    
     // Listen for input event on the product_name field
     document.getElementById('product_name').addEventListener('input', function() {
         var productName = this.value;

@@ -93,7 +93,7 @@
 												<div class="xl:w-6/4 lg:w-4/3">
 													<div class="card flex flex-col max-sm:mb-[30px] profile-card">
 
-														<div class="sm:p-10 sm:pb-2.5 p-[25px] pb-0">
+														<div class=" pb-0">
 															<div id="product-container">
 																<!-- Product fields that will be cloned -->
 																<div class="row product-row">
