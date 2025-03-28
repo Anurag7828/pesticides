@@ -540,7 +540,7 @@ Thank you for your purchase!`;
 
         let whatsappUrl = `https://wa.me/${contactNumber}?text=${message}`;
         window.open(whatsappUrl, '_blank');
-    });
+  });
 </script>
 
 
@@ -565,7 +565,7 @@ Thank you for your purchase!`;
             alert("Change Invoice Formate");
 
             // Redirect to the desired page after the alert
-            window.location.href = "<?= base_url('Admin_Dashboard/print_invoice/' . encryptId($user['0']['id']) . '/' . $invoice[0]['invoice_no']); ?>";
+            window.location.href = "<?= base_url('Admin_Dashboard/tax_invoice/' . encryptId($user['0']['id']) . '/' . $invoice[0]['invoice_no']); ?>";
         });
 
         document.getElementById('printBtn').addEventListener('click', function() {
@@ -597,11 +597,13 @@ Thank you for your purchase!`;
             const saveButton = document.getElementById('saveButton');
             const invoiceButton = document.getElementById('invoicen');
             const invoiceButton1 = document.getElementById('invoicen1');
+            const whatsappBtn = document.getElementById('whatsappBtn');
             generateButton.style.display = 'none'; // Hide the button
             printButton.style.display = 'none'; // Hide the print button
             saveButton.style.display = 'none'; // Hide the button
             invoiceButton.style.display = 'none';
             invoiceButton1.style.display = 'none';
+            whatsappBtn.style.display = 'none';
             // Use html2canvas to convert the HTML to canvas and then use jsPDF to create a PDF
             html2canvas(invoiceElement, {
                 scale: 2, // Increase scale for better resolution in the PDF
@@ -613,6 +615,7 @@ Thank you for your purchase!`;
                 saveButton.style.display = 'inline-block';
                 invoiceButton.style.display = 'inline-block';
                 invoiceButton1.style.display = 'inline-block';
+                whatsappBtn.style.display = 'inline-block';
                 // Get image data from canvas
                 const imgData = canvas.toDataURL('image/png');
                 const imgWidth = 595.28; // A4 page width in points (JS uses points for size)
