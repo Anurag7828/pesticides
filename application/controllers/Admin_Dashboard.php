@@ -1070,6 +1070,12 @@ if($add){
 
     if (count($_POST) > 0) {
         $post = $this->input->post();
+      
+        if($post['unit'] == "Box"){
+            $post['box'] = "1";
+        }else{
+            $post['box'] = "0";
+        }
         $post['product_id'] = $this->generate_product_id($tid);
             $savedata = $this->CommonModal->insertRowReturnId('product', $post);
 
