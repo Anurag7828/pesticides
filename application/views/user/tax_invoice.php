@@ -132,6 +132,7 @@
             #printBtn,
             #saveButton,
             #invoicen,
+            #whatsappBtn,
             #invoicen1 {
                 display: none !important;
             }
@@ -568,45 +569,74 @@
 
 
         ?>
-        <?php
+      <?php
 
-        $payment = $this->CommonModal->getRowByIdOrderByLimit('payment', 'invoice_no',  $invoice['0']['invoice_no'], 'user_id', $user['0']['id'], 'id', 'DESC', '1');
+$payment = $this->CommonModal->getRowByIdOrderByLimit('payment', 'invoice_no',  $invoice['0']['invoice_no'], 'user_id', $user['0']['id'], 'id', 'DESC', '1');
+$paymentsum = $this->CommonModal->getRowByIdSum('payment', 'invoice_no', $invoice['0']['invoice_no'], 'user_id', $user['0']['id'], 'paid');
+$customer = $this->CommonModal->getRowById('customer', 'id', $invoice['0']['customer_name'], 'user_id', $user['0']['id']);
 
-        $paymentsum = $this->CommonModal->getRowByIdSum('payment', 'invoice_no', $invoice['0']['invoice_no'], 'user_id', $user['0']['id'], 'paid');
+if (!empty($customer)) {
+    foreach ($customer as $cus) {
+        // Invoice Download URL
+        $invoiceUrl = base_url('Admin/tax_invoice/' . encryptId($user['0']['id']) . '/' . $invoice['0']['invoice_no']);
 
-        $customer = $this->CommonModal->getRowById('customer', 'id', $invoice['0']['customer_name'], 'user_id', $user['0']['id']);
-
-        if (!empty($customer)) {
-            foreach ($customer as $cus) {
-                // Invoice URL Same as Button Link
-                $invoiceUrl = base_url('Admin/tax_invoice/' . encryptId($user['0']['id']) . '/' . $invoice['0']['invoice_no']);
-        ?>
-                <script>
-                    document.getElementById('whatsappBtn').addEventListener('click', function() {
-                        let customerName = "<?= $cus['name'] ?>";
-                        let contactNumber = "<?= $cus['contact'] ?>";
-                        let totalAmount = "<?= $invoice['0']['final_total'] ?>";
-                        let paidAmount = "<?= $paymentsum[0]['total_sum'] ?>";
-                        let dueAmount = "<?= $payment[0]['due'] ?>";
-                        let invoiceUrl = "<?= $invoiceUrl ?>";
-
-                        // WhatsApp Message Format
-                        let message = `*Bill Details*%0A
-        *Customer Name:* ${customerName}%0A
-        *Total Amount:* ₹${totalAmount}%0A
-        *Paid Amount:* ₹${paidAmount}%0A
-        *Due Amount:* ₹${dueAmount}%0A
-        *Invoice Link:* ${invoiceUrl}%0A
-        Thank you for your purchase!`;
-
-                        let whatsappUrl = `https://wa.me/${contactNumber}?text=${message}`;
-                        window.open(whatsappUrl, '_blank');
-                    });
-                </script>
-        <?php
-            }
+        // Check if interest is applied
+        $final_total = floatval($invoice[0]['final_total']);
+        if ($invoice[0]['include_interest'] == 1 && $invoice[0]['days_late'] > 0) {
+            $final_total += floatval($invoice[0]['interest_amount']);
         }
-        ?>
+
+        $paid_amount = floatval($paymentsum[0]['total_sum']);
+        $due_amount = $final_total - $paid_amount;
+?>
+  <script>
+    document.getElementById('whatsappBtn').addEventListener('click', function() {
+        let customerName = "<?= $cus['name'] ?>";
+        let contactNumber = "<?= $cus['contact'] ?>";
+        let shopName = "<?= $user['0']['shop'] ?>";
+        let invoiceDate = "<?= date('d M Y', strtotime($invoice['0']['date'])) ?>"; // Format Date
+        let invoice_no = "<?= $user['0']['prefix'] ?>-<?= $invoice[0]['invoice_no'] ?>";
+        
+        // Default Total, Paid, and Due Amounts
+        let totalAmount = parseFloat("<?= $invoice['0']['final_total'] ?>");
+        let paidAmount = parseFloat("<?= $paymentsum[0]['total_sum'] ?>");
+        let dueAmount = parseFloat("<?= $payment[0]['due'] ?>");
+
+        // Check if interest is applied
+        let includeInterest = "<?= $invoice[0]['include_interest'] ?>";
+        let interestAmount = parseFloat("<?= $invoice[0]['interest_amount'] ?>");
+
+        if (includeInterest == "1" && interestAmount > 0) {
+            totalAmount += interestAmount; // Add interest to total amount
+            dueAmount = totalAmount - paidAmount; // Adjust due amount
+        }
+
+        let invoiceUrl = "<?= $invoiceUrl ?>";
+
+        // WhatsApp Message Format (Fixes the link issue)
+        let message = `Hey ${customerName},%0A%0A
+Thank you for choosing *${shopName}*!%0A%0A
+Details of Your Sales Invoice,%0A
+ *Invoice Number:* ${invoice_no}%0A
+ *Invoice Date:* ${invoiceDate}%0A%0A
+ *Total Amount:* ₹ ${totalAmount.toFixed(2)}%0A
+ *Paid Amount:* ₹ ${paidAmount.toFixed(2)}%0A
+ *Due Amount:* ₹ ${dueAmount.toFixed(2)}%0A%0A
+View your invoice here:%0A${invoiceUrl}%0A%0A
+Thank you for your purchase!`;
+
+        let whatsappUrl = `https://wa.me/${contactNumber}?text=${message}`;
+        window.open(whatsappUrl, '_blank');
+  });
+</script>
+
+
+
+<?php
+    }
+}
+?>
+
 
         <script>
             document.getElementById('saveButton').addEventListener('click', function() {
@@ -640,15 +670,7 @@
         </script>
 
 
-
-
-
-
-        <?php include "includes2/footer-links.php" ?>
-    </div>
-    <?php include "includes2/footer.php" ?>
-
-    <script>
+<script>
         document.getElementById('generatePDF').addEventListener('click', function() {
             const {
                 jsPDF
@@ -663,11 +685,13 @@
             const saveButton = document.getElementById('saveButton');
             const invoiceButton = document.getElementById('invoicen');
             const invoiceButton1 = document.getElementById('invoicen1');
+            const whatsappBtn = document.getElementById('whatsappBtn');
             generateButton.style.display = 'none'; // Hide the button
             printButton.style.display = 'none'; // Hide the print button
             saveButton.style.display = 'none'; // Hide the button
             invoiceButton.style.display = 'none';
             invoiceButton1.style.display = 'none';
+            whatsappBtn.style.display = 'none';
             // Use html2canvas to convert the HTML to canvas and then use jsPDF to create a PDF
             html2canvas(invoiceElement, {
                 scale: 2, // Increase scale for better resolution in the PDF
@@ -679,6 +703,7 @@
                 saveButton.style.display = 'inline-block';
                 invoiceButton.style.display = 'inline-block';
                 invoiceButton1.style.display = 'inline-block';
+                whatsappBtn.style.display = 'inline-block';
                 // Get image data from canvas
                 const imgData = canvas.toDataURL('image/png');
                 const imgWidth = 595.28; // A4 page width in points (JS uses points for size)
@@ -714,6 +739,13 @@
             });
         });
     </script>
+
+
+
+        <?php include "includes2/footer-links.php" ?>
+    </div>
+    <?php include "includes2/footer.php" ?>
+
 </body>
 
 </html>

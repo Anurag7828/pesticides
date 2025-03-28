@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from yashadmin.dexignzone.com/tailwind/demo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Sep 2024 07:42:52 GMT -->
-
 <head>
-   
     <?php include "includes2/header-links.php" ?>
-    <!-- Bootstrap CSS -->
-
 </head>
 <style>
     /* The Modal (background) */
@@ -50,11 +45,12 @@
         text-decoration: none;
         cursor: pointer;
     }
+
     .address-wrap {
-    word-break: break-word; 
-    overflow-wrap: break-word;
-    /*white-space: pre-wrap;*/
-}
+        word-break: break-word;
+        overflow-wrap: break-word;
+        /*white-space: pre-wrap;*/
+    }
 </style>
 
 <body class="selection:text-white selection:bg-primary">
@@ -115,7 +111,7 @@
                                                     <th
                                                         class="bg-primary-light text-[13px] py-2.5 px-4 text-primary capitalize border-b border-b-color font-medium bg-none whitespace-nowrap text-left">
                                                         S No.</th>
-                                                        <th
+                                                    <th
                                                         class="bg-primary-light text-[13px] py-2.5 px-4 text-primary capitalize border-b border-b-color font-medium bg-none whitespace-nowrap text-left">
                                                         Date</th>
                                                     <th
@@ -161,15 +157,15 @@
                                                         if (!in_array($uniqueKey, $displayedInvoices)) {
                                                             // If not shown, display the row and add to the displayed list
                                                             $displayedInvoices[] = $uniqueKey;
-                                                            ?>
+                                                ?>
                                                             <tr>
                                                                 <td
                                                                     class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
                                                                     <?= $serial++ ?></td>
 
-                                                                    <td
-                                                                class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap ">
-                                                                <?= date('d-m-Y', strtotime($customer_info['bill_date'])) ?></td>
+                                                                <td
+                                                                    class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap ">
+                                                                    <?= date('d-m-Y', strtotime($customer_info['bill_date'])) ?></td>
 
                                                                 <td
                                                                     class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
@@ -189,7 +185,7 @@
                                                                         $this->db->where('user_id', $user['0']['id']);
 
                                                                         $query = $this->db->get('invoice'); // Replace 'purchase_product' with the correct table name
-                                                        
+
                                                                         $total_return_quantity = ($query->num_rows() > 0) ? $query->row()->return_quantity : 0; ?>
                                                                         <a
                                                                             href="<?= base_url('admin_Dashboard/view_return_invoice/' . encryptId($user['0']['id'])) ?>"><span
@@ -199,38 +195,38 @@
                                                                         <?= "" ?>
                                                                     <?php } ?>
                                                                 </td>
-                                                    <td            
+                                                                <td
                                                                     class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
-                                                                 ₹ <?= number_format($customer_info['final_total'] + $customer_info['interest_amount'], 2) ?></td>
-                                                                 <?php
-$payment = $this->CommonModal->getRowByIdOrderByLimit('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'id', 'DESC', '1');
-$paymentsum = $this->CommonModal->getRowByIdSum('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'paid');
+                                                                    ₹ <?= number_format($customer_info['final_total'] + $customer_info['interest_amount'], 2) ?></td>
+                                                                <?php
+                                                                $payment = $this->CommonModal->getRowByIdOrderByLimit('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'id', 'DESC', '1');
+                                                                $paymentsum = $this->CommonModal->getRowByIdSum('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'paid');
 
-$final_total_with_interest = $customer_info['final_total'] + $customer_info['interest_amount'];
-$total_paid = (float) $paymentsum[0]['total_sum'];  
-$due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no negative values
-?>
+                                                                $final_total_with_interest = $customer_info['final_total'] + $customer_info['interest_amount'];
+                                                                $total_paid = (float) $paymentsum[0]['total_sum'];
+                                                                $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no negative values
+                                                                ?>
 
-<td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
-    ₹ <?= number_format($total_paid, 2) ?>
-</td>
-<td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
-    ₹ <?= number_format($due_amount, 2) ?>
-</td>
+                                                                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
+                                                                    ₹ <?= number_format($total_paid, 2) ?>
+                                                                </td>
+                                                                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
+                                                                    ₹ <?= number_format($due_amount, 2) ?>
+                                                                </td>
 
-                                                                <?php if ($paymentsum[0]['total_sum'] < $payment[0]['total'] && $paymentsum[0]['total_sum'] !=0) { ?>
+                                                                <?php if ($paymentsum[0]['total_sum'] < $payment[0]['total'] && $paymentsum[0]['total_sum'] != 0) { ?>
                                                                     <td
                                                                         class="py-[0.9375rem] px-2.5 capitalize whitespace-nowrap sm:text-sm text-xs font-normal border-t border-[#E6E6E6] dark:border-[#ffffff1a] text-left text-body-color">
                                                                         <span
                                                                             class="text-xs py-[5px] px-3 rounded leading-[1.5] inline-block text-warning bg-warning-light">partial</span>
                                                                     </td>
-                                                                <?php } elseif ($paymentsum[0]['total_sum'] = $payment[0]['total']  && $paymentsum[0]['total_sum'] !=0) { ?>
+                                                                <?php } elseif ($paymentsum[0]['total_sum'] = $payment[0]['total']  && $paymentsum[0]['total_sum'] != 0) { ?>
                                                                     <td
                                                                         class="py-[0.9375rem] px-2.5 capitalize whitespace-nowrap sm:text-sm text-xs font-normal border-t border-[#E6E6E6] dark:border-[#ffffff1a] text-left text-body-color">
                                                                         <span
                                                                             class="text-xs py-[5px] px-3 rounded leading-[1.5] inline-block text-success bg-success-light dark:text-white dark:bg-[#3a9b941a]">Complete</span>
                                                                     </td>
-                                                                <?php } elseif ($paymentsum[0]['total_sum'] > $payment[0]['total']  && $paymentsum[0]['total_sum'] !=0) { ?>
+                                                                <?php } elseif ($paymentsum[0]['total_sum'] > $payment[0]['total']  && $paymentsum[0]['total_sum'] != 0) { ?>
                                                                     <td
                                                                         class="py-[0.9375rem] px-2.5 capitalize whitespace-nowrap sm:text-sm text-xs font-normal border-t border-[#E6E6E6] dark:border-[#ffffff1a] text-left text-body-color">
                                                                         <span
@@ -249,7 +245,7 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                         class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
                                                                         <?= $branch[0]['name'] ?></td>
                                                                 <?php } else {
-                                                                    ?>
+                                                                ?>
                                                                     <td
                                                                         class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
                                                                         Admin</td>
@@ -277,7 +273,7 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                             <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
                                                                                 href="<?= base_url('Admin_Dashboard/print_invoice/' . encryptId($user['0']['id']) . '/' . $customer_info['invoice_no']); ?>">View
                                                                                 Invoice</a>
-                                                                                
+
                                                                             <?php if ($customer_info['branch'] != 0) { ?>
                                                                                 <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
                                                                                     href="<?= base_url('Admin_Dashboard/edit_invoice?user_id=' . $user['0']['id'] . '&branch_id=' . $customer_info['branch'] . '&invoice_no=' . $customer_info['invoice_no']); ?>">Edit</a>
@@ -290,6 +286,10 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                                 href="javascript:void(0);"
                                                                                 onclick="openModal('<?= $customer_info['invoice_no'] ?>')">View
                                                                                 Payment</a>
+                                                                            <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
+                                                                                href="javascript:void(0);"
+                                                                                onclick="interestModal('<?= $customer_info['invoice_no'] ?>')">View
+                                                                                Interest Details</a>
 
                                                                             <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
                                                                                 href="javascript:void(0);"
@@ -300,29 +300,29 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                             <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
                                                                                 href="<?= base_url('Admin_Dashboard/invoice/' . encryptId($user[0]['id']) . '?id=' . $customer_info['invoice_no']); ?>"
                                                                                 onclick="return confirm('Are you sure you want to delete this invoice?')">Delete</a>
-                                                                           
-                                                                                <?php if ($customer_info['branch'] != 0) { ?>
-                                                                               
-                                                                                    <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
-                                                                                href="<?= base_url('Admin_Dashboard/return_invoice?user_id=' . $user['0']['id']  . '&branch_id=' . $customer_info['branch']. '&invoice_no=' . $customer_info['invoice_no']); ?>"
-                                                                                onclick="return confirm('Are you sure you want to Return This Invoice?')">Return
-                                                                                Sales</a>
+
+                                                                            <?php if ($customer_info['branch'] != 0) { ?>
+
+                                                                                <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
+                                                                                    href="<?= base_url('Admin_Dashboard/return_invoice?user_id=' . $user['0']['id']  . '&branch_id=' . $customer_info['branch'] . '&invoice_no=' . $customer_info['invoice_no']); ?>"
+                                                                                    onclick="return confirm('Are you sure you want to Return This Invoice?')">Return
+                                                                                    Sales</a>
                                                                             <?php } else { ?>
 
-                                                                                    <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
-                                                                                href="<?= base_url('Admin_Dashboard/return_invoice?user_id=' . $user['0']['id']  . '&branch_id=0&invoice_no=' . $customer_info['invoice_no']); ?>"
-                                                                                onclick="return confirm('Are you sure you want to Return This Invoice?')">Return
-                                                                                Sales</a>
+                                                                                <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
+                                                                                    href="<?= base_url('Admin_Dashboard/return_invoice?user_id=' . $user['0']['id']  . '&branch_id=0&invoice_no=' . $customer_info['invoice_no']); ?>"
+                                                                                    onclick="return confirm('Are you sure you want to Return This Invoice?')">Return
+                                                                                    Sales</a>
                                                                             <?php } ?>
                                                                         </div>
                                                                     </div>
 
                                                                 </td>
-                                                                <!-- Modal -->
+                                                               
 
                                                             </tr>
 
-                                                            <?php
+                                                <?php
                                                         }
                                                     }
                                                 }
@@ -343,7 +343,7 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                 if (!in_array($uniqueKey, $displayedInvoices)) {
                                                     // If not shown, display the row and add to the displayed list
                                                     $displayedInvoices[] = $uniqueKey;
-                                                    ?>
+                                        ?>
                                                     <div id="paymentModal<?= $customer_info['invoice_no'] ?>" class="custom-modal">
                                                         <div class="custom-modal-content">
                                                             <span class="custom-modal-close"
@@ -359,7 +359,8 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                         ?>
                                                                         <div class="text-body-color sm:text-sm text-xs">
                                                                             <strong>Customer Name:</strong>
-                                                                            <?= $customer[0]['name'] ?></div>
+                                                                            <?= $customer[0]['name'] ?>
+                                                                        </div>
 
                                                                         <div class="text-body-color sm:text-sm text-xs">
                                                                             <strong>Invoice No.:</strong>
@@ -367,7 +368,8 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                         </div>
                                                                         <div class="text-body-color sm:text-sm text-xs">
                                                                             <strong>Date:</strong>
-                                                                            <?= $customer_info['bill_date'] ?></div>
+                                                                            <?= $customer_info['bill_date'] ?>
+                                                                        </div>
 
                                                                     </div>
                                                                     <div class="mt-6 lg:w-1/2 md:w-1/2 w-full detail">
@@ -378,7 +380,8 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                         ?>
                                                                         <div class="text-body-color sm:text-sm text-xs">
                                                                             <strong>Total Amount:</strong> ₹
-                                                                            <?= $payment[0]['total'] ?>/-</div>
+                                                                            <?= $payment[0]['total'] ?>/-
+                                                                        </div>
 
                                                                         <div class="text-body-color sm:text-sm text-xs"><strong>Paid
                                                                                 Amount:</strong> ₹
@@ -417,7 +420,7 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                             if (!empty($paymentall)) {  // Missing closing parenthesis fixed here
                                                                                 foreach ($paymentall as $row) {
                                                                                     $i++;
-                                                                                    ?>
+                                                                            ?>
                                                                                     <tr>
 
                                                                                         <td
@@ -438,28 +441,29 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                                             <td
                                                                                                 class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center">
                                                                                                 <?= $bank[0]['bank_name'] ?></td>
-                                                                                                <?php } elseif($row['cheque_no']) {
-                                                                                            ?>
-                                                                                             <td
+                                                                                        <?php } elseif ($row['cheque_no']) {
+                                                                                        ?>
+                                                                                            <td
                                                                                                 class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center">
                                                                                                 <?= $row['cheque_no'] ?></td>
                                                                                         <?php } else {
-                                                                                            ?>
+                                                                                        ?>
                                                                                             <td
                                                                                                 class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center">
                                                                                                 <?= $row['mode'] ?></td>
-                                                                                        <?php } if($row['branch_id']) {
-                                                                                        $branch = $this->CommonModal->getRowByMultitpleId('branch', 'id', $row['branch_id'], 'user_id', $user[0]['id']); ?>
-                                                                    <td
-                                                                        class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
-                                                                        <?= $branch[0]['name'] ?></td>
+                                                                                        <?php }
+                                                                                        if ($row['branch_id']) {
+                                                                                            $branch = $this->CommonModal->getRowByMultitpleId('branch', 'id', $row['branch_id'], 'user_id', $user[0]['id']); ?>
+                                                                                            <td
+                                                                                                class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
+                                                                                                <?= $branch[0]['name'] ?></td>
 
-                                                                                        <?php } else {?>
-                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color text-right">By Own</td>
+                                                                                        <?php } else { ?>
+                                                                                            <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color text-right">By Own</td>
 
-                                                <?php } ?>
+                                                                                        <?php } ?>
                                                                                     </tr>
-                                                                                <?php }
+                                                                            <?php }
                                                                             } ?>
 
                                                                         </tbody>
@@ -469,6 +473,101 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    
+                                                 <div id="interestModal<?= $customer_info['invoice_no'] ?>" class="custom-modal">
+                                                 <div class="custom-modal-content">
+                                                     <span class="custom-modal-close" onclick="closeinterestModal('<?= $customer_info['invoice_no'] ?>')">&times;</span>
+                                                     <h2 id="interestModalLabel">Payment Details</h2>
+                                                     <div class="modal-body">
+                                                         <div class="row mb-12">
+                                                             <div class="mt-6 lg:w-1/2 md:w-1/2 w-full detail">
+                                                                 <?php
+                                                                 $customer = $this->CommonModal->getRowByMultitpleId('customer', 'id', $customer_info['c_id'], 'user_id', $user['0']['id']);
+                                                                 ?>
+                                                                 <div class="text-body-color sm:text-sm text-xs">
+                                                                     <strong>Customer Name:</strong> <?= $customer[0]['name'] ?>
+                                                                 </div>
+                                                                 <div class="text-body-color sm:text-sm text-xs">
+                                                                     <strong>Invoice No.:</strong> <?= $user[0]['prefix'] ?>-<?= $customer_info['invoice_no'] ?>
+                                                                 </div>
+                                                                 <div class="text-body-color sm:text-sm text-xs">
+                                                                     <strong>Date:</strong> <?= $customer_info['bill_date'] ?>
+                                                                 </div>
+                                                             </div>
+                                             
+                                                           <div class="mt-6 lg:w-1/2 md:w-1/2 w-full detail">
+    <?php
+    // Fetch Payment Data
+    $payment = $this->CommonModal->getRowByIdOrderByLimit('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'id', 'DESC', '1');
+    $paymentsum = $this->CommonModal->getRowByIdSum('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'paid');
+
+    // Calculate Final Total (Including Interest if applicable)
+    $final_total = floatval($payment[0]['total']);
+    if ($customer_info['include_interest'] == 1 && $customer_info['days_late'] > 0) {
+        $final_total += floatval($customer_info['interest_amount']);
+    }
+
+    // Updated Paid & Due Amount
+    $paid_amount = floatval($paymentsum[0]['total_sum']);
+    $due_amount = max(0, $final_total - $paid_amount);
+    ?>
+    
+    <div class="text-body-color sm:text-sm text-xs">
+        <strong>Total Amount:</strong> ₹<?= number_format($payment[0]['total'], 2) ?>/-
+    </div>
+    <div class="text-body-color sm:text-sm text-xs">
+        <strong>Interest Amount:</strong> ₹<?= number_format($customer_info['interest_amount'], 2) ?>/-
+    </div>
+    <div class="text-body-color sm:text-sm text-xs">
+        <strong>Total With Interest:</strong> ₹<?= number_format($final_total, 2) ?>/-
+    </div>
+    <div class="text-body-color sm:text-sm text-xs">
+        <strong>Paid Amount:</strong> ₹<?= number_format($paid_amount, 2) ?>/-
+    </div>
+    <div class="text-body-color sm:text-sm text-xs">
+        <strong>Due Amount:</strong> <span class="text-red-500">₹<?= number_format($due_amount, 2) ?>/-</span>
+    </div>
+</div>
+
+                                             
+                                                             <!-- New Interest Section with Condition -->
+                                                           <div class="w-full mt-6">
+    <h3 class="text-lg font-bold">Interest Details</h3>
+
+    <?php if ($customer_info['include_interest'] == 1 && $customer_info['days_late'] > 0) { ?>
+        <table class="w-full border-collapse border border-gray-300 mt-2 text-center">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-gray-300 px-3 py-2">Interest Rate</th>
+                    <th class="border border-gray-300 px-3 py-2">Interest Days</th>
+                    <th class="border border-gray-300 px-3 py-2">Days Late</th>
+                    <th class="border border-gray-300 px-3 py-2">Interest Amount</th>
+                    <th class="border border-gray-300 px-3 py-2">Total with Interest</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-gray-300 px-3 py-2"><?= $customer_info['interest_rate'] ?>% per year</td>
+                    <td class="border border-gray-300 px-3 py-2"><?= $customer_info['interest_days'] ?> days</td>
+                    <td class="border border-gray-300 px-3 py-2"><?= $customer_info['days_late'] ?> days</td>
+                    <td class="border border-gray-300 px-3 py-2">₹<?= number_format($customer_info['interest_amount'], 2) ?>/-</td>
+                    <td class="border border-gray-300 px-3 py-2">₹<?= number_format($customer_info['grand_total_with_interest'], 2) ?>/-</td>
+                </tr>
+            </tbody>
+        </table>
+    <?php } else { ?>
+        <p class="text-red-500 text-sm mt-2">This customer does not have any interest applied.</p>
+    <?php } ?>
+</div>
+
+                                                             <!-- End Interest Section -->
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                             
+                                               
+
                                                     <div id="payModal<?= $customer_info['invoice_no'] ?>" class="custom-modal">
                                                         <div class="custom-modal-content">
                                                             <span class="custom-modal-close"
@@ -484,7 +583,8 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                         ?>
                                                                         <div class="text-body-color sm:text-sm text-xs">
                                                                             <strong>Customer Name:</strong>
-                                                                            <?= $customer[0]['name'] ?></div>
+                                                                            <?= $customer[0]['name'] ?>
+                                                                        </div>
 
                                                                         <div class="text-body-color sm:text-sm text-xs">
                                                                             <strong>Invoice No.:</strong>
@@ -492,7 +592,8 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                         </div>
                                                                         <div class="text-body-color sm:text-sm text-xs">
                                                                             <strong>Date:</strong>
-                                                                            <?= $customer_info['bill_date'] ?></div>
+                                                                            <?= $customer_info['bill_date'] ?>
+                                                                        </div>
 
                                                                     </div>
                                                                     <div class="mt-6 lg:w-1/2 md:w-1/2 w-full detail">
@@ -503,7 +604,8 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                         ?>
                                                                         <div class="text-body-color sm:text-sm text-xs">
                                                                             <strong>Total Amount:</strong> ₹
-                                                                            <?= $payment[0]['total'] ?>/-</div>
+                                                                            <?= $payment[0]['total'] ?>/-
+                                                                        </div>
 
                                                                         <div class="text-body-color sm:text-sm text-xs"><strong>Paid
                                                                                 Amount:</strong> ₹
@@ -514,7 +616,7 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                     </div>
                                                                     <form class="profile-form"
                                                                         action="<?= base_url('admin_Dashboard/add_payment/' . encryptId($user['0']['id'])) ?>"
-                                                                        method="post" enctype="multipart/form-data" >
+                                                                        method="post" enctype="multipart/form-data">
                                                                         <div class="sm:p-10 sm:pb-2.5 p-[25px] pb-0">
 
                                                                             <div class="row">
@@ -533,9 +635,9 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                                     <input type="number" name="paid"
                                                                                         class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
                                                                                         placeholder="paid amount"
-                                                                                        value="<?= $payment[0]['due'] ?>"  max="<?= $payment[0]['due'] ?>" 
-    id="paidAmount<?= $customer_info['invoice_no'] ?>" 
-    oninput="validatePaidAmount('<?= $customer_info['invoice_no'] ?>')">
+                                                                                        value="<?= $payment[0]['due'] ?>" max="<?= $payment[0]['due'] ?>"
+                                                                                        id="paidAmount<?= $customer_info['invoice_no'] ?>"
+                                                                                        oninput="validatePaidAmount('<?= $customer_info['invoice_no'] ?>')">
                                                                                     <input type="hidden" name="due"
                                                                                         class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
                                                                                         placeholder="paid amount"
@@ -569,7 +671,7 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                                         <option value="Cash">CASH</option>
                                                                                         <option value="Upi">UPI</option>
                                                                                         <option value="Card">CREADIT/DEBIT CARD</option>
-                                                                                     
+
                                                                                         <option value="Bank">Bank Transfer</option>
                                                                                         <option value="Cheque">Cheque</option>
 
@@ -580,29 +682,29 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                                     style="display:none;">
                                                                                     <label
                                                                                         class="text-dark dark:text-white text-[13px] mb-2">Account</label>
-                                                                  <select name="bank" 
-        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" 
-        id="bankAccount<?= $customer_info['invoice_no'] ?>" >
-        <option value="">--SELECT--</option>
-        <?php
-        // Fetch bank accounts from the database
-        $account = $this->CommonModal->getRowById('account', 'user_id', $user['0']['id']);
-        foreach ($account as $account_info) { ?>
-            <option value="<?= htmlspecialchars($account_info['id']) ?>">
-                <?= htmlspecialchars($account_info['bank_name']) ?> - <?= htmlspecialchars($account_info['account_no']) ?>
-            </option>
-        <?php } ?>
-    </select>
+                                                                                    <select name="bank"
+                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                                                        id="bankAccount<?= $customer_info['invoice_no'] ?>">
+                                                                                        <option value="">--SELECT--</option>
+                                                                                        <?php
+                                                                                        // Fetch bank accounts from the database
+                                                                                        $account = $this->CommonModal->getRowById('account', 'user_id', $user['0']['id']);
+                                                                                        foreach ($account as $account_info) { ?>
+                                                                                            <option value="<?= htmlspecialchars($account_info['id']) ?>">
+                                                                                                <?= htmlspecialchars($account_info['bank_name']) ?> - <?= htmlspecialchars($account_info['account_no']) ?>
+                                                                                            </option>
+                                                                                        <?php } ?>
+                                                                                    </select>
                                                                                 </div>
                                                                                 <div class="sm:w-1/2 w-full mb-[30px]"
                                                                                     id="chequeDetails<?= $customer_info['invoice_no'] ?>"
                                                                                     style="display:none;">
                                                                                     <label
                                                                                         class="text-dark dark:text-white text-[13px] mb-2">Cheque Number</label>
-                                                            <input type="text" name="cheque_no"
+                                                                                    <input type="text" name="cheque_no"
                                                                                         class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
                                                                                         placeholder="Cheque Number"
-                                                                                       id="cheque<?= $customer_info['invoice_no'] ?>" >
+                                                                                        id="cheque<?= $customer_info['invoice_no'] ?>">
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -614,18 +716,18 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                 </div>
                                                                 </form>
                                                                 <script>
-                                                                    document.getElementById('paymentMode<?= $customer_info['invoice_no'] ?>').addEventListener('change', function () {
+                                                                    document.getElementById('paymentMode<?= $customer_info['invoice_no'] ?>').addEventListener('change', function() {
                                                                         var bankDetails = document.getElementById('bankDetails<?= $customer_info['invoice_no'] ?>');
-                                                                          var selectDetails = document.getElementById('bankAccount<?= $customer_info['invoice_no'] ?>');
+                                                                        var selectDetails = document.getElementById('bankAccount<?= $customer_info['invoice_no'] ?>');
                                                                         if (this.value === 'Bank') {
                                                                             bankDetails.style.display = 'block';
-                                                                              selectDetails.setAttribute('required', 'required')
+                                                                            selectDetails.setAttribute('required', 'required')
                                                                         } else {
                                                                             bankDetails.style.display = 'none';
-                                                                            selectDetails.removeAttribute('required'); 
+                                                                            selectDetails.removeAttribute('required');
                                                                         }
                                                                     });
-                                                                    document.addEventListener("DOMContentLoaded", function () {
+                                                                    document.addEventListener("DOMContentLoaded", function() {
                                                                         var today = new Date();
                                                                         var year = today.getFullYear();
                                                                         var month = (today.getMonth() + 1).toString().padStart(2, '0');
@@ -633,29 +735,29 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
                                                                         var currentDate = `${year}-${month}-${day}`;
                                                                         document.getElementById('paymentDate<?= $customer_info['invoice_no'] ?>').value = currentDate;
                                                                     });
-                                                                        document.getElementById('paymentMode<?= $customer_info['invoice_no'] ?>').addEventListener('change', function () {
+                                                                    document.getElementById('paymentMode<?= $customer_info['invoice_no'] ?>').addEventListener('change', function() {
                                                                         var chequeDetails = document.getElementById('chequeDetails<?= $customer_info['invoice_no'] ?>');
-                                                                          var selectDetails = document.getElementById('cheque<?= $customer_info['invoice_no'] ?>');
+                                                                        var selectDetails = document.getElementById('cheque<?= $customer_info['invoice_no'] ?>');
                                                                         if (this.value === 'Cheque') {
                                                                             chequeDetails.style.display = 'block';
-                                                                              selectDetails.setAttribute('required', 'required')
+                                                                            selectDetails.setAttribute('required', 'required')
                                                                         } else {
                                                                             chequeDetails.style.display = 'none';
-                                                                             selectDetails.removeAttribute('required'); 
+                                                                            selectDetails.removeAttribute('required');
                                                                         }
                                                                     });
                                                                 </script>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <?php
+                                    </div>
+                        <?php
                                                 }
                                             }
                                         } else {
                                             echo "<tr><td colspan='9'>No data found</td></tr>";
                                         }
-                                        ?>
+                        ?>
                                 </div>
                             </div>
                         </div>
@@ -692,12 +794,13 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
     }
 
     // Close the modal if the user clicks outside of it
-    window.onclick = function (event) {
+    window.onclick = function(event) {
         var modal = document.getElementById("paymentModal");
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
+
     function dueModal(invoice_no) {
         var modal = document.getElementById(`payModal${invoice_no}`);
         var modalLabel = document.getElementById("payModalLabel");
@@ -716,13 +819,39 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
     }
 
     // Close the modal if the user clicks outside of it
-    window.onclick = function (event) {
+    window.onclick = function(event) {
         var modal = document.getElementById(`payModal${invoice_no}`);
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
 
+
+
+    function interestModal(invoice_no) {
+        var modal = document.getElementById(`interestModal${invoice_no}`);
+        var modalLabel = document.getElementById("interestModalLabel");
+        var modalBody = document.querySelector(".modal-body");
+
+        // Display the modal
+        modal.style.display = "block";
+
+
+    }
+
+    // Function to close modal
+    function closeinterestModal(invoice_no) {
+        var modal = document.getElementById(`interestModal${invoice_no}`);
+        modal.style.display = "none";
+    }
+
+    // Close the modal if the user clicks outside of it
+    window.onclick = function(event) {
+        var modal = document.getElementById("interestModal");
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 </script>
 <script>
     function exportTableToExcel() {
@@ -755,7 +884,9 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
 
     function exportTableAsPDF() {
         // Check if jsPDF is available
-        const { jsPDF } = window.jspdf;
+        const {
+            jsPDF
+        } = window.jspdf;
         if (!jsPDF) {
             console.error("jsPDF not loaded");
             return;
@@ -765,7 +896,9 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
         const table = document.getElementById('user-tbl');
 
         // Capture the table as an image
-        html2canvas(table, { scale: 2 }).then((canvas) => {
+        html2canvas(table, {
+            scale: 2
+        }).then((canvas) => {
             const imgData = canvas.toDataURL('image/png');
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
@@ -779,9 +912,8 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
             console.error("Error generating PDF:", error);
         });
     }
-
 </script>
-        <script>
+<script>
     function validatePaidAmount(purchaseCode) {
         const paidInput = document.getElementById('paidAmount' + purchaseCode);
         const maxValue = parseFloat(paidInput.max);
@@ -797,4 +929,5 @@ $due_amount = max(0, $final_total_with_interest - $total_paid); // Ensure no neg
         }
     }
 </script>
+
 </html>
