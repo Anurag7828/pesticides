@@ -47,8 +47,7 @@
 										<div class="sm:w-1/2 w-full mb-[30px]">
 											<label class="text-dark dark:text-white text-[13px] mb-2">Vender
 												Name</label>
-											<select name="vender_name" id="vender_name"
-												class=" choices form-control relative text-[13px] text-body-color h-[2.813rem] 
+											<select name="vender_name" id="vender_name" class=" choices form-control relative text-[13px] text-body-color h-[2.813rem] 
 												   border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" required>
 												<option value="">Select vender</option>
 												<?php foreach ($vender as $vender_info) { ?>
@@ -61,12 +60,12 @@
 										<div class="sm:w-1/2 w-full mb-[30px]">
 											<label class="text-dark dark:text-white text-[13px] mb-2">Stock Place
 												Name</label>
-											<select name="stock_place_name" id="stock_place_name"
-												class=" choices form-control relative text-[13px] text-body-color h-[2.813rem] 
+											<select name="stock_place_name" id="stock_place_name" class=" choices form-control relative text-[13px] text-body-color h-[2.813rem] 
 												   border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" required>
 												<option value="">Select Stock Place</option>
 												<?php foreach ($stock as $stock_info) { ?>
-													<option value="<?= $stock_info['id']; ?>">
+													<option value="<?= $stock_info['id']; ?>"
+														<?= (($stock_info['default'] == '1') ? 'selected' : '') ?>>
 														<?= $stock_info['place_name']; ?>
 													</option>
 												<?php } ?>
@@ -84,7 +83,7 @@
 											<label class="text-dark dark:text-white text-[13px] mb-2">Date</label>
 											<input type="date" name="purchase_date"
 												class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-												placeholder="Purchase Date " required>
+												placeholder="Purchase Date " value="<?= date('Y-m-d'); ?>" required>
 										</div>
 										<hr>
 										<div class="container-fluid">
@@ -103,57 +102,29 @@
 																			class="text-dark dark:text-white text-[13px] mb-2">Select
 																			Product</label>
 
-																		<select name="p_name[]" id="product-name"
-																			class=" choices form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full "
-																			id="category-select"
-																			onchange="fetchProductDetails(this)"
-																			required>
-																			<option>Select Product</option>
-																			<?php foreach ($product_list as $product_info) { ?>
-																				<option value="<?= $product_info['id']; ?>">
-																				<?= $product_info['product_id']; ?>-<?= $product_info['product_name']; ?>-<?= $product_info['unit']; ?>
-																				</option>
-																			<?php } ?>
-																		</select>
-
+																		<input type="text"
+																			class="product-input form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+																			placeholder="Click to select product"
+																			readonly onclick="openProductModal()">
+																		<input type="hidden" id="product-input-value"
+																			name="p_name[]"
+																			class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full ">
 																	</div>
 
 																	<input type="hidden" id="uuid" name="user_id"
 																		class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
 																		value="<?= $user['0']['id'] ?>" required>
-																	<div class="sm:w-1/6 w-full mb-[30px]">
-																		<label
-																			class="text-dark dark:text-white text-[13px] mb-2">HSN
-																			Code</label>
-																		<input type="text" name="HSN_code[]"
-																			class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-																			placeholder="HSN Code" required>
-																	</div>
-																	<!-- Net Quantity Field with Unit Dropdown -->
-																	<div class="flex  sm:w-1/6 w-full mb-[30px]">
-
-																		<div class="sm:w-2/6 w-full">
-																			<label
-																				class="text-dark dark:text-white text-[13px] mb-2">Packing
-																				Quantity</label>
-																			<input type="text" name="packing[]"
-																				class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
-																				placeholder="Quantity"
-																				
-																				required>
-																		</div>
 
 
-																	</div>
-																	<div class="sm:w-1/6 w-full">
-																			<label
-																				class="text-dark dark:text-white text-[13px] mb-2">Unit</label>
-																			<input type="text" name="unit_box[]"
-																				class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
-																				placeholder="unit"
-																				
-																				required>
-																		</div>
+																	<input type="hidden" name="packing[]"
+																		class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
+																		placeholder="Quantity" required>
+
+
+																	<input type="hidden" name="unit_box[]"
+																		class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
+																		placeholder="unit" required>
+
 																	<div class="md:w-1/6  mb-[30px]">
 																		<label
 																			class="text-dark dark:text-white text-[13px] mb-2">Quantity</label>
@@ -182,6 +153,9 @@
 																			class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
 																			placeholder="Tax" id="tax"
 																			oninput="calculateTotalPrice(this.closest('.row'))">
+																		<input type="hidden" name="tax_type[]"
+																			class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+																			placeholder="Tax" id="tax_type">
 																	</div>
 
 																	<div class="sm:w-1/6 w-full mb-[30px]">
@@ -204,7 +178,30 @@
 																			id="total-unit-price"
 																			oninput="calculateTotalPrice(this.closest('.row'))">
 																	</div>
+																	<div class="sm:w-1/6 w-full mb-[30px]">
+																		<label
+																			class="text-dark dark:text-white text-[13px] mb-2">
+																			Discount Type</label>
+																		<select name="p_discount_type[]"
+																			oninput="calculateTotalPrice(this.closest('.row'))"
+																			class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
+																			required>
+																			<option value="rupee" selected>₹</option>
+																			<option value="percent">%
+																			</option>
 
+																		</select>
+																	</div>
+																	<div class="sm:w-1/6 w-full mb-[30px]">
+																		<label
+																			class="text-dark dark:text-white text-[13px] mb-2">
+																			Discount Value</label>
+																		<input type="number" name="p_discount[]"
+																			class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+																			placeholder="Discount Value"
+																			id="total-unit-price"
+																			oninput="calculateTotalPrice(this.closest('.row'))">
+																	</div>
 
 																	<div class="sm:w-1/6 w-full mb-[30px]">
 																		<label
@@ -216,11 +213,20 @@
 																	</div>
 																	<div class="sm:w-1/6 w-full mb-[30px]">
 																		<label
-																			class="text-dark dark:text-white text-[13px] mb-2">expire
+																			class="text-dark dark:text-white text-[13px] mb-2">Expire
 																			date</label>
 																		<input type="date" name="exp_date[]"
 																			class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
 																			placeholder="expired date" required>
+																	</div>
+																	<div class="sm:w-1/6 w-full mb-[30px]    d-flex align-items-center "
+																		style="margin-top: 30px;">
+																		<button type="button"
+																			class="btn btn-danger border border-b-color block rounded-md py-1.5 px-3 outline-none"
+																			onclick="deleteProductForm(this)">
+																			<i class="fas fa-trash-alt"
+																				style="color:red;"></i>
+																		</button>
 																	</div>
 																</div>
 
@@ -352,6 +358,169 @@
 															</div>
 							</form>
 						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="productModal"
+			class="modal fade fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-[1055]">
+			<div class="modal-dialog-centered w-full max-w-4xl">
+				<div class="modal-content flex flex-col relative rounded-md bg-white dark:bg-[#182237] pointer-events-auto"
+					style="box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;margin-left: 158px;">
+
+					<!-- Modal Header -->
+					<div
+						class="modal-header flex justify-between items-center py-4 px-6 border-b border-gray-200 dark:border-gray-700">
+						<h5 class="text-lg font-bold text-gray-800 dark:text-white">Select Product</h5>
+						<button type="button" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+							onclick="closeProductModal()">&times;</button>
+					</div>
+
+					<!-- Modal Body -->
+					<div class="modal-body p-6">
+						<div class="row">
+							<div class="sm:w-1/2 w-full mb-[30px]">
+								<input type="text" id="productSearch"
+									class="form-control mb-4 p-2 border rounded-md w-full"
+									placeholder="Search Product..." oninput="filterModalProducts()">
+							</div>
+							<div class="sm:w-1/4 w-full mb-[30px]">
+								<a href="<?= base_url('Admin_Dashboard//add_product_name/' . encryptId($user['0']['id']) . '/0') ?>"
+									class="btn btn-primary sm:py-[0.719rem] px-2 sm:px-[1.563rem] py-2 sm:text-[15px] text-xs font-medium rounded text-white bg-primary leading-5 inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary dz-modal-btn">
+									Add New product</a>
+							</div>
+						</div>
+						<div class="overflow-y-auto max-h-80 border rounded-md">
+							<table class="w-full text-left border-collapse">
+								<thead class="bg-gray-100 dark:bg-gray-800">
+									<tr>
+										<th class="py-2 px-4">Product ID</th>
+										<th class="py-2 px-4">Product Name</th>
+										<th class="py-2 px-4">Company Name</th>
+										<th class="py-2 px-4">HSN Code</th>
+										<th class="py-2 px-4">Packing</th>
+										<th class="py-2 px-4">Unit</th>
+
+
+
+										<!-- <th class="py-2 px-4">Select</th> -->
+									</tr>
+								</thead>
+								<tbody id="productTableBody" class="bg-white dark:bg-gray-900">
+
+									<?php foreach ($product_list as $product_info) { ?>
+
+										<tr class="border-b">
+											<td class="py-2 px-4"><?= $product_info['product_id']; ?></td>
+											<td class="py-2 px-4"><button
+													onclick="selectProduct('<?= $product_info['id']; ?>', '<?= $product_info['product_name']; ?>', '<?= $product_info['unit']; ?>', '<?= $product_info['packing']; ?>', '<?= $product_info['net_unit']; ?>', '<?= $product_info['total_purchase_price']; ?>')"><?= $product_info['product_name']; ?></button>
+											</td>
+											<td class="py-2 px-4"><button
+													onclick="selectProduct('<?= $product_info['pro_id']; ?>', '<?= $product_info['product_name']; ?>', '<?= $product_info['unit']; ?>', '<?= $product_info['packing']; ?>', '<?= $product_info['net_unit']; ?>', '<?= $product_info['p_id']; ?>')"><?= $product_info['company_name']; ?></button>
+											</td>
+											<td class="py-2 px-4"><?= $product_info['HSN']; ?></td>
+											<td class="py-2 px-4">
+												<?= $product_info['packing'] . $product_info['net_unit']; ?>
+											</td>
+											<td class="py-2 px-4"><?= $product_info['unit']; ?></td>
+
+										</tr>
+									<?php } ?>
+
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<!-- Modal Footer -->
+					<div class="modal-footer flex justify-end py-4 px-6 border-t border-gray-200 dark:border-gray-700">
+						<button
+							class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-auto"
+							onclick="closeProductModal()">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="productModal2"
+			class="modal fade fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-[1055]">
+			<div class="modal-dialog-centered w-full max-w-4xl">
+				<div class="modal-content flex flex-col relative rounded-md bg-white dark:bg-[#182237] pointer-events-auto"
+					style="box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;margin-left: 158px;">
+
+					<!-- Modal Header -->
+					<div
+						class="modal-header flex justify-between items-center py-4 px-6 border-b border-gray-200 dark:border-gray-700">
+						<h5 class="text-lg font-bold text-gray-800 dark:text-white">Select Product</h5>
+						<button type="button" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+							onclick="closeProductModal()">&times;</button>
+					</div>
+
+					<!-- Modal Body -->
+					<div class="modal-body p-6">
+						<div class="row">
+							<div class="sm:w-1/2 w-full mb-[30px]">
+								<input type="text" id="productSearch"
+									class="form-control mb-4 p-2 border rounded-md w-full"
+									placeholder="Search Product..." oninput="filterModalProducts()">
+							</div>
+							<div class="sm:w-1/4 w-full mb-[30px]">
+								<a href="<?= base_url('Admin_Dashboard//add_product_name/' . encryptId($user['0']['id']) . '/0') ?>"
+									class="btn btn-primary sm:py-[0.719rem] px-2 sm:px-[1.563rem] py-2 sm:text-[15px] text-xs font-medium rounded text-white bg-primary leading-5 inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary dz-modal-btn">
+									Add New product</a>
+							</div>
+						</div>
+						<div class="overflow-y-auto max-h-80 border rounded-md">
+							<table class="w-full text-left border-collapse">
+								<thead class="bg-gray-100 dark:bg-gray-800">
+									<tr>
+										<th class="py-2 px-4">Product ID</th>
+										<th class="py-2 px-4">Product Name</th>
+										<th class="py-2 px-4">Company Name</th>
+										<th class="py-2 px-4">HSN Code</th>
+										<th class="py-2 px-4">Packing</th>
+										<th class="py-2 px-4">Unit</th>
+
+
+
+										<!-- <th class="py-2 px-4">Select</th> -->
+									</tr>
+								</thead>
+								<tbody id="productTableBody" class="bg-white dark:bg-gray-900">
+
+									<?php foreach ($product_list as $product_info) { ?>
+
+										<tr class="border-b">
+											<td class="py-2 px-4"><?= $product_info['product_id']; ?></td>
+											<td class="py-2 px-4">
+												<button
+													onclick="selectProduct2(currentRow, '<?= $product_info['id']; ?>', '<?= $product_info['product_name']; ?>', '<?= $product_info['unit']; ?>', '<?= $product_info['packing']; ?>', '<?= $product_info['net_unit']; ?>', '<?= $product_info['total_purchase_price']; ?>')">
+													<?= $product_info['product_name']; ?>
+												</button>
+											</td>
+											<td class="py-2 px-4"><button
+													onclick="selectProduct2(''<?= $rowIndex ?>','<?= $product_info['pro_id']; ?>', '<?= $product_info['product_name']; ?>', '<?= $product_info['unit']; ?>', '<?= $product_info['packing']; ?>', '<?= $product_info['net_unit']; ?>', '<?= $product_info['p_id']; ?>')"><?= $product_info['company_name']; ?></button>
+											</td>
+											<td class="py-2 px-4"><?= $product_info['HSN']; ?></td>
+											<td class="py-2 px-4">
+												<?= $product_info['packing'] . $product_info['net_unit']; ?>
+											</td>
+											<td class="py-2 px-4"><?= $product_info['unit']; ?></td>
+
+										</tr>
+									<?php } ?>
+
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<!-- Modal Footer -->
+					<div class="modal-footer flex justify-end py-4 px-6 border-t border-gray-200 dark:border-gray-700">
+						<button
+							class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-auto"
+							onclick="closeProductModal2()">Close</button>
 					</div>
 				</div>
 			</div>
@@ -528,102 +697,13 @@
 			</div>
 		</div>
 
-		<div class="modal fade fixed top-0 right-0 overflow-y-auto overflow-x-hidden dz-scroll w-full h-full z-[1055]  dz-modal-box model-close"
-			id="exampleModalCentername">
-			<div class="modal-dialog modal-dialog-centered h-full flex items-center py-5" role="document">
-				<div
-					class="modal-content flex flex-col relative rounded-md bg-white dark:bg-[#182237] w-full pointer-events-auto">
-					<div
-						class="modal-header flex justify-between items-center flex-wrap py-4 px-[1.875rem] relative z-[2] border-b border-b-color">
-						<h5 class="modal-title">Add Product Name</h5>
-						<button type="button" class="btn-close p-4 text-xs">
-						</button>
-					</div>
-					<div class="xl:w-6/4 lg:w-4/3">
-						<div class="card flex flex-col max-sm:mb-[30px] profile-card">
-							<div
-								class="card-header flex justify-between items-center flex-wrap sm:p-[30px] p-5 relative z-[2] border-b border-b-color">
-								<h6 class="text-[15px] font-medium text-body-color title relative">Add Your Product Name
-								</h6>
-								<a href="<?= base_url('Admin_Dashboard/product_name/' . encryptId($user[0]['id'])) ?>"
-									class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-auto">View
-									Product Names</a><br>
-							</div>
-							<form class="profile-form"
-								action="<?= base_url('admin_Dashboard/add_product_name/' . encryptId($user['0']['id']) . '/1') ?>"
-								method="post" enctype="multipart/form-data">
-								<div class="sm:p-10 sm:pb-2.5 p-[25px] pb-0">
-									<div class="row">
-										<div class="sm:w-1/2 w-full mb-[30px]">
-											<label class="text-dark dark:text-white text-[13px] mb-2">Product
-												Name</label>
-											<input type="text" name="product_name"
-												class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-												placeholder="Product Name" value="">
-											<input type="hidden" name="id"
-												class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-												value="<?= $product_name['0']['id'] ?>">
-											<input type="hidden" name="user_id"
-												class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-												value="<?= $user['0']['id'] ?>">
-
-										</div>
-										<div class="sm:w-1/2 w-full mb-[30px]">
-											<label class="text-dark dark:text-white text-[13px] mb-2">Company
-												Name</label>
-											<input type="text" name="company_name"
-												class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-												placeholder="Company Name" value="">
-											<input type="hidden" name="id"
-												class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-												value="<?= $product_name['0']['id'] ?>">
-											<input type="hidden" name="user_id"
-												class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-												value="<?= $user['0']['id'] ?>">
-
-										</div>
-									</div>
-								</div>
-								<div
-									class="sm:py-5 sm:px-10 p-[25px] flex items-center justify-between border-t border-b-color">
-									<button
-										class="btn btn-primary sm:py-[0.719rem] py-2.5 sm:px-[1.563rem] px-4 sm:text-[15px] text-[13px] font-medium rounded text-white bg-primary leading-5 inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary">Add
-										product_name</button>
-								</div>
-							</form>
-						</div>
-					</div>
-					<div
-						class="modal-footer py-4 px-[1.875rem] flex items-center justify-end flex-wrap border-t border-b-color">
-						<button type="button"
-							class="btn btn-danger sm:py-[0.719rem] px-4 sm:px-[1.563rem] py-2.5 sm:text-[15px] text-xs font-medium rounded text-danger bg-danger-light leading-5 inline-block border border-danger-light duration-500 hover:bg-danger hover:border-danger-light hover:text-white m-1 close-btn">Close</button>
-					</div>
-				</div>
-			</div>
-		</div>
 		<!-- Content body end -->
 		<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script>
-				
-			// Function to add a new product row
-			document.addEventListener("DOMContentLoaded", function () {
-				initializeChoices();
-			});
 
-			function initializeChoices() {
-				document.querySelectorAll("select.choicees").forEach(select => {
-					if (!select.classList.contains("choices-initialized")) { // Prevent duplicate initialization
-						new Choices(select, {
-							searchEnabled: true,
-							itemSelectText: "",
-							shouldSort: false,
-							removeItemButton: false
-						});
-						select.classList.add("choices-initialized");
-					}
-				});
-			}
+			// Function to add a new product row
+
 			function addProductForm() {
 				const productContainer = document.getElementById('product-container');
 				const newProductRow = document.createElement('div');
@@ -636,35 +716,25 @@
 				 <div class="sm:w-1/3 w-full mb-[30px]">
 												<label class="text-dark dark:text-white text-[13px] mb-2">Select Product</label>
 								
-																	<select name="p_name[]"  class=" choicees form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full pns " id="category-select" onchange="fetchProductDetails(this)">
-																			<option selected>Select Product</option>
-																			<?php foreach ($product_list as $product_info) { ?>
-																				<option value="<?= $product_info['id']; ?>"><?= $product_info['product_id']; ?>-<?= $product_info['product_name']; ?>-<?= $product_info['unit']; ?></option>
-																			<?php } ?>
-																		</select>
-															  
+																
+															<input type="text"
+	class="product-input form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+	placeholder="Click to select product"
+	readonly onclick="openProductModal2(this)">
+																		<input type="hidden" id="product-input-value"
+																			name="p_name[]"
+																			class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full ">
 																	</div>
-			  <div class="sm:w-1/6 w-full mb-[30px]">
-	<label class="text-dark dark:text-white text-[13px] mb-2">HSN Code</label>
-	<input type="text" name="HSN_code[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="HSN Code">
-</div>
-			<div class="flex sm:w-1/6 w-full mb-[30px]">
-				<!-- Net Quantity Input -->
-				<div class="sm:w-2/6 w-full">
-					<label class="text-dark dark:text-white text-[13px] mb-2">Packing Quantity</label>
-					<input type="text" name="packing[]" class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="Quantity" oninput="calculateTotalPrice(this.closest('.row'))">
-				</div>
+		
 			
-			</div>
-			<div class="sm:w-1/6 w-full">
-																			<label
-																				class="text-dark dark:text-white text-[13px] mb-2">Unit</label>
-																			<input type="text" name="unit_box[]"
+					<input type="hidden" name="packing[]" class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="Quantity" oninput="calculateTotalPrice(this.closest('.row'))">
+				
+																			<input type="hidden" name="unit_box[]"
 																				class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
 																				placeholder="unit"
 																				
 																				required>
-																		</div>
+																
 			<div class="sm:w-1/6 w-full mb-[30px]">
 				<label class="text-dark dark:text-white text-[13px] mb-2">Quantity</label>
 				<input type="text" name="quantity[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Quantity" required oninput="calculateTotalPrice(this.closest('.product-row'))">
@@ -684,10 +754,32 @@
 				<input type="text" name="tax_amount[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="Tax Amount" readonly>
 			</div>
 			<div class="sm:w-1/6 w-full mb-[30px]">
-				<label class="text-dark dark:text-white text-[13px] mb-2">Total Price</label>
+				<label class="text-dark dark:text-white text-[13px] mb-2">unit Price</label>
 				<input type="text" name="p_price[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="Total Unit Price" readonly>
 			</div>
-				
+				<div class="sm:w-1/6 w-full mb-[30px]">
+																		<label
+																			class="text-dark dark:text-white text-[13px] mb-2">
+																			Discount Type</label>
+																			<select name="p_discount_type[]" 
+																		class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
+																		required>
+																		<option value="rupee" selected>₹</option>
+																		<option value="percent" >%
+																		</option>
+																		
+																	</select>
+																	</div>
+																	<div class="sm:w-1/6 w-full mb-[30px]">
+																		<label
+																			class="text-dark dark:text-white text-[13px] mb-2">
+																			Discount Value</label>
+																		<input type="number" name="p_discount[]"
+																			class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+																			placeholder="Discount Value"
+																		
+																			>
+																	</div>
 
 			<div class="sm:w-1/6 w-full mb-[30px]">
 				<label class="text-dark dark:text-white text-[13px] mb-2">Total Price</label>
@@ -710,7 +802,7 @@
 	`;
 
 				productContainer.appendChild(newProductRow);
-				initializeChoices();
+
 			}
 
 			// Function to delete a product row
@@ -719,61 +811,94 @@
 				productRow.remove();
 				updateSubTotal(); // Update subtotal after deleting a row
 			}
-			function fetchProductDetails(select) {
-				var productId = select.value;
-				var row = select.closest('.product-row');
-				if (productId) {
+			let currentRow = null;
+			function openProductModal2(element) {
+				const productModal = document.getElementById('productModal2');
+				if (productModal) {
+					// Store the current row for later selection
+					currentRow = element.closest('.product-row');
+					productModal.classList.remove('hidden');
+				} else {
+					console.error("Modal not found!");
+				}
+			}
+
+			function closeProductModal2() {
+				const productModal = document.getElementById('productModal2');
+				if (productModal) {
+					productModal.classList.add('hidden');
+				}
+			}
+			function selectProduct2(row, pro_id, product_name, unit, packing, net_unit, p_id) {
+				if (row) {
+					row.querySelector('[name="p_name[]"]').value = pro_id;
+					row.querySelector('.product-input').value = product_name;
+					row.querySelector('[name="unit_box[]"]').value = unit;
+					row.querySelector('[name="packing[]"]').value = `${packing} ${net_unit}`;
+					closeProductModal2();
+
+					// Fetch product details using AJAX
 					$.ajax({
-						url: '<?= base_url("Admin_Dashboard/get_product_details/") ?>' + productId,
+						url: `<?= base_url("Admin_Dashboard/get_product_details/") ?>/${pro_id}`,
 						type: 'GET',
 						dataType: 'json',
 						success: function (data) {
-							if (!data.error) {
-								row.querySelector('[name="HSN_code[]"]').value = data.HSN;
-								row.querySelector('[name="packing[]"]').value = `${data.packing} ${data.net_unit}`;
-								row.querySelector('[name="unit_box[]"]').value = data.unit;
-								row.querySelector('[name="quantity[]"]').value = 1;
-
+							if (data && !data.error) {
 								row.querySelector('[name="unit_rate[]"]').value = data.purchase_price;
 								row.querySelector('[name="tax[]"]').value = data.tax;
 								row.querySelector('[name="tax_amount[]"]').value = data.tax_amount;
 								row.querySelector('[name="p_price[]"]').value = data.total_purchase_price;
+								row.querySelector('[name="quantity[]"]').value = 1;
 
-								// Make the fields readonly
-								row.querySelector('[name="HSN_code[]"]').readOnly = true;
-								row.querySelector('[name="packing[]"]').readOnly = true;
-								row.querySelector('[name="unit_rate[]"]').readOnly = true;
-								row.querySelector('[name="tax[]"]').readOnly = true;
-								row.querySelector('[name="tax_amount[]"]').readOnly = true;
-								row.querySelector('[name="p_price[]"]').readOnly = true;
-
-								// Calculate Total Price
 								calculateTotalPrice(row);
 							} else {
-								alert(data.error);
+								alert(data.error || 'Error fetching product details.');
 							}
 						},
 						error: function () {
 							alert('Error fetching product details.');
 						}
 					});
+				} else {
+					console.error('Row not found!');
 				}
 			}
-		// Calculate Total Price
-		function calculateTotalPrice(row) {
-				var quantity = parseFloat(row.querySelector('[name="quantity[]"]').value) || 0;
-				var unitRate = parseFloat(row.querySelector('[name="unit_rate[]"]').value) || 0;
-				var taxRate = parseFloat(row.querySelector('[name="tax[]"]').value) || 0;
 
-				var taxAmount = (unitRate * quantity * taxRate) / 100;
-				var totalPrice = (unitRate * quantity) + taxAmount;
 
-				row.querySelector('[name="tax_amount[]"]').value = taxAmount.toFixed(2);
-				row.querySelector('[name="total_price[]"]').value = totalPrice.toFixed(2);
-				updateSubTotal();
-				updateGrandTotal();
-			}
+			function calculateTotalPrice(row) {
+        var quantity = parseFloat(row.querySelector('[name="quantity[]"]').value) || 0;
+        var unitRate = parseFloat(row.querySelector('[name="unit_rate[]"]').value) || 0;
+        var taxRate = parseFloat(row.querySelector('[name="tax[]"]').value) || 0;
+        var discountType = row.querySelector('[name="p_discount_type[]"]').value;
+        var discountValueInput = row.querySelector('[name="p_discount[]"]');
 
+        // Ensure discount value is set to 0 if empty
+        if (discountValueInput.value.trim() === "") {
+            discountValueInput.value = "0";
+        }
+        var discountValue = parseFloat(discountValueInput.value) || 0;
+
+        var taxAmount = (unitRate * quantity * taxRate) / 100;
+        var totalPrice = (unitRate * quantity) + taxAmount;
+
+        if (discountType === 'percent') {
+            totalPrice -= (totalPrice * discountValue / 100);
+        } else if (discountType === 'rupee') {
+            totalPrice -= discountValue;
+        }
+
+        row.querySelector('[name="tax_amount[]"]').value = taxAmount.toFixed(2);
+        row.querySelector('[name="total_price[]"]').value = totalPrice.toFixed(2);
+        updateSubTotal();
+        updateGrandTotal();
+    }
+
+    document.getElementById('product-container').addEventListener('input', function(event) {
+        const row = event.target.closest('.product-row');
+        if (row) {
+            calculateTotalPrice(row);
+        }
+    });
 
 			function updateSubTotal() {
 				const totalPriceInputs = document.querySelectorAll('input[name="total_price[]"]');
@@ -814,7 +939,7 @@
 			// Event listeners for changes in discount
 			document.getElementById('discount-type').addEventListener('change', updateGrandTotal);
 			document.getElementById('discount-value').addEventListener('input', updateGrandTotal);
-			
+
 
 			// Ensure jQuery is loaded and handle the button event
 			$(document).ready(function () {
@@ -856,9 +981,9 @@
 			});
 		</script>
 		<script>
-		
 
-			
+
+
 
 
 			$(document).on('input', 'input[name="paid"]', function () {
@@ -876,7 +1001,97 @@
 			}
 		</script>
 
+		<script>
+			function openProductModal() {
+				const productModal = document.getElementById('productModal');
+				if (productModal) {
+					productModal.classList.remove('hidden');
+				} else {
+					console.error("Modal not found!");
+				}
+			}
 
+			function closeProductModal() {
+				const productModal = document.getElementById('productModal');
+				if (productModal) {
+					productModal.classList.add('hidden');
+				}
+			}
+
+			function selectProduct(pro_id, product_name, unit, packing, net_unit, p_id) {
+				const productInputs = document.getElementsByClassName('product-input');
+				const productInputValue = document.getElementById('product-input-value');
+
+				if (productInputs.length > 0) {
+					productInputs[0].value = `${product_name}`;
+					productInputValue.value = `${pro_id}`;
+					closeProductModal();
+
+
+
+					// Combined AJAX call to get product details and unit rate
+					$.ajax({
+						url: `<?= base_url("Admin_Dashboard/get_product_details/") ?>${pro_id}`,
+						type: 'GET',
+						dataType: 'json',
+						success: function (data) {
+							if (data && !data.error) {
+								const row = document.querySelector('.product-row');
+
+								row.querySelector('[name="p_name[]"]').value = data.id;
+								row.querySelector('[name="packing[]"]').value = `${data.packing} ${data.net_unit}`;
+								row.querySelector('[name="unit_box[]"]').value = data.unit;
+								row.querySelector('[name="quantity[]"]').value = 1;
+								row.querySelector('[name="unit_rate[]"]').value = data.purchase_price;
+								row.querySelector('[name="tax[]"]').value = data.tax;
+								row.querySelector('[name="tax_amount[]"]').value = data.tax_amount;
+								row.querySelector('[name="tax_type[]"]').value = data.tax_type;
+								row.querySelector('[name="p_price[]"]').value = data.total_purchase_price;
+
+								// Make fields read-only
+								['p_name[]', 'packing[]', 'unit_rate[]', 'tax[]', 'tax_amount[]', 'p_price[]'].forEach(field => {
+									row.querySelector(`[name="${field}"]`).readOnly = true;
+								});
+
+								// Calculate total price
+								calculateTotalPrice(row);
+							} else {
+								alert(data.error || 'Error fetching product details.');
+							}
+						},
+						error: function () {
+							alert('Error fetching product details.');
+						}
+					});
+
+					// Fetch available quantity
+					$.ajax({
+						url: `<?= base_url("Admin_Dashboard/get_unit_rate/") ?>${p_id}`,
+						type: 'GET',
+						dataType: 'json',
+						success: function (data) {
+							$('#available').val(data ? data.availabile_quantity || '0' : '0');
+						},
+						error: function () {
+							alert('Failed to fetch unit rate.');
+						}
+					});
+
+				} else {
+					console.error('Product input field not found!');
+				}
+			}
+
+			function filterModalProducts() {
+				const searchValue = document.getElementById('productSearch').value.toLowerCase();
+				const rows = document.querySelectorAll('#productTableBody tr');
+
+				rows.forEach(row => {
+					const productName = row.children[1].textContent.toLowerCase();
+					row.style.display = productName.includes(searchValue) ? '' : 'none';
+				});
+			}
+		</script>
 
 
 		<?php include "includes2/footer-links.php" ?>

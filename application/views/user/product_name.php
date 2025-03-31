@@ -92,7 +92,7 @@
                   <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color address-wrap"><?= $product_name_info['product_id']; ?></td>
             
            
-                 <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color address-wrap"><?= $product_name_info['product_name']; ?></td>
+                 <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color address-wrap"><?= $product_name_info['product_name']; ?><?php if( $product_name_info['box'] =='1'){?> (Box)<?php }?></td>
               <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color address-wrap"><?= $product_name_info['company_name']; ?></td>
                <?php if( $product_name_info['branch_id'] != 0){ 
                                                                         $branch = $this->CommonModal->getRowByMultitpleId('branch', 'id', $product_name_info['branch_id'] ,'user_id',$user[0]['id']);?>

@@ -100,81 +100,84 @@
                                             </select>
                                         </div>
 
-                                        <div  id="perunitDetails"
-                                            style="display:none;">
-                                        <div class="sm:w-1/3 w-full mb-[30px] mr-4 ml-4" 
-                                            >
-                                            <label class="text-dark dark:text-white text-[13px] mb-2 ">Per Box
-                                                Quantity</label>
-                                            <input type="text" name="box_per_unit"
-                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-                                                placeholder="Per Box Quantity" value="">
-                                        </div>
-                                        <div class="sm:w-1/4  ml-4 w-full mb-[30px]"
-                                            >
-                                            <label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity
-                                                Purchase Price</label>
-                                            <input type="text" name="box_per_unit_price"
-                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-                                                placeholder="Per Quantity Purchase Price" value="">
-                                        </div>
-                                        <div class="sm:w-1/3 w-full mb-[30px] mr-4 ml-4">
-                                            <label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Tax(In %)</label>
-                                            <input type="text" name="per_tax"
-                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-                                                placeholder="Tax(In %)" value="">
-                                        </div>
-                                        <div class="sm:w-1/4 w-full mb-[30px] mr-4 ml-4">
-                                            <label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Tax Type</label>
-                                            <select name="per_tax_type"
-                                                class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
-                                                required>
-                                                <option value="Inclusive">Inclusive</option>
-                                                <option value="Exclusive">Exclusive</option>
+                                        <div id="perunitDetails" style="display:none;">
+                                            <div class="sm:w-1/3 w-full mb-[30px] mr-4 ml-4">
+                                                <label class="text-dark dark:text-white text-[13px] mb-2 ">Per Box
+                                                    Quantity</label>
+                                                <input type="text" name="box_per_unit"
+                                                    class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                    placeholder="Per Box Quantity" value="">
+                                            </div>
+                                            <div class="sm:w-1/4  ml-4 w-full mb-[30px]">
+                                                <label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity
+                                                    Purchase Price</label>
+                                                <input type="text" name="box_per_unit_price"
+                                                    class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                    placeholder="Per Quantity Purchase Price" value="">
+                                            </div>
+                                            <div class="sm:w-1/3 w-full mb-[30px] mr-4 ml-4">
+                                                <label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity
+                                                    Tax(In %)</label>
+                                                <input type="text" name="per_tax"
+                                                    class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                    placeholder="Tax(In %)" value="">
+                                            </div>
+                                            <div class="sm:w-1/4 w-full mb-[30px] mr-4 ml-4">
+                                                <label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity
+                                                    Tax Type</label>
+                                                <select name="per_tax_type"
+                                                    class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
+                                                    required>
+                                                    <option value="Inclusive">Inclusive</option>
+                                                    <option value="Exclusive">Exclusive</option>
 
-                                            </select>
-                                        </div>
-                                        <div class="sm:w-1/3 w-full mb-[30px] mr-4 ml-4">
-                                            <label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Tax Amount</label>
-                                            <input type="text" name="per_tax_amount"
-                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-                                                placeholder="Tax Amount" value="">
-                                        </div>
-                                        <div class="sm:w-1/3 w-full mb-[30px] mr-4 ml-4">
-                                            <label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Purchase Price
-                                                With Tax</label>
-                                            <input type="text" name="per_total_purchase_price"
-                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-                                                placeholder="Purchase Price With Tax" value="">
-                                        </div>
-                                        <div class="sm:w-1/6 w-full mb-[30px] mr-4 ml-4">
-                                            <label class="text-dark dark:text-white text-[13px] mb-2"> Per Quantity MRP</label>
-                                            <input type="text" name="per_mrp"
-                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-                                                placeholder="MRP" value="">
-                                        </div>
-                                        <div class="sm:w-1/4 w-full mb-[30px] mr-4 ml-4">
-                                            <label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Profit Margin (In
-                                                %)</label>
-                                            <input type="text" name="per_profit_margin"
-                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-                                                placeholder="Profit Margin" value="">
-                                        </div>
-                                        <div class="sm:w-1/6 w-full mb-[30px] ml-4" 
-                                            >
-                                            <label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Sales
-                                                Price</label>
-                                            <input type="text" name="box_per_unit_sales_price"
-                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-                                                placeholder="Per Quantity sales Price" value="">
-                                        </div>
+                                                </select>
+                                            </div>
+                                            <div class="sm:w-1/3 w-full mb-[30px] mr-4 ml-4">
+                                                <label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity
+                                                    Tax Amount</label>
+                                                <input type="text" name="per_tax_amount"
+                                                    class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                    placeholder="Tax Amount" value="">
+                                            </div>
+                                            <div class="sm:w-1/3 w-full mb-[30px] mr-4 ml-4">
+                                                <label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity
+                                                    Purchase Price
+                                                    With Tax</label>
+                                                <input type="text" name="per_total_purchase_price"
+                                                    class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                    placeholder="Purchase Price With Tax" value="">
+                                            </div>
+                                            <div class="sm:w-1/6 w-full mb-[30px] mr-4 ml-4">
+                                                <label class="text-dark dark:text-white text-[13px] mb-2"> Per Quantity
+                                                    MRP</label>
+                                                <input type="text" name="per_mrp"
+                                                    class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                    placeholder="MRP" value="">
+                                            </div>
+                                            <div class="sm:w-1/4 w-full mb-[30px] mr-4 ml-4">
+                                                <label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity
+                                                    Profit Margin (In
+                                                    %)</label>
+                                                <input type="text" name="per_profit_margin"
+                                                    class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                    placeholder="Profit Margin" value="">
+                                            </div>
+                                            <div class="sm:w-1/6 w-full mb-[30px] ml-4">
+                                                <label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity
+                                                    Sales
+                                                    Price</label>
+                                                <input type="text" name="box_per_unit_sales_price"
+                                                    class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                    placeholder="Per Quantity sales Price" value="">
+                                            </div>
                                         </div>
 
-<h4 class="sm:w-1 w-full mb-[30px]"id="boxheading"
-style="display:none;">Box Detail</h4>
+                                        <h4 class="sm:w-1 w-full mb-[30px]" id="boxheading" style="display:none;">Box
+                                            Detail</h4>
                                         <div class="sm:w-1/3 w-full mb-[30px]">
-                                             <label
-                                                class="text-dark dark:text-white text-[13px] mb-2">Purchase Price</label>
+                                            <label class="text-dark dark:text-white text-[13px] mb-2">Purchase
+                                                Price</label>
                                             <input type="text" name="purchase_price"
                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
                                                 placeholder="Purchase Price" value="" required>
@@ -228,15 +231,39 @@ style="display:none;">Box Detail</h4>
                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
                                                 placeholder="Seles Price" value="">
                                         </div>
+                                        <!-- <div class="sm:w-1/3 w-full mb-[30px]">
+                                            <label class="text-dark dark:text-white text-[13px] mb-2">Discount
+                                                Type</label>
+                                            <select id="discount-type" name="discount_type"
+                                                class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
+                                                required>
+                                                <option value="percent" Selected>Select Discount
+                                                    type</option>
+                                                <option value="percent">Discount in Percentage
+                                                </option>
+                                                <option value="rupee">Discount in Rupee</option>
+                                            </select>
+                                        </div>
 
-                                    </div>
-                                </div>
-                                <div
-                                    class="sm:py-5 sm:px-10 p-[25px] flex items-center justify-between border-t border-b-color">
-                                    <button
-                                        class="btn btn-primary sm:py-[0.719rem] py-2.5 sm:px-[1.563rem] px-4 sm:text-[15px] text-[13px] font-medium rounded text-white bg-primary leading-5 inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary">Add
-                                        Product</button>
-                                </div>
+                                        <div class="sm:w-1/3 w-full mb-[30px]">
+                                            <label class="text-dark dark:text-white text-[13px] mb-2">Discount
+                                                Value</label>
+                                            <input type="number" id="discount-value" name="discount"
+                                                class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
+                                                value="0" placeholder="enter discount value" required>
+                                        </div>
+
+                                        <div class="sm:w-1/3 w-full mb-[30px]">Sales Price With Discount</label>
+                                            <input type="number" id="grand-total" name="total_price"
+                                                class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full">
+                                                </div> -->
+                                        </div>
+                                        <div
+                                            class="sm:py-5 sm:px-10 p-[25px] flex items-center justify-between border-t border-b-color">
+                                            <button
+                                                class="btn btn-primary sm:py-[0.719rem] py-2.5 sm:px-[1.563rem] px-4 sm:text-[15px] text-[13px] font-medium rounded text-white bg-primary leading-5 inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary">Add
+                                                Product</button>
+                                        </div>
                             </form>
                         </div>
                     </div>
@@ -252,19 +279,19 @@ style="display:none;">Box Detail</h4>
     <script>
         document.getElementById('unitdetail').addEventListener('change', function () {
             var perDetails = document.getElementById('perunitDetails');
-          
+
             var boxDetails = document.getElementById('boxheading');
             var boxDetails2 = document.getElementById('boxheading2');
 
             if (this.value === 'Box') { // Corrected from 'Unit' to 'Box'
                 perDetails.style.display = 'contents';
-               
+
                 boxDetails.style.display = 'block';
                 boxDetails2.style.display = 'none';
 
             } else {
                 perDetails.style.display = 'none';
-             
+
                 boxDetails.style.display = 'none';
                 boxDetails2.style.display = 'block';
 
@@ -311,74 +338,100 @@ style="display:none;">Box Detail</h4>
                 });
         });
         document.addEventListener('DOMContentLoaded', function () {
-    const purchasePriceInput = document.querySelector('input[name="purchase_price"]');
-    const taxInput = document.querySelector('input[name="tax"]');
-    const taxAmountInput = document.querySelector('input[name="tax_amount"]');
-    const totalPurchasePriceInput = document.querySelector('input[name="total_purchase_price"]');
-    const profitMarginInput = document.querySelector('input[name="profit_margin"]');
+            const purchasePriceInput = document.querySelector('input[name="purchase_price"]');
+            const taxInput = document.querySelector('input[name="tax"]');
+            const taxAmountInput = document.querySelector('input[name="tax_amount"]');
+            const totalPurchasePriceInput = document.querySelector('input[name="total_purchase_price"]');
+            const profitMarginInput = document.querySelector('input[name="profit_margin"]');
+            const sellingPriceInput = document.querySelector('input[name="selling_price"]');
+            const taxTypeSelect = document.querySelector('select[name="tax_type"]');
+
+            const perpurchasePriceInput = document.querySelector('input[name="box_per_unit_price"]');
+            const pertaxInput = document.querySelector('input[name="per_tax"]');
+            const pertaxAmountInput = document.querySelector('input[name="per_tax_amount"]');
+            const pertotalPurchasePriceInput = document.querySelector('input[name="per_total_purchase_price"]');
+            const perprofitMarginInput = document.querySelector('input[name="per_profit_margin"]');
+            const persellingPriceInput = document.querySelector('input[name="box_per_unit_sales_price"]');
+            const pertaxTypeSelect = document.querySelector('select[name="per_tax_type"]');
+
+            function calculateTaxAndTotal(isPer = false) {
+                const priceInput = isPer ? perpurchasePriceInput : purchasePriceInput;
+                const taxInputField = isPer ? pertaxInput : taxInput;
+                const taxAmountInputField = isPer ? pertaxAmountInput : taxAmountInput;
+                const totalPurchasePriceInputField = isPer ? pertotalPurchasePriceInput : totalPurchasePriceInput;
+                const taxTypeSelectField = isPer ? pertaxTypeSelect : taxTypeSelect;
+
+                const purchasePrice = parseFloat(priceInput.value) || 0;
+                const taxPercentage = parseFloat(taxInputField.value) || 0;
+                const taxType = taxTypeSelectField.value;
+
+                let taxAmount = 0;
+                let totalPurchasePrice = purchasePrice;
+
+                if (taxType === 'Inclusive') {
+                    taxAmount = purchasePrice - (purchasePrice / (1 + taxPercentage / 100));
+                } else {
+                    taxAmount = purchasePrice * (taxPercentage / 100);
+                    totalPurchasePrice += taxAmount;
+                }
+
+                taxAmountInputField.value = taxAmount.toFixed(2);
+                totalPurchasePriceInputField.value = totalPurchasePrice.toFixed(2);
+                calculateSellingPrice(isPer);
+            }
+
+            function calculateSellingPrice(isPer = false) {
+                const totalPurchasePriceInputField = isPer ? pertotalPurchasePriceInput : totalPurchasePriceInput;
+                const profitMarginInputField = isPer ? perprofitMarginInput : profitMarginInput;
+                const sellingPriceInputField = isPer ? persellingPriceInput : sellingPriceInput;
+
+                const totalPurchasePrice = parseFloat(totalPurchasePriceInputField.value) || 0;
+                const profitMargin = parseFloat(profitMarginInputField.value) || 0;
+
+                const sellingPrice = totalPurchasePrice + (totalPurchasePrice * profitMargin / 100);
+                sellingPriceInputField.value = sellingPrice.toFixed(2);
+            }
+
+            // Event Listeners for Normal
+            purchasePriceInput.addEventListener('input', () => calculateTaxAndTotal(false));
+            taxInput.addEventListener('input', () => calculateTaxAndTotal(false));
+            taxTypeSelect.addEventListener('change', () => calculateTaxAndTotal(false));
+            profitMarginInput.addEventListener('input', () => calculateSellingPrice(false));
+
+            // Event Listeners for Per Unit
+            perpurchasePriceInput.addEventListener('input', () => calculateTaxAndTotal(true));
+            pertaxInput.addEventListener('input', () => calculateTaxAndTotal(true));
+            pertaxTypeSelect.addEventListener('change', () => calculateTaxAndTotal(true));
+            perprofitMarginInput.addEventListener('input', () => calculateSellingPrice(true));
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
     const sellingPriceInput = document.querySelector('input[name="selling_price"]');
-    const taxTypeSelect = document.querySelector('select[name="tax_type"]');
+    const discountTypeSelect = document.getElementById('discount-type');
+    const discountValueInput = document.getElementById('discount-value');
+    const grandTotalInput = document.getElementById('grand-total');
 
-    const perpurchasePriceInput = document.querySelector('input[name="box_per_unit_price"]');
-    const pertaxInput = document.querySelector('input[name="per_tax"]');
-    const pertaxAmountInput = document.querySelector('input[name="per_tax_amount"]');
-    const pertotalPurchasePriceInput = document.querySelector('input[name="per_total_purchase_price"]');
-    const perprofitMarginInput = document.querySelector('input[name="per_profit_margin"]');
-    const persellingPriceInput = document.querySelector('input[name="box_per_unit_sales_price"]');
-    const pertaxTypeSelect = document.querySelector('select[name="per_tax_type"]');
+    function calculateDiscountedPrice() {
+        const sellingPrice = parseFloat(sellingPriceInput.value) || 0;
+        const discountValue = parseFloat(discountValueInput.value) || 0;
+        const discountType = discountTypeSelect.value;
 
-    function calculateTaxAndTotal(isPer = false) {
-        const priceInput = isPer ? perpurchasePriceInput : purchasePriceInput;
-        const taxInputField = isPer ? pertaxInput : taxInput;
-        const taxAmountInputField = isPer ? pertaxAmountInput : taxAmountInput;
-        const totalPurchasePriceInputField = isPer ? pertotalPurchasePriceInput : totalPurchasePriceInput;
-        const taxTypeSelectField = isPer ? pertaxTypeSelect : taxTypeSelect;
+        let discountedPrice = sellingPrice;
 
-        const purchasePrice = parseFloat(priceInput.value) || 0;
-        const taxPercentage = parseFloat(taxInputField.value) || 0;
-        const taxType = taxTypeSelectField.value;
-
-        let taxAmount = 0;
-        let totalPurchasePrice = purchasePrice;
-
-        if (taxType === 'Inclusive') {
-            taxAmount = purchasePrice - (purchasePrice / (1 + taxPercentage / 100));
-        } else {
-            taxAmount = purchasePrice * (taxPercentage / 100);
-            totalPurchasePrice += taxAmount;
+        if (discountType === 'percent') {
+            discountedPrice = sellingPrice - (sellingPrice * discountValue / 100);
+        } else if (discountType === 'rupee') {
+            discountedPrice = sellingPrice - discountValue;
         }
 
-        taxAmountInputField.value = taxAmount.toFixed(2);
-        totalPurchasePriceInputField.value = totalPurchasePrice.toFixed(2);
-        calculateSellingPrice(isPer);
+        grandTotalInput.value = discountedPrice.toFixed(2);
     }
 
-    function calculateSellingPrice(isPer = false) {
-        const totalPurchasePriceInputField = isPer ? pertotalPurchasePriceInput : totalPurchasePriceInput;
-        const profitMarginInputField = isPer ? perprofitMarginInput : profitMarginInput;
-        const sellingPriceInputField = isPer ? persellingPriceInput : sellingPriceInput;
-
-        const totalPurchasePrice = parseFloat(totalPurchasePriceInputField.value) || 0;
-        const profitMargin = parseFloat(profitMarginInputField.value) || 0;
-
-        const sellingPrice = totalPurchasePrice + (totalPurchasePrice * profitMargin / 100);
-        sellingPriceInputField.value = sellingPrice.toFixed(2);
-    }
-
-    // Event Listeners for Normal
-    purchasePriceInput.addEventListener('input', () => calculateTaxAndTotal(false));
-    taxInput.addEventListener('input', () => calculateTaxAndTotal(false));
-    taxTypeSelect.addEventListener('change', () => calculateTaxAndTotal(false));
-    profitMarginInput.addEventListener('input', () => calculateSellingPrice(false));
-
-    // Event Listeners for Per Unit
-    perpurchasePriceInput.addEventListener('input', () => calculateTaxAndTotal(true));
-    pertaxInput.addEventListener('input', () => calculateTaxAndTotal(true));
-    pertaxTypeSelect.addEventListener('change', () => calculateTaxAndTotal(true));
-    perprofitMarginInput.addEventListener('input', () => calculateSellingPrice(true));
+    // Event Listeners
+    sellingPriceInput.addEventListener('input', calculateDiscountedPrice);
+    discountValueInput.addEventListener('input', calculateDiscountedPrice);
+    discountTypeSelect.addEventListener('change', calculateDiscountedPrice);
 });
-
-
     </script>
 </body>
 

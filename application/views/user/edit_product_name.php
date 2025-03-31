@@ -35,7 +35,7 @@
 								method="post" enctype="multipart/form-data">
 								<div class="sm:p-10 sm:pb-2.5 p-[25px] pb-0">
 									<div class="row">
-										<div class="sm:w-1/2 w-full mb-[30px]">
+										<div class="sm:w-1/3 w-full mb-[30px]">
 											<label class="text-dark dark:text-white text-[13px] mb-2">Product
 												Name</label>
 											<input type="text" name="product_name"
@@ -52,7 +52,14 @@
 												class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
 												value="<?= $product_name['0']['branch_id'] ?>">
 										</div>
-										<div class="sm:w-1/2 w-full mb-[30px]">
+										<div class="sm:w-1/3 w-full mb-[30px]">
+                                            <label class="text-dark dark:text-white text-[13px] mb-2">Technical
+                                                Name</label>
+                                            <input type="text" name="teach_name"
+                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                placeholder="Technical Name" value="<?= $product_name[0]['teach_name'] ?>">
+                                        </div>
+										<div class="sm:w-1/3 w-full mb-[30px]">
 											<label class="text-dark dark:text-white text-[13px] mb-2">Company
 												Name</label>
 											<input type="text" name="company_name"
@@ -73,7 +80,7 @@
 												class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
 												placeholder="HSN Code" value="<?= $product_name['0']['HSN'] ?>">
 										</div>
-										<div class="flex  sm:w-1/3 w-full mb-[30px]">
+										<div class="flex  sm:w-1/2 w-full mb-[30px]">
 
 											<div class="sm:w-2/6 w-full">
 												<label class="text-dark dark:text-white text-[13px] mb-2">Packing
@@ -100,9 +107,9 @@
 
 											</div>
 										</div>
-										<div class="sm:w-1/6 w-full pl-3">
+										<div class="sm:w-1/3 w-full pl-3">
 											<label class="text-dark dark:text-white text-[13px] mb-2">Unit</label>
-											<select name="unit"
+											<select name="unit"  id="unitdetail"
 												class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
 												required>
 												<option value="Single" <?= ($product_name[0]['unit'] == 'Single') ? 'selected' : '' ?>>Single</option>
@@ -110,9 +117,9 @@
 
 											</select>
 										</div>
-										<?php if ($product_name[0]['box'] == '1') { ?>
+									
 											<div  id="perunitDetails"
-                                            style="display:block;">
+                                            style="display:contents;">
 											<div class="sm:w-1/3 w-full mb-[30px] mr-4 ml-4">
 												<label class="text-dark dark:text-white text-[13px] mb-2 ">Per Box
 													Quantity</label>
@@ -121,7 +128,7 @@
 													placeholder="Per Box Quantity"
 													value="<?= $product_name[0]['box_per_unit'] ?>">
 											</div>
-											<div class="sm:w-1/4 w-full mb-[30px]">
+											<div class="sm:w-1/4 w-full mb-[30px] ml-4 ">
 												<label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Purchase
 													Price</label>
 												<input type="text" name="box_per_unit_price"
@@ -129,13 +136,13 @@
 													placeholder="Purchase Price"
 													value="<?= $product_name['0']['box_per_unit_price'] ?>">
 											</div>
-											<div class="sm:w-1/4 w-full mb-[30px]">
+											<div class="sm:w-1/3 w-full mb-[30px] mr-4 ml-4">
 												<label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Tax(In %)</label>
 												<input type="text" name="per_tax"
 													class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
 													placeholder="Tax(In %)" value="<?= $product_name['0']['per_tax'] ?>">
 											</div>
-											<div class="sm:w-1/4 w-full mb-[30px]">
+											<div class="sm:w-1/4 w-full mb-[30px] mr-4 ml-4">
 												<label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Tax Type</label>
 												<select name="per_tax_type"
 													class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
@@ -145,13 +152,13 @@
 
 												</select>
 											</div>
-											<div class="sm:w-1/4 w-full mb-[30px]">
+											<div class="sm:w-1/3 w-full mb-[30px] mr-4 ml-4">
 												<label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Tax Amount</label>
 												<input type="text" name="per_tax_amount"
 													class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
 													placeholder="Tax Amount" value="<?= $product_name['0']['per_tax_amount'] ?>">
 											</div>
-											<div class="sm:w-1/2 w-full mb-[30px]">
+											<div class="sm:w-1/3 w-full mb-[30px] mr-4 ml-4" >
 												<label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Purchase Price
 													With Tax</label>
 												<input type="text" name="per_total_purchase_price"
@@ -159,13 +166,13 @@
 													placeholder="Purchase Price With Tax"
 													value="<?= $product_name['0']['per_total_purchase_price'] ?>">
 											</div>
-											<div class="sm:w-1/2 w-full mb-[30px]">
+											<div class="sm:w-1/6 w-full mb-[30px] mr-4 ml-4">
 												<label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity MRP</label>
 												<input type="text" name="per_mrp"
 													class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
 													placeholder="MRP" value="<?= $product_name['0']['per_mrp'] ?>">
 											</div>
-											<div class="sm:w-1/2 w-full mb-[30px]">
+											<div class="sm:w-1/4 w-full mb-[30px] mr-4 ml-4">
 												<label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Profit Margin (In
 													%)</label>
 												<input type="text" name="per_profit_margin"
@@ -173,7 +180,7 @@
 													placeholder="Profit Margin"
 													value="<?= $product_name['0']['per_profit_margin'] ?>">
 											</div>
-											<div class="sm:w-1/2 w-full mb-[30px]">
+											<div class="sm:w-1/6 w-full mb-[30px]">
 												<label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Sales
 													Price</label>
 												<input type="text" name="box_per_unit_sales_price"
@@ -182,9 +189,9 @@
 													value="<?= $product_name['0']['box_per_unit_sales_price'] ?>">
 											</div>
 											</div>
-
-										<?php } ?>
-										<div class="sm:w-1/4 w-full mb-[30px]">
+											<h4 class="sm:w-1 w-full mb-[30px]"id="boxheading"
+											style="display:none;">Box Detail</h4>
+										<div class="sm:w-1/3 w-full mb-[30px]">
 											<label class="text-dark dark:text-white text-[13px] mb-2">Purchase
 												Price</label>
 											<input type="text" name="purchase_price"
@@ -192,13 +199,13 @@
 												placeholder="Purchase Price"
 												value="<?= $product_name['0']['purchase_price'] ?>">
 										</div>
-										<div class="sm:w-1/4 w-full mb-[30px]">
+										<div class="sm:w-1/3 w-full mb-[30px]">
 											<label class="text-dark dark:text-white text-[13px] mb-2">Tax(In %)</label>
 											<input type="text" name="tax"
 												class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
 												placeholder="Tax(In %)" value="<?= $product_name['0']['tax'] ?>">
 										</div>
-										<div class="sm:w-1/4 w-full mb-[30px]">
+										<div class="sm:w-1/3 w-full mb-[30px]">
 											<label class="text-dark dark:text-white text-[13px] mb-2">Tax Type</label>
 											<select name="tax_type"
 												class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
@@ -208,13 +215,13 @@
 
 											</select>
 										</div>
-										<div class="sm:w-1/4 w-full mb-[30px]">
+										<div class="sm:w-1/3 w-full mb-[30px]">
 											<label class="text-dark dark:text-white text-[13px] mb-2">Tax Amount</label>
 											<input type="text" name="tax_amount"
 												class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
 												placeholder="Tax Amount" value="<?= $product_name['0']['tax_amount'] ?>">
 										</div>
-										<div class="sm:w-1/2 w-full mb-[30px]">
+										<div class="sm:w-1/3 w-full mb-[30px]">
 											<label class="text-dark dark:text-white text-[13px] mb-2">Purchase Price
 												With Tax</label>
 											<input type="text" name="total_purchase_price"
@@ -222,13 +229,13 @@
 												placeholder="Purchase Price With Tax"
 												value="<?= $product_name['0']['total_purchase_price'] ?>">
 										</div>
-										<div class="sm:w-1/2 w-full mb-[30px]">
+										<div class="sm:w-1/3 w-full mb-[30px]">
 											<label class="text-dark dark:text-white text-[13px] mb-2">MRP</label>
 											<input type="text" name="mrp"
 												class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
 												placeholder="MRP" value="<?= $product_name['0']['mrp'] ?>">
 										</div>
-										<div class="sm:w-1/2 w-full mb-[30px]">
+										<div class="sm:w-1/3 w-full mb-[30px]">
 											<label class="text-dark dark:text-white text-[13px] mb-2">Profit Margin (In
 												%)</label>
 											<input type="text" name="profit_margin"
@@ -236,7 +243,7 @@
 												placeholder="Profit Margin"
 												value="<?= $product_name['0']['profit_margin'] ?>">
 										</div>
-										<div class="sm:w-1/2 w-full mb-[30px]">
+										<div class="sm:w-1/3 w-full mb-[30px]">
 											<label class="text-dark dark:text-white text-[13px] mb-2">Sales
 												Price</label>
 											<input type="text" name="selling_price"
@@ -265,6 +272,119 @@
 		<?php include "includes2/footer-links.php" ?>
 	</div>
 	<?php include "includes2/footer.php" ?>
+	<script>
+	document.addEventListener('DOMContentLoaded', function () {
+    const perDetails = document.getElementById('perunitDetails');
+    const boxDetails = document.getElementById('boxheading');
+    const unitSelect = document.getElementById('unitdetail');
+
+    function toggleDetails() {
+        if (unitSelect.value === 'Single') {
+            perDetails.style.display = 'none';
+            boxDetails.style.display = 'none';
+        } else {
+            perDetails.style.display = 'contents';
+            boxDetails.style.display = 'block';
+        }
+    }
+
+    // Check on page load
+    toggleDetails();
+
+    // Event listener for unit change
+    unitSelect.addEventListener('change', toggleDetails);
+});
+document.getElementById('unitdetail').addEventListener('change', function () {
+            var perDetails = document.getElementById('perunitDetails');
+          
+            var boxDetails = document.getElementById('boxheading');
+            var boxDetails2 = document.getElementById('boxheading2');
+
+            if (this.value === 'Single') { // Corrected from 'Unit' to 'Box'
+                perDetails.style.display = 'none';
+               
+                boxDetails.style.display = 'none';
+            
+
+            } else {
+                perDetails.style.display = 'contents';
+             
+                boxDetails.style.display = 'block';
+               
+
+            }
+        });
+
+
+		document.addEventListener('DOMContentLoaded', function () {
+    const purchasePriceInput = document.querySelector('input[name="purchase_price"]');
+    const taxInput = document.querySelector('input[name="tax"]');
+    const taxAmountInput = document.querySelector('input[name="tax_amount"]');
+    const totalPurchasePriceInput = document.querySelector('input[name="total_purchase_price"]');
+    const profitMarginInput = document.querySelector('input[name="profit_margin"]');
+    const sellingPriceInput = document.querySelector('input[name="selling_price"]');
+    const taxTypeSelect = document.querySelector('select[name="tax_type"]');
+
+    const perpurchasePriceInput = document.querySelector('input[name="box_per_unit_price"]');
+    const pertaxInput = document.querySelector('input[name="per_tax"]');
+    const pertaxAmountInput = document.querySelector('input[name="per_tax_amount"]');
+    const pertotalPurchasePriceInput = document.querySelector('input[name="per_total_purchase_price"]');
+    const perprofitMarginInput = document.querySelector('input[name="per_profit_margin"]');
+    const persellingPriceInput = document.querySelector('input[name="box_per_unit_sales_price"]');
+    const pertaxTypeSelect = document.querySelector('select[name="per_tax_type"]');
+
+    function calculateTaxAndTotal(isPer = false) {
+        const priceInput = isPer ? perpurchasePriceInput : purchasePriceInput;
+        const taxInputField = isPer ? pertaxInput : taxInput;
+        const taxAmountInputField = isPer ? pertaxAmountInput : taxAmountInput;
+        const totalPurchasePriceInputField = isPer ? pertotalPurchasePriceInput : totalPurchasePriceInput;
+        const taxTypeSelectField = isPer ? pertaxTypeSelect : taxTypeSelect;
+
+        const purchasePrice = parseFloat(priceInput.value) || 0;
+        const taxPercentage = parseFloat(taxInputField.value) || 0;
+        const taxType = taxTypeSelectField.value;
+
+        let taxAmount = 0;
+        let totalPurchasePrice = purchasePrice;
+
+        if (taxType === 'Inclusive') {
+            taxAmount = purchasePrice - (purchasePrice / (1 + taxPercentage / 100));
+        } else {
+            taxAmount = purchasePrice * (taxPercentage / 100);
+            totalPurchasePrice += taxAmount;
+        }
+
+        taxAmountInputField.value = taxAmount.toFixed(2);
+        totalPurchasePriceInputField.value = totalPurchasePrice.toFixed(2);
+        calculateSellingPrice(isPer);
+    }
+
+    function calculateSellingPrice(isPer = false) {
+        const totalPurchasePriceInputField = isPer ? pertotalPurchasePriceInput : totalPurchasePriceInput;
+        const profitMarginInputField = isPer ? perprofitMarginInput : profitMarginInput;
+        const sellingPriceInputField = isPer ? persellingPriceInput : sellingPriceInput;
+
+        const totalPurchasePrice = parseFloat(totalPurchasePriceInputField.value) || 0;
+        const profitMargin = parseFloat(profitMarginInputField.value) || 0;
+
+        const sellingPrice = totalPurchasePrice + (totalPurchasePrice * profitMargin / 100);
+        sellingPriceInputField.value = sellingPrice.toFixed(2);
+    }
+
+    // Event Listeners for Normal
+    purchasePriceInput.addEventListener('input', () => calculateTaxAndTotal(false));
+    taxInput.addEventListener('input', () => calculateTaxAndTotal(false));
+    taxTypeSelect.addEventListener('change', () => calculateTaxAndTotal(false));
+    profitMarginInput.addEventListener('input', () => calculateSellingPrice(false));
+
+    // Event Listeners for Per Unit
+    perpurchasePriceInput.addEventListener('input', () => calculateTaxAndTotal(true));
+    pertaxInput.addEventListener('input', () => calculateTaxAndTotal(true));
+    pertaxTypeSelect.addEventListener('change', () => calculateTaxAndTotal(true));
+    perprofitMarginInput.addEventListener('input', () => calculateSellingPrice(true));
+});
+
+	</script>
 </body>
 
 </html>
