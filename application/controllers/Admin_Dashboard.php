@@ -1060,7 +1060,207 @@ if($add){
         // Generate product ID with User ID as prefix
         return $uid . str_pad($new_number, 4, '0', STR_PAD_LEFT);
     }
+    public function bulk_upload_customer($id)
+{
+    $data['title'] = "Bulk Customer Upload";
+    $tid = decryptId($id);
+
+    $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
     
+    $this->load->view('user/bulk_upload_customer', $data);
+}
+
+public function upload_customer_csv($id) {
+    $tid = decryptId($id);
+
+    if (isset($_FILES['csv_file']['name']) && !empty($_FILES['csv_file']['name'])) {
+        if ($_FILES['csv_file']['error'] !== UPLOAD_ERR_OK) {
+            $this->session->set_flashdata('error', 'File upload failed. Error: ' . $_FILES['csv_file']['error']);
+            redirect(base_url('Admin_Dashboard/customer/'.$id));
+            return;
+        }
+
+        $fileExt = pathinfo($_FILES['csv_file']['name'], PATHINFO_EXTENSION);
+        if (strtolower($fileExt) !== 'csv') {
+            $this->session->set_flashdata('error', 'Invalid file format. Please upload a CSV file.');
+            redirect(base_url('Admin_Dashboard/customer/'.$id));
+            return;
+        }
+
+        if (($handle = fopen($_FILES['csv_file']['tmp_name'], 'r')) === FALSE) {
+            $this->session->set_flashdata('error', 'Failed to open the file.');
+            redirect(base_url('Admin_Dashboard/customer/'.$id));
+            return;
+        }
+
+        fgetcsv($handle); // Skip header row
+        $successCount = 0;
+        $errorCount = 0;
+
+        while (($row = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            if (count($row) != 6) { // Ensure correct number of fields
+                $errorCount++;
+                continue;
+            }
+
+            // Validate required fields
+            if (empty($row[0]) || empty($row[1]) || empty($row[2]) || empty($row[3]) || 
+                !is_numeric($row[4]) || !is_numeric($row[5])) {
+                $errorCount++;
+                continue;
+            }
+
+            // Prepare data for insertion
+            $data = [
+                'user_id'        => $tid,
+                'branch_id'      => 0,
+                'name'          => $row[0],
+                'contact'       => $row[1],
+                'address'       => $row[2],
+                'email'         => $row[3],
+                'interest_days' => (int)$row[4],
+                'interest_rate' => (float)$row[5]
+            ];
+
+            if ($this->CommonModal->insertRow('customer', $data)) {
+                $successCount++;
+            } else {
+                $errorCount++;
+                log_message('error', 'Customer Insert Failed: ' . $this->db->error()['message']);
+            }
+        }
+        fclose($handle);
+
+        $this->session->set_flashdata('message', "Upload Completed: $successCount Success, $errorCount Failed");
+    } else {
+        $this->session->set_flashdata('error', 'Please select a valid CSV file.');
+    }
+    redirect(base_url('Admin_Dashboard/customer/'.$id));
+}
+
+public function download_sample_customer_csv() {
+    // Define sample data
+    $header = ['Name', 'Contact', 'Address', 'Email', 'Interest Days', 'Interest Rate'];
+    $sampleData = [
+        ['John Doe', '9876543210', '123 Street, City', 'john@example.com', '30', '5.5'],
+        ['Jane Smith', '9123456789', '456 Avenue, Town', 'jane@example.com', '45', '7.0']
+    ];
+
+    // Open the output stream
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment; filename="sample_customer_upload.csv"');
+    $output = fopen('php://output', 'w');
+
+    // Write header and sample data to CSV
+    fputcsv($output, $header);
+    foreach ($sampleData as $row) {
+        fputcsv($output, $row);
+    }
+    fclose($output);
+}
+public function bulk_upload_vendor($id)
+{
+    $data['title'] = "Bulk Vendor Upload";
+    // Get Vendor ID from the URL query string
+    $tid = decryptId($id);
+
+    $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
+   
+    $this->load->view('user/bulk_upload_vendor', $data);
+}
+
+public function upload_vendor_csv($id) {
+    $tid = decryptId($id);
+
+    if (isset($_FILES['csv_file']['name']) && !empty($_FILES['csv_file']['name'])) {
+        if ($_FILES['csv_file']['error'] !== UPLOAD_ERR_OK) {
+            $this->session->set_flashdata('error', 'File upload failed. Error: ' . $_FILES['csv_file']['error']);
+            redirect(base_url('Admin_Dashboard/vender/'.$id));
+            return;
+        }
+
+        $fileExt = pathinfo($_FILES['csv_file']['name'], PATHINFO_EXTENSION);
+        if (strtolower($fileExt) !== 'csv') {
+            $this->session->set_flashdata('error', 'Invalid file format. Please upload a CSV file.');
+            redirect(base_url('Admin_Dashboard/vender/'.$id));
+            return;
+        }
+
+        if (($handle = fopen($_FILES['csv_file']['tmp_name'], 'r')) === FALSE) {
+            $this->session->set_flashdata('error', 'Failed to open the file.');
+            redirect(base_url('Admin_Dashboard/vender/'.$id));
+            return;
+        }
+
+        fgetcsv($handle); // Skip header
+        $successCount = 0;
+        $errorCount = 0;
+
+        while (($row = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            if (count($row) != 7) { // Ensure correct column count
+                $errorCount++;
+                continue;
+            }
+
+            // Validate data
+            if (
+                empty($row[0]) || empty($row[1]) || empty($row[2]) || empty($row[3]) || 
+                empty($row[4]) || empty($row[5]) || empty($row[6])
+            ) {
+                $errorCount++;
+                continue;
+            }
+
+            // Prepare data for insertion
+            $data = [
+                'user_id'         => $tid,
+                'branch_id'       => 0,
+                'vender_name'     => $row[0],
+                'address'         => $row[1],
+                'mobile'          => $row[2],
+                'email'           => $row[3],
+                'gst_no'          => $row[4],
+                'contact_person'  => $row[5],
+                'person_contact'  => $row[6],
+            ];
+
+            if ($this->CommonModal->insertRow('vender', $data)) {
+                $successCount++;
+            } else {
+                $errorCount++;
+                log_message('error', 'Vendor Insert Failed: ' . $this->db->error()['message']);
+            }
+        }
+        fclose($handle);
+
+        $this->session->set_flashdata('message', "Upload Completed: $successCount Success, $errorCount Failed");
+    } else {
+        $this->session->set_flashdata('error', 'Please select a valid CSV file.');
+    }
+    redirect(base_url('Admin_Dashboard/vender/'.$id));
+}
+
+public function download_sample_vendor_csv() {
+    // Define sample data
+    $header = ['Vendor Name', 'Address', 'Mobile', 'Email', 'GST No', 'Contact Person', 'Person Contact'];
+    $sampleData = [
+        ['ABC Suppliers', '123 Market Street, City', '9876543210', 'abc@example.com', '22AAAAA0000A1Z5', 'Megha', '9876543211'],
+        ['XYZ Traders', '456 Business Road, City', '9123456789', 'xyz@example.com', '27BBBBB1111B2Z6', 'Rahul', '9123456788']
+    ];
+
+    // Open the output stream
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment; filename="sample_vendor_upload.csv"');
+    $output = fopen('php://output', 'w');
+
+    // Write header and sample data to CSV
+    fputcsv($output, $header);
+    foreach ($sampleData as $row) {
+        fputcsv($output, $row);
+    }
+    fclose($output);
+}
+
    public function add_product_name($id, $add)
 {
     $data['title'] = "Add Product ";
@@ -1070,12 +1270,6 @@ if($add){
 
     if (count($_POST) > 0) {
         $post = $this->input->post();
-      
-        if($post['unit'] == "Box"){
-            $post['box'] = "1";
-        }else{
-            $post['box'] = "0";
-        }
         $post['product_id'] = $this->generate_product_id($tid);
             $savedata = $this->CommonModal->insertRowReturnId('product', $post);
 
@@ -1667,7 +1861,7 @@ if($add){
             $interest_days = !empty($customer) ? intval($customer[0]['interest_days']) : 0;
     
             $bill_date = strtotime($invoice['bill_date']);
-            $current_date = strtotime(date('Y-m-d'));
+            $current_date = strtotime(date('d-m-Y'));
             $due_date = strtotime("+$interest_days days", $bill_date);
     
             if ($current_date > $due_date) {
@@ -1684,6 +1878,8 @@ if($add){
             $invoice['interest_days'] = $interest_days;
             $invoice['days_late'] = $days_late;
             $invoice['grand_total_with_interest'] = $final_total + $invoice['interest_amount'];
+            $invoice['last_due_date'] = date('d-m-Y', $due_date); // Store Last Due Date
+   
         }
     
         $data['invoice'] = $invoices; // Pass updated invoice data with interest
@@ -2031,223 +2227,224 @@ public function normal_invoice($id, $invoice_number)
         }
     }
 
-public function edit_invoice()
-{
-    $data['title'] = "Edit Invoice";
-    $data['tag'] = "edit";
+    public function edit_invoice()
+    {
+        $data['title'] = "Edit Invoice";
+        $data['tag'] = "edit";
 
-    $tid = $this->input->get('user_id'); // User ID
-    $invoice_no = $this->input->get('invoice_no'); 
-     $data['branchi'] = $this->input->get('branch_id');
-    $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
-   $uid = $this->CommonModal->getRowById('users', 'id', $tid);
-    $data['account'] = $this->CommonModal->getRowByIdDesc('account', 'user_id', $uid[0]['id'], 'id', 'DESC');
-    $data['invoice'] = $this->CommonModal->getRowByMultitpleId('invoice', 'invoice_no', $invoice_no,'user_id',$uid[0]['id']);
+        $tid = $this->input->get('user_id'); // User ID
+        $invoice_no = $this->input->get('invoice_no');
+        $data['branchi'] = $this->input->get('branch_id');
+        $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
+        $uid = $this->CommonModal->getRowById('users', 'id', $tid);
+        $data['account'] = $this->CommonModal->getRowByIdDesc('account', 'user_id', $uid[0]['id'], 'id', 'DESC');
+        $data['invoice'] = $this->CommonModal->getRowByMultitpleId('invoice', 'invoice_no', $invoice_no, 'user_id', $uid[0]['id']);
 
-    if ($_POST) {
-        $post = $this->input->post();
+        if ($_POST) {
+            $post = $this->input->post();
 
-        // Extract common invoice data
-        $c_names = $post['customer_name'];
-        $stock_place = $post['stock_place'];
-        $d_type = $post['discount_type'];
-        $date = $post['date'];
-        $brid=$post['branch_id'];
-        $discount = floatval($post['discount']);
+            // Extract common invoice data
+            $c_names = $post['customer_name'];
+            $stock_place = $post['stock_place'];
+            $d_type = $post['discount_type'];
+            $date = $post['date'];
+            $brid = $post['branch_id'];
+            $discount = floatval($post['discount']);
             $total_without_tax = floatval($post['total_without_tax']);
-          $tax = floatval($post['tax_amount']);
-        $final = floatval($post['final_total']);
-        $paid = floatval($post['paid']);
-        $mode = $post['mode'];
-        $cheque_no = $post['cheque_no'];
-        $ppid = $post['p_p_id'];
-        $bank = floatval($post['bank']);
-        $due = $final - $paid;
+            $tax = floatval($post['tax_amount']);
+            $final = floatval($post['final_total']);
+            $paid = floatval($post['paid']);
+            $mode = $post['mode'];
+            $include_interest = $post['include_interest'];
+            $cheque_no = $post['cheque_no'];
+            $ppid = $post['p_p_id'];
+            $bank = floatval($post['bank']);
+            $due = $final - $paid;
 
-        // Extract product details
-        $product_names = $post['p_name'];
-        $product_ids = $post['p_id'];
-        $invoice_ids = $post['invoice_id'];
-        $packings = $post['packing'];
-        $quantities = $post['quantity'];
-        $available_quantities = $post['available_quantity'];
-        $unit_rates = $post['unit_rate'];
-        $units = $post['unit'];
-        $total_prices = $post['total_price'];
+            // Extract product details
+            $product_names = $post['p_name'];
+            $product_ids = $post['p_id'];
+            $invoice_ids = $post['invoice_id'];
+            $packings = $post['packing'];
+            $quantities = $post['quantity'];
+            $available_quantities = $post['available_quantity'];
+            $unit_rates = $post['unit_rate'];
+            $units = $post['unit'];
+            $total_prices = $post['total_price'];
 
-        $grand_total = array_sum($total_prices);
-        $discount_amountt = '';
-        if($post['discount_type'] == 'rupee'){
-            $discount_amountt =  $post['discount'];
-        } else{ 
-            $discount_am = $grand_total * $post['discount'];
-            $discount_amountt = $discount_am/100;
-        }
-        foreach ($product_names as $index => $product_name) {
-            // Fetch the product data from purchase_product table
-            $select = $this->CommonModal->getRowById('purchase_product', 'p_id', $product_ids[$index]);
-            
-            if (!empty($select)) {
-                $sellingquantity = $select[0]['selling_quantity'];
+            $grand_total = array_sum($total_prices);
+            $discount_amountt = '';
+            if ($post['discount_type'] == 'rupee') {
+                $discount_amountt =  $post['discount'];
+            } else {
+                $discount_am = $grand_total * $post['discount'];
+                $discount_amountt = $discount_am / 100;
+            }
+            foreach ($product_names as $index => $product_name) {
+                // Fetch the product data from purchase_product table
+                $select = $this->CommonModal->getRowById('purchase_product', 'p_id', $product_ids[$index]);
 
-                // Adjust available and selling quantities based on the new quantity
-                if ($quantities[$index] > $sellingquantity) {
-                    $quantityDiff = $quantities[$index] - $sellingquantity;
-                    $new_available_quantity = $available_quantities[$index] - $quantityDiff;
-                } elseif ($quantities[$index] < $sellingquantity) {
-                    $quantityDiff = $sellingquantity - $quantities[$index];
-                    $new_available_quantity =  $available_quantities[$index] + $quantityDiff;
-                }else{
-                     $new_available_quantity =$available_quantities[$index];
-                }
+                if (!empty($select)) {
+                    $sellingquantity = $select[0]['selling_quantity'];
 
-                // Update the available quantity in the purchase_product table
-                $updatedata = $this->CommonModal->updateColumnValue(
-                    'purchase_product',
-                    'p_id',
-                    $product_ids[$index],
-                    'availabile_quantity',
-                    $new_available_quantity
-                );
-                $this->CommonModal->updateColumnValue(
-                    'return_invoice',
-                    'p_name',
-                    $product_ids[$index],
-                    'available_quantity',
-                    $quantities[$index]
-                );
+                    // Adjust available and selling quantities based on the new quantity
+                    if ($quantities[$index] > $sellingquantity) {
+                        $quantityDiff = $quantities[$index] - $sellingquantity;
+                        $new_available_quantity = $available_quantities[$index] - $quantityDiff;
+                    } elseif ($quantities[$index] < $sellingquantity) {
+                        $quantityDiff = $sellingquantity - $quantities[$index];
+                        $new_available_quantity =  $available_quantities[$index] + $quantityDiff;
+                    } else {
+                        $new_available_quantity = $available_quantities[$index];
+                    }
 
-                // Update selling quantity if needed
-                if ($quantities[$index] > $sellingquantity) {
-                    $selling = $sellingquantity + $quantityDiff;
-                } elseif ($quantities[$index] < $sellingquantity) {
-                    $selling = $sellingquantity - $quantityDiff;
-                } else{
-                    $selling =   $sellingquantity;
-                }
-
-                // Update the selling quantity in the purchase_product table
-                if (isset($selling)) {
-                    $updatesellingdata = $this->CommonModal->updateColumnValue(
+                    // Update the available quantity in the purchase_product table
+                    $updatedata = $this->CommonModal->updateColumnValue(
                         'purchase_product',
                         'p_id',
                         $product_ids[$index],
-                        'selling_quantity',
-                        $selling
+                        'availabile_quantity',
+                        $new_available_quantity
                     );
+                    $this->CommonModal->updateColumnValue(
+                        'return_invoice',
+                        'p_name',
+                        $product_ids[$index],
+                        'available_quantity',
+                        $quantities[$index]
+                    );
+
+                    // Update selling quantity if needed
+                    if ($quantities[$index] > $sellingquantity) {
+                        $selling = $sellingquantity + $quantityDiff;
+                    } elseif ($quantities[$index] < $sellingquantity) {
+                        $selling = $sellingquantity - $quantityDiff;
+                    } else {
+                        $selling =   $sellingquantity;
+                    }
+
+                    // Update the selling quantity in the purchase_product table
+                    if (isset($selling)) {
+                        $updatesellingdata = $this->CommonModal->updateColumnValue(
+                            'purchase_product',
+                            'p_id',
+                            $product_ids[$index],
+                            'selling_quantity',
+                            $selling
+                        );
+                    }
+                } else {
+                    // Handle case where product data is missing
+                    $this->session->set_userdata('msg', '<div class="alert alert-danger">Product data missing.</div>');
+                    redirect(base_url('admin_Dashboard/invoice/' . encryptId($tid)));
+                    return;
                 }
-             } else {
-                // Handle case where product data is missing
-                $this->session->set_userdata('msg', '<div class="alert alert-danger">Product data missing.</div>');
-                redirect(base_url('admin_Dashboard/invoice/' . encryptId($tid)));
-                return;
+
+                // Prepare data to update the invoice record
+                $data_to_update = [
+                    'customer_name' => $c_names,
+                    'stock_place' => $stock_place,
+                    'date' => $date,
+                    'user_id' => $tid,
+                    'branch_id' => $brid,
+                    'invoice_no' => $invoice_no,
+                    'include_interest' => $include_interest,
+                    'p_name' => $product_name,
+                    'packing' => $packings[$index],
+                    'quantity' => $quantities[$index],
+                    'unit_rate' => $unit_rates[$index],
+                    'unit' => $units[$index],
+                    'total_price' => $total_prices[$index],
+                    'grand_total' => $grand_total,
+                    'discount_type' => $d_type,
+                    'discount' => $discount,
+                    'discount_amount' => $discount_amountt,
+                    'total_without_tax' => $total_without_tax,
+                    'tax_amount' => $tax,
+                    'final_total' => $final
+                ];
+
+                // Update the invoice record
+                $savedata = $this->CommonModal->updateRowById('invoice', 'id', $invoice_ids[$index], $data_to_update);
+                // if (!$savedata) {
+                //     $this->session->set_userdata('msg', '<div class="alert alert-danger">Error updating invoice item.</div>');
+                //     redirect(base_url('admin_Dashboard/invoice/' . encryptId($tid)));
+                //     return;
+                // }
             }
 
-            // Prepare data to update the invoice record
-            $data_to_update = [
-                'customer_name' => $c_names,
-                'stock_place' => $stock_place,
-                'date' => $date,
-                'user_id' => $tid,
-                'branch_id' => $brid,
-                'invoice_no' => $invoice_no,
-                'p_name' => $product_name,
-                'packing' => $packings[$index],
-                'quantity' => $quantities[$index],
-                'unit_rate' => $unit_rates[$index],
-                'unit' => $units[$index],
-                'total_price' => $total_prices[$index],
-                'grand_total' => $grand_total,
-                'discount_type' => $d_type,
-                'discount' => $discount,
-                'discount_amount' => $discount_amountt,
-                'total_without_tax' => $total_without_tax,
-                'tax_amount' => $tax, 
-                'final_total' => $final
-            ];
+            // Update the payment information if any payment is made
+            if ($paid >= 0) {
+                $payment_data = [
+                    'customer_id' => $c_names,
+                    'user_id' => $tid,
+                    'branch_id' => $brid,
+                    'invoice_no' => $invoice_no,
+                    'paid' => $paid,
+                    'mode' => $mode,
+                    'date' => $date,
+                    'total' => $final,
+                    'due' => $due,
+                    'bank' => $bank,
+                    'cheque_no' => $cheque_no
+                ];
 
-            // Update the invoice record
-            $savedata = $this->CommonModal->updateRowById('invoice', 'id', $invoice_ids[$index], $data_to_update);
-            // if (!$savedata) {
-            //     $this->session->set_userdata('msg', '<div class="alert alert-danger">Error updating invoice item.</div>');
-            //     redirect(base_url('admin_Dashboard/invoice/' . encryptId($tid)));
-            //     return;
-            // }
-        }
+                $payment_update = $this->CommonModal->updateRowById('payment', 'id', $ppid, $payment_data);
+                if ($payment_update) {
+                    // Get all rows after the given ID for the same invoice
+                    $rows_after_id = $this->CommonModal->getRowsAfterId('payment', 'id', $ppid, 'invoice_no', $invoice_no);
 
-        // Update the payment information if any payment is made
-        if ($paid >= 0) {
-            $payment_data = [
-                'customer_id' => $c_names,
-                'user_id' => $tid,
-                 'branch_id' => $brid,
-                'invoice_no' => $invoice_no,
-                'paid' => $paid,
-                'mode' => $mode,
-                  'date' => $date,
-                'total' => $final,
-                'due' => $due,
-                'bank' => $bank,
-                 'cheque_no' =>$cheque_no
-            ];
+                    if ($rows_after_id) {
+                        foreach ($rows_after_id as $row) {
+                            // Fetch the row just before the current row for recalculating due
 
-            $payment_update = $this->CommonModal->updateRowById('payment', 'id', $ppid, $payment_data);
-             if ($payment_update) {
-    // Get all rows after the given ID for the same invoice
-    $rows_after_id = $this->CommonModal->getRowsAfterId('payment', 'id', $ppid, 'invoice_no', $invoice_no);
+                            $rows_before_id = $this->CommonModal->getRowsBeforeId('payment', 'id', $row['id'], 'invoice_no', $invoice_no);
 
-    if ($rows_after_id) {
-        foreach ($rows_after_id as $row) {
-            // Fetch the row just before the current row for recalculating due
-            
-            $rows_before_id = $this->CommonModal->getRowsBeforeId('payment', 'id', $row['id'], 'invoice_no', $invoice_no);
+                            // Ensure that there is a previous row to calculate the due amount
+                            $previous_due = $rows_before_id ? $rows_before_id[0]['due'] : $final;
 
-            // Ensure that there is a previous row to calculate the due amount
-            $previous_due = $rows_before_id ? $rows_before_id[0]['due'] : $final;
+                            // Calculate the new due amount
+                            $due2 = $previous_due - $row['paid'];
 
-            // Calculate the new due amount
-            $due2 = $previous_due - $row['paid'];
+                            $latest_data = [
+                                'customer_id' => $c_names,
+                                'user_id' => $tid,
+                                'branch_id' => $brid,
+                                'invoice_no' => $row['invoice_no'],
+                                'paid' => $row['paid'],
+                                'mode' => $row['mode'],
+                                'total' => $final,
+                                'due' => $due2,
+                                'bank' => $row['bank'],
+                                'cheque_no' => $cheque_no
+                            ];
 
-            $latest_data = [
-                'customer_id' => $c_names,
-                'user_id' => $tid,
-             'branch_id' => $brid,
-                'invoice_no' => $row['invoice_no'],
-                'paid' => $row['paid'],
-                'mode' => $row['mode'],
-                'total' => $final,
-                'due' => $due2,
-                'bank' => $row['bank'],
-                 'cheque_no' =>$cheque_no
-            ];
-
-            // Update each row with the recalculated due
-            $this->CommonModal->updateRowById('payment', 'id', $row['id'], $latest_data);
-        }
-    }
-} 
-else{
-                $this->session->set_userdata('msg', '<div class="alert alert-danger">Error updating payment information.</div>');
-                redirect(base_url('admin_Dashboard/invoice/' . encryptId($tid)));
-                return;
+                            // Update each row with the recalculated due
+                            $this->CommonModal->updateRowById('payment', 'id', $row['id'], $latest_data);
+                        }
+                    }
+                } else {
+                    $this->session->set_userdata('msg', '<div class="alert alert-danger">Error updating payment information.</div>');
+                    redirect(base_url('admin_Dashboard/invoice/' . encryptId($tid)));
+                    return;
+                }
             }
+
+            // Success message and redirect
+            $this->session->set_userdata('msg', '<div class="alert alert-success">Invoice updated successfully.</div>');
+            redirect(base_url('admin_Dashboard/print_invoice/' . encryptId($tid) . '/' . $invoice_no));
+        } else {
+            // Load data for the edit form
+            //  $data['branchi'] = $this->input->get('branch_id');
+            $data['customer_list'] = $this->CommonModal->getRowByIdDesc('customer', 'user_id', $uid[0]['id'], 'id', 'DESC');
+            $data['stock_list'] = $this->CommonModal->getRowByIdDesc('stock_place', 'user_id', $uid[0]['id'], 'id', 'DESC');
+            $data['product_list'] = $this->CommonModal->getRowByIdDesc('product', 'user_id', $uid[0]['id'], 'id', 'DESC');
+            $this->load->view('user/edit_invoice', $data);
         }
-
-        // Success message and redirect
-        $this->session->set_userdata('msg', '<div class="alert alert-success">Invoice updated successfully.</div>');
-        redirect(base_url('admin_Dashboard/print_invoice/' . encryptId($tid) . '/' . $invoice_no));
-    } else {
-        // Load data for the edit form
-        //  $data['branchi'] = $this->input->get('branch_id');
- $data['customer_list'] = $this->CommonModal->getRowByIdDesc('customer', 'user_id', $uid[0]['id'], 'id', 'DESC');
-        $data['stock_list'] = $this->CommonModal->getRowByIdDesc('stock_place', 'user_id', $uid[0]['id'], 'id', 'DESC');
-        $data['product_list'] = $this->CommonModal->getRowByIdDesc('product', 'user_id', $uid[0]['id'], 'id', 'DESC');
-        $this->load->view('user/edit_invoice', $data);
     }
-}
 
 
- public function view_return_invoice($id)
+    public function view_return_invoice($id)
     { 
         $data['title'] = "Return Invoice Product";
         // Get Vendor ID from the URL query string

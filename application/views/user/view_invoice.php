@@ -318,7 +318,7 @@
                                                                     </div>
 
                                                                 </td>
-                                                               
+
 
                                                             </tr>
 
@@ -473,100 +473,108 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
-                                                 <div id="interestModal<?= $customer_info['invoice_no'] ?>" class="custom-modal">
-                                                 <div class="custom-modal-content">
-                                                     <span class="custom-modal-close" onclick="closeinterestModal('<?= $customer_info['invoice_no'] ?>')">&times;</span>
-                                                     <h2 id="interestModalLabel">Payment Details</h2>
-                                                     <div class="modal-body">
-                                                         <div class="row mb-12">
-                                                             <div class="mt-6 lg:w-1/2 md:w-1/2 w-full detail">
-                                                                 <?php
-                                                                 $customer = $this->CommonModal->getRowByMultitpleId('customer', 'id', $customer_info['c_id'], 'user_id', $user['0']['id']);
-                                                                 ?>
-                                                                 <div class="text-body-color sm:text-sm text-xs">
-                                                                     <strong>Customer Name:</strong> <?= $customer[0]['name'] ?>
-                                                                 </div>
-                                                                 <div class="text-body-color sm:text-sm text-xs">
-                                                                     <strong>Invoice No.:</strong> <?= $user[0]['prefix'] ?>-<?= $customer_info['invoice_no'] ?>
-                                                                 </div>
-                                                                 <div class="text-body-color sm:text-sm text-xs">
-                                                                     <strong>Date:</strong> <?= $customer_info['bill_date'] ?>
-                                                                 </div>
-                                                             </div>
-                                             
-                                                           <div class="mt-6 lg:w-1/2 md:w-1/2 w-full detail">
-    <?php
-    // Fetch Payment Data
-    $payment = $this->CommonModal->getRowByIdOrderByLimit('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'id', 'DESC', '1');
-    $paymentsum = $this->CommonModal->getRowByIdSum('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'paid');
 
-    // Calculate Final Total (Including Interest if applicable)
-    $final_total = floatval($payment[0]['total']);
-    if ($customer_info['include_interest'] == 1 && $customer_info['days_late'] > 0) {
-        $final_total += floatval($customer_info['interest_amount']);
-    }
+                                                    <div id="interestModal<?= $customer_info['invoice_no'] ?>" class="custom-modal">
+                                                        <div class="custom-modal-content">
+                                                            <span class="custom-modal-close" onclick="closeinterestModal('<?= $customer_info['invoice_no'] ?>')">&times;</span>
+                                                            <h2 id="interestModalLabel">Payment Details</h2>
+                                                            <div class="modal-body">
+                                                                <div class="row mb-12">
+                                                                    <div class="mt-6 lg:w-1/2 md:w-1/2 w-full detail">
+                                                                        <?php
+                                                                        $customer = $this->CommonModal->getRowByMultitpleId('customer', 'id', $customer_info['c_id'], 'user_id', $user['0']['id']);
+                                                                        ?>
+                                                                        <div class="text-body-color sm:text-sm text-xs">
+                                                                            <strong>Customer Name:</strong> <?= $customer[0]['name'] ?>
+                                                                        </div>
+                                                                        <div class="text-body-color sm:text-sm text-xs">
+                                                                            <strong>Invoice No.:</strong> <?= $user[0]['prefix'] ?>-<?= $customer_info['invoice_no'] ?>
+                                                                        </div>
+                                                                        <div class="text-body-color sm:text-sm text-xs">
+                                                                            <strong>Date:</strong> <?= $customer_info['bill_date'] ?>
+                                                                        </div>
+                                                                    </div>
 
-    // Updated Paid & Due Amount
-    $paid_amount = floatval($paymentsum[0]['total_sum']);
-    $due_amount = max(0, $final_total - $paid_amount);
-    ?>
-    
-    <div class="text-body-color sm:text-sm text-xs">
-        <strong>Total Amount:</strong> ₹<?= number_format($payment[0]['total'], 2) ?>/-
-    </div>
-    <div class="text-body-color sm:text-sm text-xs">
-        <strong>Interest Amount:</strong> ₹<?= number_format($customer_info['interest_amount'], 2) ?>/-
-    </div>
-    <div class="text-body-color sm:text-sm text-xs">
-        <strong>Total With Interest:</strong> ₹<?= number_format($final_total, 2) ?>/-
-    </div>
-    <div class="text-body-color sm:text-sm text-xs">
-        <strong>Paid Amount:</strong> ₹<?= number_format($paid_amount, 2) ?>/-
-    </div>
-    <div class="text-body-color sm:text-sm text-xs">
-        <strong>Due Amount:</strong> <span class="text-red-500">₹<?= number_format($due_amount, 2) ?>/-</span>
-    </div>
-</div>
+                                                                    <div class="mt-6 lg:w-1/2 md:w-1/2 w-full detail">
+                                                                        <?php
+                                                                        // Fetch Payment Data
+                                                                        $payment = $this->CommonModal->getRowByIdOrderByLimit('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'id', 'DESC', '1');
+                                                                        $paymentsum = $this->CommonModal->getRowByIdSum('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'paid');
 
-                                             
-                                                             <!-- New Interest Section with Condition -->
-                                                           <div class="w-full mt-6">
-    <h3 class="text-lg font-bold">Interest Details</h3>
+                                                                        // Calculate Final Total (Including Interest if applicable)
+                                                                        $final_total = floatval($payment[0]['total']);
+                                                                        $show_interest = false; // Default: Do not show interest
 
-    <?php if ($customer_info['include_interest'] == 1 && $customer_info['days_late'] > 0) { ?>
-        <table class="w-full border-collapse border border-gray-300 mt-2 text-center">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="border border-gray-300 px-3 py-2">Interest Rate</th>
-                    <th class="border border-gray-300 px-3 py-2">Interest Days</th>
-                    <th class="border border-gray-300 px-3 py-2">Days Late</th>
-                    <th class="border border-gray-300 px-3 py-2">Interest Amount</th>
-                    <th class="border border-gray-300 px-3 py-2">Total with Interest</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="border border-gray-300 px-3 py-2"><?= $customer_info['interest_rate'] ?>% per year</td>
-                    <td class="border border-gray-300 px-3 py-2"><?= $customer_info['interest_days'] ?> days</td>
-                    <td class="border border-gray-300 px-3 py-2"><?= $customer_info['days_late'] ?> days</td>
-                    <td class="border border-gray-300 px-3 py-2">₹<?= number_format($customer_info['interest_amount'], 2) ?>/-</td>
-                    <td class="border border-gray-300 px-3 py-2">₹<?= number_format($customer_info['grand_total_with_interest'], 2) ?>/-</td>
-                </tr>
-            </tbody>
-        </table>
-    <?php } else { ?>
-        <p class="text-red-500 text-sm mt-2">This customer does not have any interest applied.</p>
-    <?php } ?>
-</div>
+                                                                        if (!empty($customer_info['include_interest']) && $customer_info['include_interest'] == 1 && $customer_info['days_late'] > 0) {
+                                                                            $final_total += floatval($customer_info['interest_amount']);
+                                                                            $show_interest = true; // Enable interest display
+                                                                        }
 
-                                                             <!-- End Interest Section -->
-                                                         </div>
-                                                     </div>
-                                                 </div>
-                                             </div>
-                                             
-                                               
+                                                                        // Updated Paid & Due Amount
+                                                                        $paid_amount = floatval($paymentsum[0]['total_sum']);
+                                                                        $due_amount = max(0, $final_total - $paid_amount);
+                                                                        ?>
+
+                                                                        <div class="text-body-color sm:text-sm text-xs">
+                                                                            <strong>Total Amount:</strong> ₹<?= number_format($payment[0]['total'], 2) ?>/-
+                                                                        </div>
+
+                                                                        <?php if ($show_interest): ?>
+                                                                            <div class="text-body-color sm:text-sm text-xs">
+                                                                                <strong>Interest Amount:</strong> ₹<?= number_format($customer_info['interest_amount'], 2) ?>/-
+                                                                            </div>
+                                                                            <div class="text-body-color sm:text-sm text-xs">
+                                                                                <strong>Total With Interest:</strong> ₹<?= number_format($final_total, 2) ?>/-
+                                                                            </div>
+                                                                        <?php endif; ?>
+
+                                                                        <div class="text-body-color sm:text-sm text-xs">
+                                                                            <strong>Paid Amount:</strong> ₹<?= number_format($paid_amount, 2) ?>/-
+                                                                        </div>
+                                                                        <div class="text-body-color sm:text-sm text-xs">
+                                                                            <strong>Due Amount:</strong> <span class="text-red-500">₹<?= number_format($due_amount, 2) ?>/-</span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- New Interest Section with Condition -->
+                                                                    <div class="w-full mt-6">
+                                                                        <h3 class="text-lg font-bold">Interest Details</h3>
+
+                                                                        <?php if ($customer_info['include_interest'] == 1 && $customer_info['days_late'] > 0) { ?>
+                                                                            <table class="w-full border-collapse border border-gray-300 mt-2 text-center">
+                                                                                <thead>
+                                                                                    <tr class="bg-gray-200">
+                                                                                        <th class="border border-gray-300 px-3 py-2">Interest Rate</th>
+                                                                                        <th class="border border-gray-300 px-3 py-2">Last Due Date</th>
+                                                                                        <th class="border border-gray-300 px-3 py-2">Interest Days</th>
+                                                                                        <th class="border border-gray-300 px-3 py-2">Days Overdue</th>
+                                                                                        <th class="border border-gray-300 px-3 py-2">Interest Amount</th>
+                                                                                        <th class="border border-gray-300 px-3 py-2">Total with Interest</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td class="border border-gray-300 px-3 py-2"><?= $customer_info['interest_rate'] ?>% per year</td>
+                                                                                        <td class="border border-gray-300 px-3 py-2"><?= $customer_info['last_due_date'] ?></td>
+                                                                                        <td class="border border-gray-300 px-3 py-2"><?= $customer_info['interest_days'] ?> days</td>
+                                                                                        <td class="border border-gray-300 px-3 py-2"><?= $customer_info['days_late'] ?> days</td>
+                                                                                        <td class="border border-gray-300 px-3 py-2">₹<?= number_format($customer_info['interest_amount'], 2) ?>/-</td>
+                                                                                        <td class="border border-gray-300 px-3 py-2">₹<?= number_format($customer_info['grand_total_with_interest'], 2) ?>/-</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        <?php } else { ?>
+                                                                            <p class="text-red-500 text-sm mt-2">This customer does not have any interest applied.</p>
+                                                                        <?php } ?>
+                                                                    </div>
+
+                                                                    <!-- End Interest Section -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
 
                                                     <div id="payModal<?= $customer_info['invoice_no'] ?>" class="custom-modal">
                                                         <div class="custom-modal-content">

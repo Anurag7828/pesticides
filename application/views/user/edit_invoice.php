@@ -4,8 +4,8 @@
 <head>
 
     <?php include "includes2/header-links.php" ?>
-<!-- Choices.js CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+    <!-- Choices.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
 </head>
 
 <body class="selection:text-white selection:bg-primary">
@@ -58,7 +58,7 @@
                                                 value="<?= $branchi ?>">
 
                                         </div>
-                                      
+
                                         <div class="sm:w-1/3 w-full mb-[30px]">
                                             <label class="text-dark dark:text-white text-[13px] mb-2">Select
                                                 Customer</label>
@@ -95,10 +95,10 @@
 
                                                         <div class="pb-0">
                                                             <?php
-                                                            $i=0;
-                                                             $p_produc = $this->CommonModal->getRowByMultitpleId('invoice', 'invoice_no', $invoice[0]['invoice_no'], 'user_id', $user[0]['id']); ?>
-                                                            <?php foreach ($p_produc as $p_info): $i++;?>
-                                                                <div id="product-container"> 
+                                                            $i = 0;
+                                                            $p_produc = $this->CommonModal->getRowByMultitpleId('invoice', 'invoice_no', $invoice[0]['invoice_no'], 'user_id', $user[0]['id']); ?>
+                                                            <?php foreach ($p_produc as $p_info): $i++; ?>
+                                                                <div id="product-container">
                                                                     <!-- Product fields that will be cloned -->
                                                                     <div class="row product-row">
                                                                         <!-- Product Dropdown in the Row -->
@@ -106,17 +106,17 @@
                                                                             <label
                                                                                 class="text-dark dark:text-white text-[13px] mb-2">Select
                                                                                 Product</label>
-        <select name="p_name[]" class="category-select choices form-control"
-        id="category-select<?= $i ?>" data-index="<?= $i ?>"
-        data-selected="<?= $p_info['p_name'] ?>" required>
-    <option value="">Select Product</option>
-    <?php foreach ($product_list as $product_info) { ?>
-        <option value="<?= $product_info['id']; ?>"
-            <?= ($p_info['p_name'] == $product_info['id']) ? 'selected' : ''; ?>>
-            <?= $product_info['product_id']; ?>-<?= $product_info['product_name']; ?>-<?= $product_info['unit']; ?>-<?= $product_info['packing']; ?><?= $product_info['net_unit']; ?>
-        </option>
-    <?php } ?>
-</select>
+                                                                            <select name="p_name[]" class="category-select choices form-control"
+                                                                                id="category-select<?= $i ?>" data-index="<?= $i ?>"
+                                                                                data-selected="<?= $p_info['p_name'] ?>" required>
+                                                                                <option value="">Select Product</option>
+                                                                                <?php foreach ($product_list as $product_info) { ?>
+                                                                                    <option value="<?= $product_info['id']; ?>"
+                                                                                        <?= ($p_info['p_name'] == $product_info['id']) ? 'selected' : ''; ?>>
+                                                                                        <?= $product_info['product_id']; ?>-<?= $product_info['product_name']; ?>-<?= $product_info['unit']; ?>-<?= $product_info['packing']; ?><?= $product_info['net_unit']; ?>
+                                                                                    </option>
+                                                                                <?php } ?>
+                                                                            </select>
                                                                         </div>
 
                                                                         <div class="sm:w-1/6 w-full mb-[30px]">
@@ -124,39 +124,39 @@
                                                                                 class="text-dark dark:text-white text-[13px] mb-2">Expire Date</label>
                                                                             <select name="packing[]"
                                                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full "
-                                                         id="sub-category-select<?=$i?>" required>
+                                                                                id="sub-category-select<?= $i ?>" required>
                                                                                 <option selected>Select Date</option>
                                                                                 <!-- Options will be populated dynamically -->
                                                                                 <?php $pp_produc = $this->CommonModal->getRowById('purchase_product', 'p_id', $p_info['packing']); ?>
                                                                                 <option value="<?= $p_info['packing']; ?>"
                                                                                     <?= ($p_info['packing'] == $pp_produc[0]['p_id']) ? 'selected' : ''; ?>>
-                                                                                    <?= $pp_produc[0]['exp_date']; ?> 
+                                                                                    <?= $pp_produc[0]['exp_date']; ?>
                                                                                 </option>
                                                                             </select>
-                                                                         
+
                                                                         </div>
                                                                         <div class="sm:w-1/6 mb-[30px]" style="width:150px !important">
                                                                             <label
                                                                                 class="text-dark dark:text-white text-[13px] mb-2">Quantity</label>
                                                                             <input type="hidden" name="available_quantity[]"
-                                                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); " 
-                                     onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 
-                                                                                id="available<?=$i?>" required readonly
+                                                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); "
+                                                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
+                                                                                id="available<?= $i ?>" required readonly
                                                                                 value="<?= $pp_produc[0]['availabile_quantity'] ?> ">
-                                                                                <?php $newava=$pp_produc[0]['availabile_quantity'] + $p_info['quantity'] ?>
+                                                                            <?php $newava = $pp_produc[0]['availabile_quantity'] + $p_info['quantity'] ?>
                                                                             <input type="hidden"
                                                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-                                                                                id="availablee<?=$i?>" required readonly
+                                                                                id="availablee<?= $i ?>" required readonly
                                                                                 value="<?= $newava ?>">
 
                                                                             <input type="text" name="quantity[]"
                                                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full "
 
-                                               
-                                                                                placeholder="Quantity" id="blankquantity<?=$i?>" required
+
+                                                                                placeholder="Quantity" id="blankquantity<?= $i ?>" required
                                                                                 oninput="calculateTotalPrice(this.closest('.row'))"
                                                                                 value="<?= $p_info['quantity'] ?> ">
-                                                     
+
                                                                         </div>
                                                                         <div class="sm:w-1/6 w-full mb-[30px]">
                                                                             <label
@@ -164,16 +164,16 @@
                                                                                 Rate</label>
                                                                             <input type="hidden" name="invoice_id[]"
                                                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-                                                                                id="p_id<?=$i?>" value=" <?= $p_info['id'] ?> "
+                                                                                id="p_id<?= $i ?>" value=" <?= $p_info['id'] ?> "
                                                                                 required readonly>
                                                                             <input type="hidden" name="p_id[]"
                                                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-                                                                                id="p_id<?=$i?>" value=" <?= $p_info['packing'] ?> "
+                                                                                id="p_id<?= $i ?>" value=" <?= $p_info['packing'] ?> "
                                                                                 required readonly>
                                                                             <input type="float" name="unit_rate[]"
-                                                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"  oninput="this.value = this.value.replace(/[^0-9.]/g, '');" 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"    
-                                                                                placeholder="Unit Rate" id="unit-rate<?=$i?>"
+                                                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" oninput="this.value = this.value.replace(/[^0-9.]/g, '');"
+                                                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
+                                                                                placeholder="Unit Rate" id="unit-rate<?= $i ?>"
                                                                                 oninput="calculateTotalPrice(this.closest('.row'))"
                                                                                 required
                                                                                 value="<?= $p_info['unit_rate'] ?> ">
@@ -183,9 +183,9 @@
                                                                                 class="text-dark dark:text-white text-[13px] mb-2">Total
                                                                                 Price</label>
                                                                             <input type="float" name="total_price[]"
-                                                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"oninput="this.value = this.value.replace(/[^0-9.]/g, ''); " 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 
-                                               
+                                                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); "
+                                                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
+
                                                                                 placeholder="Total Price" required
                                                                                 value="<?= $p_info['total_price'] ?> ">
                                                                         </div>
@@ -208,8 +208,8 @@
                                                                     Sub Total
                                                                     <input type="float" id="grand-total"
                                                                         name="grand_total[]"
-                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" oninput="this.value = this.value.replace(/[^0-9.]/g, '');" 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"    
+                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" oninput="this.value = this.value.replace(/[^0-9.]/g, '');"
+                                                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
                                                                         placeholder="total price"
                                                                         value="<?= $invoice[0]['grand_total'] ?> ">
                                                                 </div>
@@ -235,9 +235,9 @@
                                                                         Value</label>
                                                                     <input type="float" id="discount-value"
                                                                         name="discount"
-                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); " 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 
-                                               
+                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); "
+                                                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
+
                                                                         placeholder="enter discount value"
                                                                         value="<?= $invoice[0]['discount'] ?> ">
                                                                 </div>
@@ -247,8 +247,8 @@
                                                                     Total Without Tax
                                                                     <input type="float" id="total-without"
                                                                         name="total_without_tax"
-                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" oninput="this.value = this.value.replace(/[^0-9.]/g, '');" 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"    
+                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" oninput="this.value = this.value.replace(/[^0-9.]/g, '');"
+                                                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
                                                                         placeholder=" Total Without Tax"
                                                                         value="<?= $invoice[0]['total_without_tax'] ?>">
                                                                 </div>
@@ -264,8 +264,8 @@
                                                                         placeholder="total price">
                                                                     <input type="float" id="tax-amount" name="tax_amount"
                                                                         value="<?= $invoice[0]['tax_amount'] ?>"
-                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"  oninput="this.value = this.value.replace(/[^0-9.]/g, '');" 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"    
+                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" oninput="this.value = this.value.replace(/[^0-9.]/g, '');"
+                                                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
                                                                         placeholder="total price">
                                                                 </div>
 
@@ -276,10 +276,32 @@
                                                                     <input type="float" id="final-total"
                                                                         name="final_total"
                                                                         class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-                                                               oninput="this.value = this.value.replace(/[^0-9.]/g, '');" 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"              placeholder="Final Total"
+                                                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '');"
+                                                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" placeholder="Final Total"
                                                                         value="<?= $invoice[0]['final_total'] ?>">
                                                                 </div>
+                                                                <?php
+                                                                $selected_interest = isset($invoice[0]['include_interest']) ? $invoice[0]['include_interest'] : 0;
+                                                                ?>
+
+
+                                                                <div class="sm:w-1/4 w-full mb-[30px]">
+                                                                    <label class="text-dark dark:text-white text-[14px] font-semibold mb-2 block">
+                                                                        Do you want to include interest?
+                                                                    </label>
+
+                                                                    <div class="flex items-center">
+                                                                        <input type="radio" id="interest-yes" name="include_interest" value="1" class="mr-2"
+                                                                            <?= ($selected_interest == 1) ? 'checked' : '' ?>>
+                                                                        <label for="interest-yes" class="text-dark dark:text-white text-[13px] mr-4">Yes</label>
+
+                                                                        <input type="radio" id="interest-no" name="include_interest" value="0" class="mr-2"
+                                                                            <?= ($selected_interest == 0) ? 'checked' : '' ?>>
+                                                                        <label for="interest-no" class="text-dark dark:text-white text-[13px]">No</label>
+                                                                    </div>
+                                                                </div>
+
+
                                                             </div>
                                                             <hr>
                                                             <?php
@@ -307,7 +329,7 @@
                                                                         <option value="Bank"
                                                                             <?= strpos($invoice_payment[0]['mode'], 'Bank') !== false ? 'selected' : '' ?>>Bank
                                                                             Transfer</option>
-                                                                             <option value="Cheque"
+                                                                        <option value="Cheque"
                                                                             <?= strpos($invoice_payment[0]['mode'], 'Cheque') !== false ? 'selected' : '' ?>>Cheque</option>
                                                                         <option value="None"
                                                                             <?= strpos($invoice_payment[0]['mode'], 'None') !== false ? 'selected' : '' ?>>None
@@ -315,7 +337,7 @@
 
                                                                     </select>
                                                                 </div>
-                                                               
+
                                                                 <div class="sm:w-1/3 w-full mb-[30px]" id="bankDetails"
                                                                     style="display:none;">
                                                                     <label
@@ -337,26 +359,25 @@
 
                                                                     </select>
                                                                 </div>
-                                                                 <div class="sm:w-1/3 w-full mb-[30px]"
-                                                                                    id="chequeDetails"
-                                                                                    style="display:none;">
-                                                                                    <label
-                                                                                        class="text-dark dark:text-white text-[13px] mb-2">Cheque Number</label>
-                                                            <input type="text" name="cheque_no"
-                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-                                                                                        placeholder="Cheque Number"
-                                                                                       id="cheque" value="<?= $invoice_payment[0]['cheque_no']?>" >
-                                                                                </div>
-                                                                                 <div class="sm:w-1/3 w-full mb-[30px]">
+                                                                <div class="sm:w-1/3 w-full mb-[30px]"
+                                                                    id="chequeDetails"
+                                                                    style="display:none;">
+                                                                    <label
+                                                                        class="text-dark dark:text-white text-[13px] mb-2">Cheque Number</label>
+                                                                    <input type="text" name="cheque_no"
+                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
+                                                                        placeholder="Cheque Number"
+                                                                        id="cheque" value="<?= $invoice_payment[0]['cheque_no'] ?>">
+                                                                </div>
+                                                                <div class="sm:w-1/3 w-full mb-[30px]">
                                                                     <label
                                                                         class="text-dark dark:text-white text-[13px] mb-2"></label>Paid
                                                                     Amount
                                                                     <input type="float" name="paid"
                                                                         class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
                                                                         placeholder="paid amount"
-                                                                        value="<?= $invoice_payment[0]['paid'] ?>" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); " 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 
-                                               >
+                                                                        value="<?= $invoice_payment[0]['paid'] ?>" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); "
+                                                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46">
                                                                     <input type="hidden" name="p_p_id"
                                                                         class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
                                                                         placeholder="paid amount"
@@ -377,181 +398,182 @@
                 </div>
             </div>
         </div>
- 
-        
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-             <?php  
-             $i=0;
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            <?php
+            $i = 0;
             $p_produc = $this->CommonModal->getRowByMultitpleId('invoice', 'invoice_no', $invoice[0]['invoice_no'], 'user_id', $user[0]['id']); ?>
-            <?php foreach ($p_produc as $p_info): $i++;?>
-            $(document).ready(function () {
-                $('#category-select<?=$i?>').change(function () {
-                    var selectedCategory = $(this).val();
-                    var subCategorySelect = $('#sub-category-select<?=$i?>');
-                    var unitRateField = $('#unit-rate<?=$i?>');
-                    var availableQuantity = $('#available<?=$i?>');
-                    var pid = $('#p_id<?=$i?>');
-                    // Clear previous options
-                    subCategorySelect.empty();
-                    subCategorySelect.append('<option selected>Select Date</option>');
+            <?php foreach ($p_produc as $p_info): $i++; ?>
+                $(document).ready(function() {
+                    $('#category-select<?= $i ?>').change(function() {
+                        var selectedCategory = $(this).val();
+                        var subCategorySelect = $('#sub-category-select<?= $i ?>');
+                        var unitRateField = $('#unit-rate<?= $i ?>');
+                        var availableQuantity = $('#available<?= $i ?>');
+                        var pid = $('#p_id<?= $i ?>');
+                        // Clear previous options
+                        subCategorySelect.empty();
+                        subCategorySelect.append('<option selected>Select Date</option>');
 
-                    // Reset unit rate field
-                    unitRateField.val(''); // Reset the unit rate field
-                    availableQuantity.val('');
-                    pid.val('');
-                    // Fetch subcategories and unit rates via AJAX
-                    if (selectedCategory) {
-                        $.ajax({
-                            url: '<?= base_url("Admin_Dashboard/get_subcategories/") ?>' + selectedCategory, // Update with your actual route
-                            type: 'GET',
-                            dataType: 'json',
-                            success: function (data) {
-                                $.each(data, function (index, subCategory) {
-                                    // Append packing options to the dropdown
-                                    subCategorySelect.append('<option value="' + subCategory.p_id + '">' + subCategory.exp_date + ' </option>');
-                                });
-                            },
-                            error: function () {
-                                console.error('Failed to fetch packing options.');
-                            }
-                        });
-                        $.ajax({
-                            url: '<?= base_url("Admin_Dashboard/get_product_details/") ?>' + selectedCategory,
-                            type: 'GET',
-                            dataType: 'json',
-                            success: function (data) {
-                                if (data && !data.error) {
-                                    $('#unit-rate<?=$i?>').val(data.selling_price);
-
-
-
-                                } else {
-                                    alert(data.error || 'Error fetching product details.');
-                                }
-                            },
-                            error: function () {
-                                alert('Error fetching product details.');
-                            }
-                        });
-                    }
-                });
-
-                // Handle change event on sub-category-select to update unit rate
-                $('#sub-category-select<?=$i?>').change(function () {
-                    var selectedPacking = $(this).val();
-                   
-                    var availableQuantity = $('#available<?=$i?>');
-                    var newavailableQuantity = $('#availablee<?=$i?>');
-
-                    var pid = $('#p_id<?=$i?>');
-                    var quantityField = $('#blankquantity<?=$i?>');
-                    // Fetch the unit rate based on the selected packing
-                    if (selectedPacking) {
-                        $.ajax({
-                            url: '<?= base_url("Admin_Dashboard/get_unit_rate/") ?>' + selectedPacking, // Update with your actual route for unit rate
-                            type: 'GET',
-                            dataType: 'json',
-                            success: function (data) {
-                                // console.log('Subcategory:', data);
-
-                                // Assuming the response contains the unit rate
-                                if (data) {
-                                  // Set the unit rate
-                                    availableQuantity.val(data.availabile_quantity);
-                                    newavailableQuantity.val(data.availabile_quantity);
-
-                                    pid.val(data.p_id);
-                                    quantityField.val(''); 
-                                    calculateTotalPrice(row);
-                                   
-                                } else {
-                                // Clear if no unit rate found
-                                    availableQuantity.val(' ');
-                                    newavailableQuantity.val(' ');
-
-                                    quantityField.val(''); 
-                                    pid.val('');
-                                }
-                            },
-                            error: function () {
-                                console.error('Failed to fetch unit rate.');
-                            }
-                        });
-                    } else {
-                        // Reset if no packing is selected
+                        // Reset unit rate field
+                        unitRateField.val(''); // Reset the unit rate field
                         availableQuantity.val('');
-                        newavailableQuantity.val('');
-
                         pid.val('');
-                    }
+                        // Fetch subcategories and unit rates via AJAX
+                        if (selectedCategory) {
+                            $.ajax({
+                                url: '<?= base_url("Admin_Dashboard/get_subcategories/") ?>' + selectedCategory, // Update with your actual route
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function(data) {
+                                    $.each(data, function(index, subCategory) {
+                                        // Append packing options to the dropdown
+                                        subCategorySelect.append('<option value="' + subCategory.p_id + '">' + subCategory.exp_date + ' </option>');
+                                    });
+                                },
+                                error: function() {
+                                    console.error('Failed to fetch packing options.');
+                                }
+                            });
+                            $.ajax({
+                                url: '<?= base_url("Admin_Dashboard/get_product_details/") ?>' + selectedCategory,
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function(data) {
+                                    if (data && !data.error) {
+                                        $('#unit-rate<?= $i ?>').val(data.selling_price);
+
+
+
+                                    } else {
+                                        alert(data.error || 'Error fetching product details.');
+                                    }
+                                },
+                                error: function() {
+                                    alert('Error fetching product details.');
+                                }
+                            });
+                        }
+                    });
+
+                    // Handle change event on sub-category-select to update unit rate
+                    $('#sub-category-select<?= $i ?>').change(function() {
+                        var selectedPacking = $(this).val();
+
+                        var availableQuantity = $('#available<?= $i ?>');
+                        var newavailableQuantity = $('#availablee<?= $i ?>');
+
+                        var pid = $('#p_id<?= $i ?>');
+                        var quantityField = $('#blankquantity<?= $i ?>');
+                        // Fetch the unit rate based on the selected packing
+                        if (selectedPacking) {
+                            $.ajax({
+                                url: '<?= base_url("Admin_Dashboard/get_unit_rate/") ?>' + selectedPacking, // Update with your actual route for unit rate
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function(data) {
+                                    // console.log('Subcategory:', data);
+
+                                    // Assuming the response contains the unit rate
+                                    if (data) {
+                                        // Set the unit rate
+                                        availableQuantity.val(data.availabile_quantity);
+                                        newavailableQuantity.val(data.availabile_quantity);
+
+                                        pid.val(data.p_id);
+                                        quantityField.val('');
+                                        calculateTotalPrice(row);
+
+                                    } else {
+                                        // Clear if no unit rate found
+                                        availableQuantity.val(' ');
+                                        newavailableQuantity.val(' ');
+
+                                        quantityField.val('');
+                                        pid.val('');
+                                    }
+                                },
+                                error: function() {
+                                    console.error('Failed to fetch unit rate.');
+                                }
+                            });
+                        } else {
+                            // Reset if no packing is selected
+                            availableQuantity.val('');
+                            newavailableQuantity.val('');
+
+                            pid.val('');
+                        }
+                    });
+
                 });
-               
-            });
             <?php endforeach; ?>
-           
 
-          function toggleBankDetails() {
-    const paymentMode = document.getElementById('paymentMode').value;
 
-    // References to the details sections and fields
-    const bankDetails = document.getElementById('bankDetails');
-    const chequeDetails = document.getElementById('chequeDetails');
-    const bankAccount = document.getElementById('bankAccount');
-    const chequeField = document.getElementById('cheque');
+            function toggleBankDetails() {
+                const paymentMode = document.getElementById('paymentMode').value;
 
-    // Hide all details by default
-    bankDetails.style.display = 'none';
-    chequeDetails.style.display = 'none';
-    bankAccount.removeAttribute('required');
-    chequeField.removeAttribute('required');
+                // References to the details sections and fields
+                const bankDetails = document.getElementById('bankDetails');
+                const chequeDetails = document.getElementById('chequeDetails');
+                const bankAccount = document.getElementById('bankAccount');
+                const chequeField = document.getElementById('cheque');
 
-    // Display relevant fields based on the selected option
-    if (paymentMode === 'Bank') {
-        bankDetails.style.display = 'block';
-        bankAccount.setAttribute('required', 'required');
-    } else if (paymentMode === 'Cheque') {
-        chequeDetails.style.display = 'block';
-        chequeField.setAttribute('required', 'required');
-    }
-}
+                // Hide all details by default
+                bankDetails.style.display = 'none';
+                chequeDetails.style.display = 'none';
+                bankAccount.removeAttribute('required');
+                chequeField.removeAttribute('required');
 
-// Attach the event listener to `paymentMode`
-document.getElementById('paymentMode').addEventListener('change', toggleBankDetails);
+                // Display relevant fields based on the selected option
+                if (paymentMode === 'Bank') {
+                    bankDetails.style.display = 'block';
+                    bankAccount.setAttribute('required', 'required');
+                } else if (paymentMode === 'Cheque') {
+                    chequeDetails.style.display = 'block';
+                    chequeField.setAttribute('required', 'required');
+                }
+            }
 
-// Call the function on page load to handle pre-selected values
-window.onload = toggleBankDetails;
+            // Attach the event listener to `paymentMode`
+            document.getElementById('paymentMode').addEventListener('change', toggleBankDetails);
 
-function deleteProductForm(button) {
+            // Call the function on page load to handle pre-selected values
+            window.onload = toggleBankDetails;
+
+            function deleteProductForm(button) {
                 const productRow = button.closest('.product-row');
                 productRow.remove();
                 updateGrandTotal();
             }
-function calculateTotalPrice(row) {
-    if (!row) {
-        console.error('Row not found!');
-        return;
-    }
 
-    const quantityInput = row.querySelector('input[name="quantity[]"]');
-    const unitRateInput = row.querySelector('input[name="unit_rate[]"]');
-    const totalPriceInput = row.querySelector('input[name="total_price[]"]');
+            function calculateTotalPrice(row) {
+                if (!row) {
+                    console.error('Row not found!');
+                    return;
+                }
 
-    if (!quantityInput || !unitRateInput || !totalPriceInput) {
-        console.error('Missing input fields');
-        return;
-    }
+                const quantityInput = row.querySelector('input[name="quantity[]"]');
+                const unitRateInput = row.querySelector('input[name="unit_rate[]"]');
+                const totalPriceInput = row.querySelector('input[name="total_price[]"]');
 
-    const quantity = parseFloat(quantityInput.value) || 0;
-    const unitRate = parseFloat(unitRateInput.value) || 0;
+                if (!quantityInput || !unitRateInput || !totalPriceInput) {
+                    console.error('Missing input fields');
+                    return;
+                }
 
-    // Calculate total price
-    const totalPrice = (quantity * unitRate).toFixed(2);
-    totalPriceInput.value = totalPrice;
+                const quantity = parseFloat(quantityInput.value) || 0;
+                const unitRate = parseFloat(unitRateInput.value) || 0;
 
-    console.log(`Quantity: ${quantity}, Unit Rate: ${unitRate}, Total Price: ${totalPrice}`);
-    updateGrandTotal();
-}
+                // Calculate total price
+                const totalPrice = (quantity * unitRate).toFixed(2);
+                totalPriceInput.value = totalPrice;
+
+                console.log(`Quantity: ${quantity}, Unit Rate: ${unitRate}, Total Price: ${totalPrice}`);
+                updateGrandTotal();
+            }
 
 
 
@@ -598,107 +620,108 @@ function calculateTotalPrice(row) {
 
             // Add event listener to the discount input to update totals when changed
             document.getElementById('discount-value').addEventListener('input', updateGrandTotal);
-            document.getElementById('discount-type').addEventListener('change', updateGrandTotal); 
-</script>
-  <script>
-             <?php
-             $i=0;
-        $p_produc = $this->CommonModal->getRowByMultitpleId('invoice', 'invoice_no', $invoice[0]['invoice_no'], 'user_id', $user[0]['id']); ?>
-      <?php foreach ($p_produc as $p_info): $i++;?>
-// Store Choices.js instances globally
-let productSelects = {}; 
-
-// Initialize Choices.js
-function initializeChoices() {
-    document.querySelectorAll(".category-select").forEach((select) => {
-        const index = select.dataset.index;
-        
-        // Check if Choices.js is already initialized and destroy it
-        if (productSelects[index] && productSelects[index].destroy) {
-            productSelects[index].destroy();
-            delete productSelects[index]; // Remove from memory
-        }
-
-        // Reinitialize Choices.js
-        productSelects[index] = new Choices(select, {
-            searchEnabled: true,
-            itemSelectText: "",
-            shouldSort: false
-        });
-    });
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Set default stock place products on load
-    const defaultStockPlaceId = document.getElementById('stock_place').value;
-    if (defaultStockPlaceId) {
-        filterProducts(defaultStockPlaceId); // Show default products
-    }
-
-    // Stock place change event
-    document.getElementById('stock_place').addEventListener('change', function () {
-        filterProducts(this.value); // Fetch and display new products
-    });
-
-    initializeChoices();
-});
-
-// Filter Products and Maintain Selected Product
-function filterProducts(stockPlaceId) {
-    console.log("Selected Stock Place:", stockPlaceId); 
-
-    if (stockPlaceId) {
-        $.ajax({
-            url: '<?= base_url("Admin_Dashboard/get_products_by_stock_place") ?>',
-            type: 'POST',
-            data: { stock_place_id: stockPlaceId },
-            dataType: 'json',
-            success: function(products) {
-                if (products && products.length > 0) {
-                    $('.category-select').each(function() {
-                        const productSelect = $(this);
-                        const index = productSelect.data('index');
-                        const selectedProductId = productSelect.attr('data-selected'); // Capture previously selected product
-
-                        productSelect.html('<option value="">Select Product</option>'); // Reset options
-                        
-                        // Append new options
-                        products.forEach(function(product) {
-                            const isSelected = (product.pro_id == selectedProductId) ? 'selected' : '';
-                            productSelect.append('<option value="' + product.pro_id + '" ' + isSelected + '>' + product.product_id + ' - ' + product.product_name + ' - ' + product.unit + ' - ' + product.packing + product.net_unit + '</option>');
-                        });
-                    });
-
-                    // Re-initialize Choices.js for the updated selects
-                    initializeChoices();
-                } else {
-                    console.warn('No products found for the selected stock place.');
-                }
-            },
-            error: function() {
-                console.error('Failed to fetch products.');
-            }
-        });
-    }
-}
-
-//
-
-$(document).on('input', 'input[name="quantity[]"]', function () {
-    var row = $(this).closest('.product-row');
-    var rowIndex = row.find('input[name="quantity[]"]').attr('id').replace('blankquantity', '');
-    var availableQuantity = parseFloat($('#availablee' + rowIndex).val()) || 0;
-    var enteredQuantity = parseFloat(row.find('input[name="quantity[]"]').val()) || 0;
-
-    if (enteredQuantity > availableQuantity) {
-        alert("Product quantity is not available. Maximum available: " + availableQuantity);
-        row.find('input[name="quantity[]"]').val('');
-    }
-});
-
+            document.getElementById('discount-type').addEventListener('change', updateGrandTotal);
         </script>
         <script>
-            $(document).on('click', '#add-product-btn', function (event) {
+            <?php
+            $i = 0;
+            $p_produc = $this->CommonModal->getRowByMultitpleId('invoice', 'invoice_no', $invoice[0]['invoice_no'], 'user_id', $user[0]['id']); ?>
+            <?php foreach ($p_produc as $p_info): $i++; ?>
+                // Store Choices.js instances globally
+                let productSelects = {};
+
+                // Initialize Choices.js
+                function initializeChoices() {
+                    document.querySelectorAll(".category-select").forEach((select) => {
+                        const index = select.dataset.index;
+
+                        // Check if Choices.js is already initialized and destroy it
+                        if (productSelects[index] && productSelects[index].destroy) {
+                            productSelects[index].destroy();
+                            delete productSelects[index]; // Remove from memory
+                        }
+
+                        // Reinitialize Choices.js
+                        productSelects[index] = new Choices(select, {
+                            searchEnabled: true,
+                            itemSelectText: "",
+                            shouldSort: false
+                        });
+                    });
+                }
+
+                document.addEventListener("DOMContentLoaded", function() {
+                    // Set default stock place products on load
+                    const defaultStockPlaceId = document.getElementById('stock_place').value;
+                    if (defaultStockPlaceId) {
+                        filterProducts(defaultStockPlaceId); // Show default products
+                    }
+
+                    // Stock place change event
+                    document.getElementById('stock_place').addEventListener('change', function() {
+                        filterProducts(this.value); // Fetch and display new products
+                    });
+
+                    initializeChoices();
+                });
+
+                // Filter Products and Maintain Selected Product
+                function filterProducts(stockPlaceId) {
+                    console.log("Selected Stock Place:", stockPlaceId);
+
+                    if (stockPlaceId) {
+                        $.ajax({
+                            url: '<?= base_url("Admin_Dashboard/get_products_by_stock_place") ?>',
+                            type: 'POST',
+                            data: {
+                                stock_place_id: stockPlaceId
+                            },
+                            dataType: 'json',
+                            success: function(products) {
+                                if (products && products.length > 0) {
+                                    $('.category-select').each(function() {
+                                        const productSelect = $(this);
+                                        const index = productSelect.data('index');
+                                        const selectedProductId = productSelect.attr('data-selected'); // Capture previously selected product
+
+                                        productSelect.html('<option value="">Select Product</option>'); // Reset options
+
+                                        // Append new options
+                                        products.forEach(function(product) {
+                                            const isSelected = (product.pro_id == selectedProductId) ? 'selected' : '';
+                                            productSelect.append('<option value="' + product.pro_id + '" ' + isSelected + '>' + product.product_id + ' - ' + product.product_name + ' - ' + product.unit + ' - ' + product.packing + product.net_unit + '</option>');
+                                        });
+                                    });
+
+                                    // Re-initialize Choices.js for the updated selects
+                                    initializeChoices();
+                                } else {
+                                    console.warn('No products found for the selected stock place.');
+                                }
+                            },
+                            error: function() {
+                                console.error('Failed to fetch products.');
+                            }
+                        });
+                    }
+                }
+
+                //
+
+                $(document).on('input', 'input[name="quantity[]"]', function() {
+                    var row = $(this).closest('.product-row');
+                    var rowIndex = row.find('input[name="quantity[]"]').attr('id').replace('blankquantity', '');
+                    var availableQuantity = parseFloat($('#availablee' + rowIndex).val()) || 0;
+                    var enteredQuantity = parseFloat(row.find('input[name="quantity[]"]').val()) || 0;
+
+                    if (enteredQuantity > availableQuantity) {
+                        alert("Product quantity is not available. Maximum available: " + availableQuantity);
+                        row.find('input[name="quantity[]"]').val('');
+                    }
+                });
+        </script>
+        <script>
+            $(document).on('click', '#add-product-btn', function(event) {
                 var paidInput = $('input[name="paid"]'); // Corrected selector to target input with name "paid"
                 if (!checkAvailablePaid(paidInput)) {
                     event.preventDefault(); // Prevent the button's default action
@@ -717,11 +740,8 @@ $(document).on('input', 'input[name="quantity[]"]', function () {
 
                 return true; // Indicate that the check passed
             }
-                
+
             <?php endforeach; ?>
-       
-
-
         </script>
         <?php include "includes2/footer-links.php" ?>
     </div>
