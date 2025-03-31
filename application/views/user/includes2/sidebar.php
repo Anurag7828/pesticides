@@ -139,6 +139,7 @@
 						
 							<li><a href="<?= base_url('admin_Dashboard/add_customer/'.encryptId($user['0']['id']).'/0')?>">Add Customers</a></li>
 								<li><a href="<?= base_url('admin_Dashboard/customer/'.encryptId($user['0']['id'])) ?>">Customers List</a></li>
+								<li><a href="<?= base_url('admin_Dashboard/bulk_upload_customer/'.encryptId($user['0']['id'])) ?>">Bulk Upload</a></li>
 						</ul>
 					</li>
 						<li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
@@ -157,6 +158,8 @@
 						
 							<li><a href="<?= base_url('admin_Dashboard/add_vender/'.encryptId($user['0']['id']).'/0')?>">Add Vendor </a></li>
 								<li><a href="<?= base_url('admin_Dashboard/vender/'.encryptId($user['0']['id'])) ?>">Vendor List</a></li>
+								<li><a href="<?= base_url('admin_Dashboard/bulk_upload_vendor/'.encryptId($user['0']['id'])) ?>">Bulk Upload</a></li>
+					
 						</ul>
 					</li>
 				
