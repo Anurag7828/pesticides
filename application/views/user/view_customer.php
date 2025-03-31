@@ -4,57 +4,59 @@
 <!-- Mirrored from yashadmin.dexignzone.com/tailwind/demo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Sep 2024 07:42:52 GMT -->
 
 <head>
-   
+
     <?php include "includes2/header-links.php" ?>
 
 </head>
 <style>
-/* The Modal (background) */
-.custom-modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.4);
-  padding-top: 60px;
-}
+    /* The Modal (background) */
+    .custom-modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+        padding-top: 60px;
+    }
 
-/* Modal Content */
-.custom-modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 720px;
-  border-radius: 10px;
-}
+    /* Modal Content */
+    .custom-modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 720px;
+        border-radius: 10px;
+    }
 
-/* Close Button */
-.custom-modal-close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
+    /* Close Button */
+    .custom-modal-close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
 
-.custom-modal-close:hover,
-.custom-modal-close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-.address-wrap {
-    word-break: break-word; 
-    overflow-wrap: break-word;
- 
-}
+    .custom-modal-close:hover,
+    .custom-modal-close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .address-wrap {
+        word-break: break-word;
+        overflow-wrap: break-word;
+
+    }
 </style>
+
 <body class="selection:text-white selection:bg-primary">
     <!-- Main wrapper start -->
     <div id="main-wrapper" class="relative">
@@ -65,15 +67,15 @@
             <div class="container-fluid">
                 <div class="row dz-tab-area">
                     <div class="flex justify-between items-center mb-5">
-                        <a href="<?= base_url('admin_Dashboard/add_customer/' . encryptId($user['0']['id']).'/0') ?>" class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-auto">+ add Customer</a><br>
-                        	<a href="<?= base_url('admin_Dashboard/add_branch/'.encryptId($user['0']['id'])) ?>" class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-2">+ Add User</a>
-						 <!-- New Export to Excel Button -->
-   <a href="#" onclick="exportTableToExcel()" class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-2">
-    Export to Excel
-</a>
-<a href="#" onclick="exportTableAsPDF()" class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-2">
-  PDF
-</a>
+                        <a href="<?= base_url('admin_Dashboard/add_customer/' . encryptId($user['0']['id']) . '/0') ?>" class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-auto">+ add Customer</a><br>
+                        <a href="<?= base_url('admin_Dashboard/add_branch/' . encryptId($user['0']['id'])) ?>" class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-2">+ Add User</a>
+                        <!-- New Export to Excel Button -->
+                        <a href="#" onclick="exportTableToExcel()" class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-2">
+                            Export to Excel
+                        </a>
+                        <a href="#" onclick="exportTableAsPDF()" class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-2">
+                            PDF
+                        </a>
                     </div>
                     <div class="flex items-center">
                         <h3 style="font-size: 25px; margin: 10px;color: #454592;">View Customer list</h3>
@@ -101,170 +103,170 @@
                                         <table id="user-tbl" class="table">
                                             <thead>
                                                 <tr>
-                                                     <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">S No.</th>
-       
+                                                    <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">S No.</th>
+
                                                     <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left ">Customer Name</th>
                                                     <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">Contact</th>
 
                                                     <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none text-left ">Address</th>
                                                     <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">Total<br> Amount</th>
                                                     <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">Total<br>Paid Amount</th>
-                                                  <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">Total<br>Due Amount</th>
-                                                  <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">Add By</th>
+                                                    <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">Total<br>Due Amount</th>
+                                                    <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">Add By</th>
                                                     <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php  $serial = 1; 
+                                                <?php $serial = 1;
                                                 if (!empty($customer)) {
                                                     foreach ($customer as $customer_info) {
                                                 ?>
                                                         <tr>
-                                                              <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"><?= $serial++ ?></td>
-            
-           
+                                                            <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"><?= $serial++ ?></td>
+
+
                                                             <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color  address-wrap"><?= $customer_info['name'] ?></td>
                                                             <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"><?= $customer_info['contact'] ?></td>
 
-                              <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color  address-wrap">
-    <?= $customer_info['address'] ?>
-</td>
+                                                            <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color  address-wrap">
+                                                                <?= $customer_info['address'] ?>
+                                                            </td>
 
 
 
-                                                          <?php  $paymentpaid = $this->CommonModal->getRowByIdSum('payment', 'customer_id',  $customer_info['id'],'user_id',$user[0]['id'],'paid');
-                                                           $paymenttotal = $this->CommonModal->getRowByIdSumDue('payment', 'customer_id',  $customer_info['id'],'user_id',$user[0]['id'],'total','invoice_no');
-                                                        $payment = $this->CommonModal->getRowByIdSumDue('payment', 'customer_id',  $customer_info['id'],'user_id',$user[0]['id'],'due','invoice_no');?>
-                                                            <?php if($paymenttotal){ ?>
-                                                              <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">₹ <?= number_format((float)$paymenttotal, 2) ?>/-</td>
-                                                              <?php } else { ?>
-                                                               <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">₹ 0/-</td>
-                                                               <?php } ?>
-                                                                 <?php if( $paymentpaid[0]['total_sum']){ ?>
-                                                            <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"> ₹ <?= number_format((float)$paymentpaid[0]['total_sum'], 2) ?>/-</td>
-                                                              <?php } else { ?>
-                                                               <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">₹ 0/-</td>
-                                                               <?php } ?>
-                                                                 <?php if( $payment){ ?>
-                                                             <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">₹ <?= number_format((float)$payment, 2) ?>/-</td>
-                                                              <?php } else { ?>
-                                                               <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">₹ 0/-</td>
-                                                               <?php }  if(  $customer_info['branch_id'] != 0){ 
-                                                                        $branch = $this->CommonModal->getRowByMultitpleId('branch', 'id',  $customer_info['branch_id'] ,'user_id',$user[0]['id']);?>
-                                                                      <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"> <?= $branch[0]['name'] ?></td>
-                                                                      <?php } else{
-                                                                      ?>
-                                                                           <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">Admin</td>
-                                                                            <?php } 
-                                                                      ?>
-                                                              
-                                                             <td class="py-[0.9375rem] px-2.5 capitalize whitespace-nowrap sm:text-sm text-xs font-normal border-t border-[#E6E6E6] dark:border-[#ffffff1a] text-left text-body-color">
-                <div class="dropdown">
-                    <button type="button" class="btn min-w-[2.4rem] p-[0.4375rem] h-[2.4rem] leading-[1.7] min-h-[2.5rem] btn-primary rounded-md dz-dropdown bg-primary-light hover:bg-primary duration-300 light sharp" data-dz-dropdown="dropdown-<?= $customer_info['id'] ?>">
-                        <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
-                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                <rect x="0" y="0" width="24" height="24" />
-                                <circle fill="#000000" cx="5" cy="12" r="2" />
-                                <circle fill="#000000" cx="12" cy="12" r="2" />
-                                <circle fill="#000000" cx="19" cy="12" r="2" />
-                            </g>
-                        </svg>
-                    </button>
-                    <div class="dz-dropdown-menu dropdown-menu-end border py-2 rounded-md min-w-[10rem] z-[9] translate-x-[-96px] translate-y-1 shadow-[0_0_3.125rem_0_rgba(82,63,105,0.15)] overflow-hidden border-b-color absolute bg-white dark:bg-[#182237] dark:shadow-[0rem_0rem_0rem_0.0625rem_rgba(255,255,255,0.1)] hidden" id="dropdown-<?= $customer_info['id'] ?>">
-                        
-                        <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]" href="<?= base_url('Admin_Dashboard/edit_customer?id=' . $customer_info['id'] . '&user_id=' . $user['0']['id']); ?>">Edit</a>
+                                                            <?php $paymentpaid = $this->CommonModal->getRowByIdSum('payment', 'customer_id',  $customer_info['id'], 'user_id', $user[0]['id'], 'paid');
+                                                            $paymenttotal = $this->CommonModal->getRowByIdSumDue('payment', 'customer_id',  $customer_info['id'], 'user_id', $user[0]['id'], 'total', 'invoice_no');
+                                                            $payment = $this->CommonModal->getRowByIdSumDue('payment', 'customer_id',  $customer_info['id'], 'user_id', $user[0]['id'], 'due', 'invoice_no'); ?>
+                                                            <?php if ($paymenttotal) { ?>
+                                                                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">₹ <?= number_format((float)$paymenttotal, 2) ?>/-</td>
+                                                            <?php } else { ?>
+                                                                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">₹ 0/-</td>
+                                                            <?php } ?>
+                                                            <?php if ($paymentpaid[0]['total_sum']) { ?>
+                                                                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"> ₹ <?= number_format((float)$paymentpaid[0]['total_sum'], 2) ?>/-</td>
+                                                            <?php } else { ?>
+                                                                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">₹ 0/-</td>
+                                                            <?php } ?>
+                                                            <?php if ($payment) { ?>
+                                                                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">₹ <?= number_format((float)$payment, 2) ?>/-</td>
+                                                            <?php } else { ?>
+                                                                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">₹ 0/-</td>
+                                                            <?php }
+                                                            if ($customer_info['branch_id'] != 0) {
+                                                                $branch = $this->CommonModal->getRowByMultitpleId('branch', 'id',  $customer_info['branch_id'], 'user_id', $user[0]['id']); ?>
+                                                                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"> <?= $branch[0]['name'] ?></td>
+                                                            <?php } else {
+                                                            ?>
+                                                                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">Admin</td>
+                                                            <?php }
+                                                            ?>
 
-<a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]" href="javascript:void(0);" onclick="openModal('<?= $customer_info['id'] ?>')">Payment History</a>
+                                                            <td class="py-[0.9375rem] px-2.5 capitalize whitespace-nowrap sm:text-sm text-xs font-normal border-t border-[#E6E6E6] dark:border-[#ffffff1a] text-left text-body-color">
+                                                                <div class="dropdown">
+                                                                    <button type="button" class="btn min-w-[2.4rem] p-[0.4375rem] h-[2.4rem] leading-[1.7] min-h-[2.5rem] btn-primary rounded-md dz-dropdown bg-primary-light hover:bg-primary duration-300 light sharp" data-dz-dropdown="dropdown-<?= $customer_info['id'] ?>">
+                                                                        <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
+                                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                                <rect x="0" y="0" width="24" height="24" />
+                                                                                <circle fill="#000000" cx="5" cy="12" r="2" />
+                                                                                <circle fill="#000000" cx="12" cy="12" r="2" />
+                                                                                <circle fill="#000000" cx="19" cy="12" r="2" />
+                                                                            </g>
+                                                                        </svg>
+                                                                    </button>
+                                                                    <div class="dz-dropdown-menu dropdown-menu-end border py-2 rounded-md min-w-[10rem] z-[9] translate-x-[-96px] translate-y-1 shadow-[0_0_3.125rem_0_rgba(82,63,105,0.15)] overflow-hidden border-b-color absolute bg-white dark:bg-[#182237] dark:shadow-[0rem_0rem_0rem_0.0625rem_rgba(255,255,255,0.1)] hidden" id="dropdown-<?= $customer_info['id'] ?>">
 
+                                                                        <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]" href="<?= base_url('Admin_Dashboard/edit_customer?id=' . $customer_info['id'] . '&user_id=' . $user['0']['id']); ?>">Edit</a>
+                                                                        <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]" href="javascript:void(0);" onclick="openModal('<?= $customer_info['id'] ?>')">Payment History</a>
+                                                                        <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]" href="<?= base_url('Admin_Dashboard/customer/' . encryptId($user[0]['id']) . '?id=' . $customer_info['id']); ?>" onclick="return confirm('Are you sure you want to delete this Account Detail?')">Delete</a>
 
-                        <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]" href="<?= base_url('Admin_Dashboard/customer/' . encryptId($user[0]['id']) . '?id=' . $customer_info['id']); ?>" onclick="return confirm('Are you sure you want to delete this Account Detail?')">Delete</a>
-                      
-                    </div>
-                </div>
-            </td>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                 <?php
                                                     }
-                                                } 
+                                                }
                                                 ?>
                                             </tbody>
                                         </table>
- <?php
-                                                if (!empty($customer)) {
-                                                    foreach ($customer as $customer_info) {
-                                                ?>
-<div id="paymentModal<?= $customer_info['id'] ?>" class="custom-modal">
-  <div class="custom-modal-content">
-    <span class="custom-modal-close" onclick="closeModal('<?= $customer_info['id'] ?>')">&times;</span>
-    <h2 id="paymentModalLabel">Payment Details</h2>
-    <div class="modal-body">
-       <div class="row mb-12">
-                              
-								
-                                 
-									     
-                           
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left center text-dark">#</th>
-                                                 <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Invoice No.</th>
-                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Payment Date</th>
-                                                  <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Total<br> Amount</th>
-                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Paid <br>Amount</th>
-                                                  <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Due <br>Amount</th>
-                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left right text-dark">Payment<br> Mode</th>
-                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left center text-dark">Bank<br> Name</th>
-                                                <!--<th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-right text-dark">Action</th>-->
-                                            </tr>
-                                        </thead>
-                                        <tbody>
                                         <?php
-                            $paymentall = $this->CommonModal->getRowById('payment', 'customer_id',  $customer_info['id']);
-                            $i=0;
-                            if (!empty($paymentall)) {  // Missing closing parenthesis fixed here
-                                foreach ($paymentall as $row) { $i++;
-                    ?>
-                                            <tr>
-                               
-                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $i ?></td>
-                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left strong"><?= $user[0]['prefix'] ?>-<?= $row['invoice_no']?></td>
-                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left strong"><?= $row['date']?></td>
-                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left">₹<?= $row['total']?>/-</td>
-                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left">₹<?= $row['paid']?>/-</td>
-                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color right"><?= $row['due']?> </td>
-                                                 <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color right"><?= $row['mode']?> </td>
-                                              <?php  if($row['bank']) {
-                                                  $bank = $this->CommonModal->getRowById('account', 'id',  $row['bank']);?>
-                                                                    <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $bank[0]['bank_name']?></td>
-                                                                     <?php } elseif($row['cheque_no']) {
-                                                                                            ?>
-                                                                                             <td
-                                                                                                class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center">
-                                                                                                <?= $row['cheque_no'] ?></td>
-                                             <?php }else{
-                                              ?>
-                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $row['mode']?></td>
-                                                <?php } ?>
-                                                <!--<td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color text-right">Delete</td>-->
-                                            </tr>
-                                           <?php } } ?>
-                                        
-                                        </tbody>
-                                    </table>
-
-    </div>
-  </div>
-</div>
+                                        if (!empty($customer)) {
+                                            foreach ($customer as $customer_info) {
+                                        ?>
+                                                <div id="paymentModal<?= $customer_info['id'] ?>" class="custom-modal">
+                                                    <div class="custom-modal-content">
+                                                        <span class="custom-modal-close" onclick="closeModal('<?= $customer_info['id'] ?>')">&times;</span>
+                                                        <h2 id="paymentModalLabel">Payment Details</h2>
+                                                        <div class="modal-body">
+                                                            <div class="row mb-12">
 
 
-</div>
- <?php
-                                                    }
-                                                } else {
-                                                    echo "<tr><td colspan='9'>No data found</td></tr>";
-                                                }
-                                                ?>
+
+
+
+                                                                <table>
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left center text-dark">#</th>
+                                                                            <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Invoice No.</th>
+                                                                            <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Payment Date</th>
+                                                                            <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Total<br> Amount</th>
+                                                                            <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Paid <br>Amount</th>
+                                                                            <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Due <br>Amount</th>
+                                                                            <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left right text-dark">Payment<br> Mode</th>
+                                                                            <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left center text-dark">Bank<br> Name</th>
+                                                                            <!--<th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-right text-dark">Action</th>-->
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <?php
+                                                                        $paymentall = $this->CommonModal->getRowById('payment', 'customer_id',  $customer_info['id']);
+                                                                        $i = 0;
+                                                                        if (!empty($paymentall)) {  // Missing closing parenthesis fixed here
+                                                                            foreach ($paymentall as $row) {
+                                                                                $i++;
+                                                                        ?>
+                                                                                <tr>
+
+                                                                                    <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $i ?></td>
+                                                                                    <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left strong"><?= $user[0]['prefix'] ?>-<?= $row['invoice_no'] ?></td>
+                                                                                    <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left strong"><?= $row['date'] ?></td>
+                                                                                    <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left">₹<?= $row['total'] ?>/-</td>
+                                                                                    <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left">₹<?= $row['paid'] ?>/-</td>
+                                                                                    <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color right"><?= $row['due'] ?> </td>
+                                                                                    <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color right"><?= $row['mode'] ?> </td>
+                                                                                    <?php if ($row['bank']) {
+                                                                                        $bank = $this->CommonModal->getRowById('account', 'id',  $row['bank']); ?>
+                                                                                        <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $bank[0]['bank_name'] ?></td>
+                                                                                    <?php } elseif ($row['cheque_no']) {
+                                                                                    ?>
+                                                                                        <td
+                                                                                            class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center">
+                                                                                            <?= $row['cheque_no'] ?></td>
+                                                                                    <?php } else {
+                                                                                    ?>
+                                                                                        <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $row['mode'] ?></td>
+                                                                                    <?php } ?>
+                                                                                    <!--<td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color text-right">Delete</td>-->
+                                                                                </tr>
+                                                                        <?php }
+                                                                        } ?>
+
+                                                                    </tbody>
+                                                                </table>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                        <?php
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='9'>No data found</td></tr>";
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                             </div>
@@ -279,91 +281,92 @@
     <?php include "includes2/footer.php" ?>
 </body>
 <script>
-// Function to open modal and load content
-function openModal(invoice_no) {
-       var modal = document.getElementById(`paymentModal${invoice_no}`);
-    var modalLabel = document.getElementById("paymentModalLabel");
-    var modalBody = document.querySelector(".modal-body");
+    // Function to open modal and load content
+    function openModal(invoice_no) {
+        var modal = document.getElementById(`paymentModal${invoice_no}`);
+        var modalLabel = document.getElementById("paymentModalLabel");
+        var modalBody = document.querySelector(".modal-body");
 
-    // Display the modal
-    modal.style.display = "block";
+        // Display the modal
+        modal.style.display = "block";
 
-   
-}
 
-// Function to close modal
-function closeModal(invoice_no) {
-    var modal = document.getElementById(`paymentModal${invoice_no}`);
-    modal.style.display = "none";
-}
+    }
 
-// Close the modal if the user clicks outside of it
-window.onclick = function(event) {
-    var modal = document.getElementById("paymentModal");
-    if (event.target == modal) {
+    // Function to close modal
+    function closeModal(invoice_no) {
+        var modal = document.getElementById(`paymentModal${invoice_no}`);
         modal.style.display = "none";
     }
-}
 
-</script>
-	<script>
-function exportTableToExcel() {
-    // Select the table element
-    var table = document.querySelector("#user-tbl"); // Replace with your table's ID
-
-    // Initialize an empty array to hold table data
-    var data = [];
-
-    // Loop through each row of the table
-    for (var i = 0, row; row = table.rows[i]; i++) {
-        var rowData = [];
-        // Loop through each cell in the row
-        for (var j = 0, cell; cell = row.cells[j]; j++) {
-            rowData.push(cell.innerText);
+    // Close the modal if the user clicks outside of it
+    window.onclick = function(event) {
+        var modal = document.getElementById("paymentModal");
+        if (event.target == modal) {
+            modal.style.display = "none";
         }
-        data.push(rowData);
     }
+</script>
+<script>
+    function exportTableToExcel() {
+        // Select the table element
+        var table = document.querySelector("#user-tbl"); // Replace with your table's ID
 
-    // Convert array to worksheet
-    var worksheet = XLSX.utils.aoa_to_sheet(data);
+        // Initialize an empty array to hold table data
+        var data = [];
 
-    // Create a new workbook and append the worksheet
-    var workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Active Branch Users");
+        // Loop through each row of the table
+        for (var i = 0, row; row = table.rows[i]; i++) {
+            var rowData = [];
+            // Loop through each cell in the row
+            for (var j = 0, cell; cell = row.cells[j]; j++) {
+                rowData.push(cell.innerText);
+            }
+            data.push(rowData);
+        }
 
-    // Generate Excel file and download
-    XLSX.writeFile(workbook, "Active_Branch_Users.xlsx");
-}
+        // Convert array to worksheet
+        var worksheet = XLSX.utils.aoa_to_sheet(data);
 
+        // Create a new workbook and append the worksheet
+        var workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Active Branch Users");
 
-	</script>
-		<script>
-function exportTableAsPDF() {
-    // Check if jsPDF is available
-    const { jsPDF } = window.jspdf;
-    if (!jsPDF) {
-        console.error("jsPDF not loaded");
-        return;
+        // Generate Excel file and download
+        XLSX.writeFile(workbook, "Active_Branch_Users.xlsx");
     }
+</script>
+<script>
+    function exportTableAsPDF() {
+        // Check if jsPDF is available
+        const {
+            jsPDF
+        } = window.jspdf;
+        if (!jsPDF) {
+            console.error("jsPDF not loaded");
+            return;
+        }
 
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const table = document.getElementById('user-tbl');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const table = document.getElementById('user-tbl');
 
-    // Capture the table as an image
-    html2canvas(table, { scale: 2 }).then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        // Capture the table as an image
+        html2canvas(table, {
+            scale: 2
+        }).then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
-        // Add the image to PDF and adjust size
-        pdf.addImage(imgData, 'PNG', 0, 10, pdfWidth, pdfHeight);
-        
-        // Download the PDF
-        pdf.save('Branch_Users.pdf');
-    }).catch((error) => {
-        console.error("Error generating PDF:", error);
-    });
-}
+            // Add the image to PDF and adjust size
+            pdf.addImage(imgData, 'PNG', 0, 10, pdfWidth, pdfHeight);
 
-	</script>
+            // Download the PDF
+            pdf.save('Branch_Users.pdf');
+        }).catch((error) => {
+            console.error("Error generating PDF:", error);
+        });
+    }
+</script>
+
 </html>
