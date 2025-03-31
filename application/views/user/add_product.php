@@ -499,7 +499,7 @@
 												</button>
 											</td>
 											<td class="py-2 px-4"><button
-													onclick="selectProduct2(''<?= $rowIndex ?>','<?= $product_info['pro_id']; ?>', '<?= $product_info['product_name']; ?>', '<?= $product_info['unit']; ?>', '<?= $product_info['packing']; ?>', '<?= $product_info['net_unit']; ?>', '<?= $product_info['p_id']; ?>')"><?= $product_info['company_name']; ?></button>
+													onclick="selectProduct2('<?= $rowIndex ?>','<?= $product_info['pro_id']; ?>', '<?= $product_info['product_name']; ?>', '<?= $product_info['unit']; ?>', '<?= $product_info['packing']; ?>', '<?= $product_info['net_unit']; ?>', '<?= $product_info['p_id']; ?>')"><?= $product_info['company_name']; ?></button>
 											</td>
 											<td class="py-2 px-4"><?= $product_info['HSN']; ?></td>
 											<td class="py-2 px-4">
