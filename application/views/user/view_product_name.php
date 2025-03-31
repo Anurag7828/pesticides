@@ -49,7 +49,7 @@
                                         <label class="text-dark dark:text-white text-[13px] mb-2">HSN Code</label>
                                         <input readonly type="text" name="HSN" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="HSN Code" value="<?= $product_name['0']['HSN']?>">
                                     </div>
-                                    <div class="flex  sm:w-1/3 w-full mb-[30px]">
+                                    <div class="flex  sm:w-1/2 w-full mb-[30px]">
 																
 																		<div class="sm:w-2/6 w-full">
 																			<label class="text-dark dark:text-white text-[13px] mb-2">Packing Quantity</label>
@@ -65,40 +65,107 @@
 
 																		</div>
 																	</div>
-                                                                    <div class="sm:w-1/6 w-full pl-3">
+                                                                    <div class="sm:w-1/3 w-full pl-3">
 																			<label class="text-dark dark:text-white text-[13px] mb-2">Unit</label>
                                                                             <input readonly type="text" name="HSN" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="HSN Code" value="<?= $product_name['0']['unit']?>">
 
-																		</div> <div class="sm:w-1/4 w-full mb-[30px]">
+																		</div> 
+                                                                      <?php if($product_name['0']['box'] == '1') {?>
+											<div class="sm:w-1/3 w-full mb-[30px] ">
+												<label class="text-dark dark:text-white text-[13px] mb-2 ">Per Box
+													Quantity</label>
+												<input type="text" name="box_per_unit"
+													class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+													placeholder="Per Box Quantity"
+													value="<?= $product_name[0]['box_per_unit'] ?>" readonly>
+											</div>
+											<div class="sm:w-1/3 w-full mb-[30px] ">
+												<label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Purchase
+													Price</label>
+												<input type="text" name="box_per_unit_price"
+													class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+													placeholder="Purchase Price"
+													value="<?= $product_name['0']['box_per_unit_price'] ?>" readonly>
+											</div>
+											<div class="sm:w-1/3 w-full mb-[30px] ">
+												<label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Tax(In %)</label>
+												<input type="text" name="per_tax"
+													class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+													placeholder="Tax(In %)" value="<?= $product_name['0']['per_tax'] ?>" readonly>
+											</div>
+											<div class="sm:w-1/3 w-full mb-[30px] ">
+												<label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Tax Type</label>
+                                                <input readonly type="text" name="HSN" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="HSN Code" value="<?= $product_name['0']['per_tax_type']?>" readonly>
+											</div>
+											<div class="sm:w-1/3 w-full mb-[30px] ">
+												<label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Tax Amount</label>
+												<input type="text" name="per_tax_amount"
+													class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+													placeholder="Tax Amount" value="<?= $product_name['0']['per_tax_amount'] ?>" readonly>
+											</div>
+											<div class="sm:w-1/3 w-full mb-[30px] " >
+												<label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Purchase Price
+													With Tax</label>
+												<input type="text" name="per_total_purchase_price"
+													class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+													placeholder="Purchase Price With Tax"
+													value="<?= $product_name['0']['per_total_purchase_price'] ?>" readonly>
+											</div>
+											<div class="sm:w-1/6 w-full mb-[30px] ">
+												<label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity MRP</label>
+												<input type="text" name="per_mrp"
+													class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+													placeholder="MRP" value="<?= $product_name['0']['per_mrp'] ?>" readonly>
+											</div>
+											<div class="sm:w-1/4 w-full mb-[30px] ">
+												<label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Profit Margin (In
+													%)</label>
+												<input type="text" name="per_profit_margin"
+													class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+													placeholder="Profit Margin"
+													value="<?= $product_name['0']['per_profit_margin'] ?>" readonly>
+											</div>
+											<div class="sm:w-1/4 w-full mb-[30px]">
+												<label class="text-dark dark:text-white text-[13px] mb-2">Per Quantity Sales
+													Price</label>
+												<input type="text" name="box_per_unit_sales_price"
+													class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+													placeholder="Seles Price"
+													value="<?= $product_name['0']['box_per_unit_sales_price'] ?>" readonly>
+											</div>
+                                            <h4 class="sm:w-1 w-full mb-[30px]">Box Detail</h4>
+										<?php }?>
+										
+                                            <div class="sm:w-1/3 w-full mb-[30px]">
                                         <label class="text-dark dark:text-white text-[13px] mb-2">Purchase Price</label>
-                                        <input readonly type="text" name="purchase_price" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Purchase Price" value="<?= $product_name['0']['purchase_price']?>">
+                                        <input readonly type="text" name="purchase_price" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Purchase Price" value="<?= $product_name['0']['purchase_price']?>" readonly>
                                     </div> 
-                                   <div class="sm:w-1/4 w-full mb-[30px]">
+                                   <div class="sm:w-1/3 w-full mb-[30px]">
                                         <label class="text-dark dark:text-white text-[13px] mb-2">Tax(In %)</label>
-                                        <input readonly type="text" name="tax" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Tax(In %)" value="<?= $product_name['0']['tax']?>">
-                                    </div> <div class="sm:w-1/4 w-full mb-[30px]">
+                                        <input readonly type="text" name="tax" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Tax(In %)" value="<?= $product_name['0']['tax']?>" readonly>
+                                    </div> <div class="sm:w-1/3 w-full mb-[30px]">
                                         <label class="text-dark dark:text-white text-[13px] mb-2">Tax Type</label>
                                         <input readonly type="text" name="HSN" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="HSN Code" value="<?= $product_name['0']['tax_type']?>">
 
                                     </div>
-                                    <div class="sm:w-1/4 w-full mb-[30px]">
+                                    <div class="sm:w-1/3 w-full mb-[30px]">
                                         <label class="text-dark dark:text-white text-[13px] mb-2">Tax Amount</label>
                                         <input readonly type="text" name="tax_amount" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Tax Amount" value="<?= $product_name['0']['tax_amount']?>">
                                     </div>
-                                    <div class="sm:w-1/2 w-full mb-[30px]">
+                                    <div class="sm:w-1/3 w-full mb-[30px]">
                                         <label class="text-dark dark:text-white text-[13px] mb-2">Purchase Price With Tax</label>
                                         <input readonly type="text" name="total_purchase_price" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Purchase Price With Tax" value="<?= $product_name['0']['total_purchase_price']?>">
                                     </div>
-                                    <div class="sm:w-1/2 w-full mb-[30px]">
+                                    <div class="sm:w-1/3 w-full mb-[30px]">
                                         <label class="text-dark dark:text-white text-[13px] mb-2">MRP</label>
                                         <input readonly type="text" name="mrp" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="MRP" value="<?= $product_name['0']['mrp']?>">
                                     </div>
-                                    <div class="sm:w-1/2 w-full mb-[30px]">
+                                    <div class="sm:w-1/3 w-full mb-[30px]">
                                         <label class="text-dark dark:text-white text-[13px] mb-2">Profit Margin (In %)</label>
                                         <input readonly type="text" name="profit_margin" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Profit Margin" value="<?= $product_name['0']['profit_margin']?>">
                                     </div>
-                                    <div class="sm:w-1/2 w-full mb-[30px]">
-                                        <label class="text-dark dark:text-white text-[13px] mb-2">Seles Price</label>
+                                    <div class="sm:w-1/3 w-full mb-[30px]">
+                                        <label class="text-dark dark:text-white text-[13px] mb-2">Sales Price</label>
                                         <input readonly type="text" name="selling_price" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Seles Price" value="<?= $product_name['0']['selling_price']?>">
                                     </div>
 									</div>

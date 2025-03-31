@@ -566,6 +566,8 @@ if($add){
         $gst_percentages = $post['tax'] ?? [];
          $tax_type = $post['tax_type'] ?? [];
         $gst_amounts = $post['tax_amount'] ?? [];
+        $p_discount_type = $post['p_discount_type'] ?? [];
+        $p_discount_amounts = $post['p_discount'] ?? [];
         $total_prices = $post['total_price'] ?? [];
        
         // Insert invoice items
@@ -587,6 +589,10 @@ if($add){
                 'gst_percent' => $gst_percentages[$index],
                 'gst_tax' => $gst_amounts[$index],
                 'tax_type' => $tax_type[$index],
+                'p_discount' => $p_discount_amounts[$index],
+
+                'p_discount_type' => $p_discount_type[$index],
+
                 'exp_date' => $exp_dates[$index],
                 'HSN_code' => $HSN_code[$index],
                 'p_price' => $p_prices[$index],
@@ -1323,6 +1329,21 @@ public function download_sample_vendor_csv() {
             $post = $this->input->post();
             $id = $post['id'];
             $uid = $post['user_id'];
+            
+        if($post['unit'] == "Single"){
+            $post['box'] = "0";
+            $post['box_per_unit'] = "0";
+            $post['box_per_unit_price'] = "0"; 
+             $post['per_tax'] = "0"; 
+              $post['per_tax_type'] = "0";
+              $post['per_tax_amount'] = "0";
+              $post['per_total_purchase_price'] = "0";
+              $post['per_mrp'] = "0";$post['per_profit_margin'] = "0";
+              $post['box_per_unit_sales_price'] = "0";
+
+        }else{
+            $post['box'] = "1";
+        }
             $category_id = $this->CommonModal->updateRowById('product', 'id', $id, $post);
 
             if ($category_id) {
