@@ -344,6 +344,269 @@
                                                     // If not shown, display the row and add to the displayed list
                                                     $displayedInvoices[] = $uniqueKey;
                                         ?>
+
+
+
+                                                    <div id="payModal<?= $customer_info['invoice_no'] ?>" class="custom-modal">
+                                                        <div class="custom-modal-content">
+                                                            <span class="custom-modal-close"
+                                                                onclick="closeM('<?= $customer_info['invoice_no'] ?>')">&times;</span>
+                                                            <h2 id="payModalLabel">Pay Due Payment</h2>
+                                                            <div class="modal-body">
+                                                                <div class="row mb-12">
+
+                                                                    <div class="mt-6 lg:w-1/2 md:w-1/2 w-full detail">
+                                                                        <!-- <h6 class="mb-2">Customer Detail:</h6> -->
+                                                                        <?php
+                                                                        $customer = $this->CommonModal->getRowByMultitpleId('customer', 'id', $customer_info['c_id'], 'user_id', $user['0']['id']);
+                                                                        ?>
+                                                                        <div class="text-body-color sm:text-sm text-xs">
+                                                                            <strong>Customer Name:</strong>
+                                                                            <?= $customer[0]['name'] ?>
+                                                                        </div>
+                                                                        <div class="text-body-color sm:text-sm text-xs">
+                                                                            <strong>Customer No:</strong>
+                                                                            <?= $customer[0]['contact'] ?>
+                                                                        </div>
+                                                                        <div class="text-body-color sm:text-sm text-xs">
+                                                                            <strong>Invoice No.:</strong>
+                                                                            <?= $user[0]['prefix'] ?>-<?= $customer_info['invoice_no'] ?>
+                                                                        </div>
+                                                                        <div class="text-body-color sm:text-sm text-xs">
+                                                                            <strong>Date:</strong>
+                                                                            <?= $customer_info['bill_date'] ?>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="mt-6 lg:w-1/2 md:w-1/2 w-full detail">
+                                                                        <!-- <h6 class="mb-2">Customer Detail:</h6> -->
+                                                                        <?php
+                                                                        $payment = $this->CommonModal->getRowByIdOrderByLimit('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'id', 'DESC', '1');
+                                                                        $paymentsum = $this->CommonModal->getRowByIdSum('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'paid');
+                                                                        ?>
+                                                                        <div class="text-body-color sm:text-sm text-xs">
+                                                                            <strong>Total Amount:</strong> ₹
+                                                                            <?= $payment[0]['total'] ?>/-
+                                                                        </div>
+
+                                                                        <div class="text-body-color sm:text-sm text-xs"><strong>Paid
+                                                                                Amount:</strong> ₹
+                                                                            <?= $paymentsum[0]['total_sum'] ?>/-</div>
+                                                                        <div class="text-body-color sm:text-sm text-xs"><strong>Due
+                                                                                Amount:</strong> ₹ <?= $payment[0]['due'] ?>/-</div>
+
+                                                                    </div>
+                                                                    <form class="profile-form" id="paymentForm<?= $customer_info['invoice_no'] ?>"
+                                                                        action="<?= base_url('admin_Dashboard/add_payment/' . encryptId($user['0']['id'])) ?>"
+                                                                        method="post" enctype="multipart/form-data" onsubmit="sendWhatsAppMessage(event, '<?= $customer_info['invoice_no'] ?>', '<?= $customer[0]['name'] ?>','<?= $customer[0]['contact']?>','<?= $payment[0]['total'] ?>','<?= $payment[0]['due'] ?>','<?= $paymentsum[0]['total_sum'] ?>')">
+
+                                                                        <div class="sm:p-10 sm:pb-2.5 p-[25px] pb-0">
+
+                                                                            <div class="row">
+                                                                                <div class="sm:w-1/2 w-full mb-[30px]">
+                                                                                    <label
+                                                                                        class="text-dark dark:text-white text-[13px] mb-2">Date</label>
+                                                                                    <input type="date"
+                                                                                        id="paymentDate<?= $customer_info['invoice_no'] ?>"
+                                                                                        name="date"
+                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full">
+                                                                                </div>
+                                                                                <div class="sm:w-1/2 w-full mb-[30px]">
+                                                                                    <label
+                                                                                        class="text-dark dark:text-white text-[13px] mb-2">Paid
+                                                                                        Amount</label>
+                                                                                    <input type="number" name="paid"
+                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
+                                                                                        placeholder="paid amount"
+                                                                                        value="<?= $payment[0]['due'] ?>" max="<?= $payment[0]['due'] ?>"
+                                                                                        id="paidAmount<?= $customer_info['invoice_no'] ?>"
+                                                                                        oninput="validatePaidAmount('<?= $customer_info['invoice_no'] ?>')">
+                                                                                    <input type="hidden" name="due"
+                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
+                                                                                        placeholder="paid amount"
+                                                                                        value="<?= $payment[0]['due'] ?>">
+                                                                                    <input type="hidden" name="invoice_no"
+                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
+                                                                                        placeholder="paid amount"
+                                                                                        value="<?= $customer_info['invoice_no'] ?>">
+                                                                                    <input type="hidden" name="user_id"
+                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
+                                                                                        placeholder="paid amount"
+                                                                                        value="<?= $user['0']['id'] ?>">
+                                                                                    <input type="hidden" name="total"
+                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
+                                                                                        placeholder="paid amount"
+                                                                                        value=" <?= $payment[0]['total'] ?>">
+                                                                                    <input type="hidden" name="customer_id"
+                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
+                                                                                        placeholder="paid amount"
+                                                                                        value="<?= $customer_info['c_id'] ?>">
+                                                                                </div>
+                                                                                <div class="sm:w-1/2 w-full mb-[30px]">
+                                                                                    <label
+                                                                                        class="text-dark dark:text-white text-[13px] mb-2">Payment
+                                                                                        Mode</label>
+                                                                                    <select name="mode"
+                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full "
+                                                                                        id="paymentMode<?= $customer_info['invoice_no'] ?>"
+                                                                                        required>
+                                                                                        <option value="">--SELECT--</option>
+                                                                                        <option value="Cash">CASH</option>
+                                                                                        <option value="Upi">UPI</option>
+                                                                                        <option value="Card">CREADIT/DEBIT CARD</option>
+
+                                                                                        <option value="Bank">Bank Transfer</option>
+                                                                                        <option value="Cheque">Cheque</option>
+
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="sm:w-1/2 w-full mb-[30px]"
+                                                                                    id="bankDetails<?= $customer_info['invoice_no'] ?>"
+                                                                                    style="display:none;">
+                                                                                    <label
+                                                                                        class="text-dark dark:text-white text-[13px] mb-2">Account</label>
+                                                                                    <select name="bank"
+                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                                                        id="bankAccount<?= $customer_info['invoice_no'] ?>">
+                                                                                        <option value="">--SELECT--</option>
+                                                                                        <?php
+                                                                                        // Fetch bank accounts from the database
+                                                                                        $account = $this->CommonModal->getRowById('account', 'user_id', $user['0']['id']);
+                                                                                        foreach ($account as $account_info) { ?>
+                                                                                            <option value="<?= htmlspecialchars($account_info['id']) ?>">
+                                                                                                <?= htmlspecialchars($account_info['bank_name']) ?> - <?= htmlspecialchars($account_info['account_no']) ?>
+                                                                                            </option>
+                                                                                        <?php } ?>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="sm:w-1/2 w-full mb-[30px]"
+                                                                                    id="chequeDetails<?= $customer_info['invoice_no'] ?>"
+                                                                                    style="display:none;">
+                                                                                    <label
+                                                                                        class="text-dark dark:text-white text-[13px] mb-2">Cheque Number</label>
+                                                                                    <input type="text" name="cheque_no"
+                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
+                                                                                        placeholder="Cheque Number"
+                                                                                        id="cheque<?= $customer_info['invoice_no'] ?>">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            class="sm:py-5 sm:px-10 p-[25px] flex items-center justify-between border-t border-b-color">
+                                                                            <button type="submit" id="add-product-btn"
+                                                                                class="btn btn-primary sm:py-[0.719rem] py-2.5 sm:px-[1.563rem] px-4 sm:text-[15px] text-[13px] font-medium rounded text-white bg-primary leading-5 inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary">Pay</button>
+                                                                        </div>
+                                                                </div>
+                                                                </form>
+                                                                <script>
+                                                                    document.getElementById('paymentMode<?= $customer_info['invoice_no'] ?>').addEventListener('change', function() {
+                                                                        var bankDetails = document.getElementById('bankDetails<?= $customer_info['invoice_no'] ?>');
+                                                                        var selectDetails = document.getElementById('bankAccount<?= $customer_info['invoice_no'] ?>');
+                                                                        if (this.value === 'Bank') {
+                                                                            bankDetails.style.display = 'block';
+                                                                            selectDetails.setAttribute('required', 'required')
+                                                                        } else {
+                                                                            bankDetails.style.display = 'none';
+                                                                            selectDetails.removeAttribute('required');
+                                                                        }
+                                                                    });
+                                                                    document.addEventListener("DOMContentLoaded", function() {
+                                                                        var today = new Date();
+                                                                        var year = today.getFullYear();
+                                                                        var month = (today.getMonth() + 1).toString().padStart(2, '0');
+                                                                        var day = today.getDate().toString().padStart(2, '0');
+                                                                        var currentDate = `${year}-${month}-${day}`;
+                                                                        document.getElementById('paymentDate<?= $customer_info['invoice_no'] ?>').value = currentDate;
+                                                                    });
+                                                                    document.getElementById('paymentMode<?= $customer_info['invoice_no'] ?>').addEventListener('change', function() {
+                                                                        var chequeDetails = document.getElementById('chequeDetails<?= $customer_info['invoice_no'] ?>');
+                                                                        var selectDetails = document.getElementById('cheque<?= $customer_info['invoice_no'] ?>');
+                                                                        if (this.value === 'Cheque') {
+                                                                            chequeDetails.style.display = 'block';
+                                                                            selectDetails.setAttribute('required', 'required')
+                                                                        } else {
+                                                                            chequeDetails.style.display = 'none';
+                                                                            selectDetails.removeAttribute('required');
+                                                                        }
+                                                                    });
+                                                                </script>
+                                    
+
+                                                               <?php
+$shopName = isset($user[0]['shop']) ? addslashes($user[0]['shop']) : "Shop Name";
+$invoiceDate = isset($customer_info['bill_date']) ? date('d M Y', strtotime($customer_info['bill_date'])) : "N/A";
+$invoiceUrl = $invoiceUrl ?? "#";
+$prefix = isset($user[0]['prefix']) ? $user[0]['prefix'] : "";
+?>
+
+<script>
+function sendWhatsAppMessage(event, invoiceNo, customer_name, customer_contact, total, due, previousPaid) {
+    event.preventDefault(); 
+
+    let customerName = customer_name;
+    let contactNumber = customer_contact; 
+    let totalAmount = parseFloat(total) || 0;
+    let currentDueAmount = parseFloat(due) || 0;
+    let previousPaidAmount = parseFloat(previousPaid) || 0;
+
+    let shopName = "<?= $shopName ?>"; 
+    let invoiceDate = "<?= $invoiceDate ?>"; 
+    let invoiceUrl = "<?= $invoiceUrl ?>"; 
+    let prefix = "<?= $prefix ?>";
+
+    // Form Data Fetch
+    let paidAmount = parseFloat(document.querySelector(`#paidAmount${invoiceNo}`).value) || 0;
+    let paymentMode = document.querySelector(`#paymentMode${invoiceNo}`).value;
+
+    console.log("Total Amount:", totalAmount);
+    console.log("Previous Paid Amount:", previousPaidAmount);
+    console.log("Current Due Amount:", currentDueAmount);
+    console.log("Paid Amount:", paidAmount);
+    console.log("Customer Contact:", contactNumber);
+
+    // Calculate New Due Amount
+    let newDueAmount = currentDueAmount - paidAmount;
+    if (newDueAmount < 0) {
+        alert("Paid amount cannot be greater than due amount!");
+        return;
+    }
+
+    console.log("Updated Due Amount:", newDueAmount);
+
+    if (!contactNumber || contactNumber.trim() === '') {
+        alert("Customer WhatsApp number is missing!");
+        return;
+    }
+
+    // WhatsApp Message Encoding
+    let message = `Hey ${customerName},\n\n`
+        + `Thank you for choosing *${shopName}*!\n\n`
+        + `Your payment has been received.\n\n`
+        + `*Invoice Number:* ${prefix}-${invoiceNo}\n`
+        + `*Invoice Date:* ${invoiceDate}\n`
+        + `*Total Amount:* ₹ ${totalAmount}\n`
+        + `*Previous Paid:* ₹ ${previousPaidAmount}\n`
+        + `*Current Paid:* ₹ ${paidAmount}\n`
+        + `*Remaining Due:* ₹ ${newDueAmount}\n`
+        + `*Payment Mode:* ${paymentMode}\n\n`
+        + `View your invoice here:\n${invoiceUrl}\n\n`
+        + `Thank you for your payment!`;
+
+    let whatsappUrl = `https://wa.me/${contactNumber}?text=${encodeURIComponent(message)}`;
+
+    // Pehle WhatsApp Open karega, phir Form Submit karega
+    window.open(whatsappUrl, '_blank');
+
+    setTimeout(() => {
+        document.querySelector(`#paymentForm${invoiceNo}`).submit();
+    }, 3000); // 3 sec delay
+}
+</script>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                     <div id="paymentModal<?= $customer_info['invoice_no'] ?>" class="custom-modal">
                                                         <div class="custom-modal-content">
                                                             <span class="custom-modal-close"
@@ -574,190 +837,6 @@
                                                         </div>
                                                     </div>
 
-
-
-                                                    <div id="payModal<?= $customer_info['invoice_no'] ?>" class="custom-modal">
-                                                        <div class="custom-modal-content">
-                                                            <span class="custom-modal-close"
-                                                                onclick="closeM('<?= $customer_info['invoice_no'] ?>')">&times;</span>
-                                                            <h2 id="payModalLabel">Pay Due Payment</h2>
-                                                            <div class="modal-body">
-                                                                <div class="row mb-12">
-
-                                                                    <div class="mt-6 lg:w-1/2 md:w-1/2 w-full detail">
-                                                                        <!-- <h6 class="mb-2">Customer Detail:</h6> -->
-                                                                        <?php
-                                                                        $customer = $this->CommonModal->getRowByMultitpleId('customer', 'id', $customer_info['c_id'], 'user_id', $user['0']['id']);
-                                                                        ?>
-                                                                        <div class="text-body-color sm:text-sm text-xs">
-                                                                            <strong>Customer Name:</strong>
-                                                                            <?= $customer[0]['name'] ?>
-                                                                        </div>
-
-                                                                        <div class="text-body-color sm:text-sm text-xs">
-                                                                            <strong>Invoice No.:</strong>
-                                                                            <?= $user[0]['prefix'] ?>-<?= $customer_info['invoice_no'] ?>
-                                                                        </div>
-                                                                        <div class="text-body-color sm:text-sm text-xs">
-                                                                            <strong>Date:</strong>
-                                                                            <?= $customer_info['bill_date'] ?>
-                                                                        </div>
-
-                                                                    </div>
-                                                                    <div class="mt-6 lg:w-1/2 md:w-1/2 w-full detail">
-                                                                        <!-- <h6 class="mb-2">Customer Detail:</h6> -->
-                                                                        <?php
-                                                                        $payment = $this->CommonModal->getRowByIdOrderByLimit('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'id', 'DESC', '1');
-                                                                        $paymentsum = $this->CommonModal->getRowByIdSum('payment', 'invoice_no', $customer_info['invoice_no'], 'user_id', $user['0']['id'], 'paid');
-                                                                        ?>
-                                                                        <div class="text-body-color sm:text-sm text-xs">
-                                                                            <strong>Total Amount:</strong> ₹
-                                                                            <?= $payment[0]['total'] ?>/-
-                                                                        </div>
-
-                                                                        <div class="text-body-color sm:text-sm text-xs"><strong>Paid
-                                                                                Amount:</strong> ₹
-                                                                            <?= $paymentsum[0]['total_sum'] ?>/-</div>
-                                                                        <div class="text-body-color sm:text-sm text-xs"><strong>Due
-                                                                                Amount:</strong> ₹ <?= $payment[0]['due'] ?>/-</div>
-
-                                                                    </div>
-                                                                    <form class="profile-form"
-                                                                        action="<?= base_url('admin_Dashboard/add_payment/' . encryptId($user['0']['id'])) ?>"
-                                                                        method="post" enctype="multipart/form-data">
-                                                                        <div class="sm:p-10 sm:pb-2.5 p-[25px] pb-0">
-
-                                                                            <div class="row">
-                                                                                <div class="sm:w-1/2 w-full mb-[30px]">
-                                                                                    <label
-                                                                                        class="text-dark dark:text-white text-[13px] mb-2">Date</label>
-                                                                                    <input type="date"
-                                                                                        id="paymentDate<?= $customer_info['invoice_no'] ?>"
-                                                                                        name="date"
-                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full">
-                                                                                </div>
-                                                                                <div class="sm:w-1/2 w-full mb-[30px]">
-                                                                                    <label
-                                                                                        class="text-dark dark:text-white text-[13px] mb-2">Paid
-                                                                                        Amount</label>
-                                                                                    <input type="number" name="paid"
-                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-                                                                                        placeholder="paid amount"
-                                                                                        value="<?= $payment[0]['due'] ?>" max="<?= $payment[0]['due'] ?>"
-                                                                                        id="paidAmount<?= $customer_info['invoice_no'] ?>"
-                                                                                        oninput="validatePaidAmount('<?= $customer_info['invoice_no'] ?>')">
-                                                                                    <input type="hidden" name="due"
-                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-                                                                                        placeholder="paid amount"
-                                                                                        value="<?= $payment[0]['due'] ?>">
-                                                                                    <input type="hidden" name="invoice_no"
-                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-                                                                                        placeholder="paid amount"
-                                                                                        value="<?= $customer_info['invoice_no'] ?>">
-                                                                                    <input type="hidden" name="user_id"
-                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-                                                                                        placeholder="paid amount"
-                                                                                        value="<?= $user['0']['id'] ?>">
-                                                                                    <input type="hidden" name="total"
-                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-                                                                                        placeholder="paid amount"
-                                                                                        value=" <?= $payment[0]['total'] ?>">
-                                                                                    <input type="hidden" name="customer_id"
-                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-                                                                                        placeholder="paid amount"
-                                                                                        value="<?= $customer_info['c_id'] ?>">
-                                                                                </div>
-                                                                                <div class="sm:w-1/2 w-full mb-[30px]">
-                                                                                    <label
-                                                                                        class="text-dark dark:text-white text-[13px] mb-2">Payment
-                                                                                        Mode</label>
-                                                                                    <select name="mode"
-                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full "
-                                                                                        id="paymentMode<?= $customer_info['invoice_no'] ?>"
-                                                                                        required>
-                                                                                        <option value="">--SELECT--</option>
-                                                                                        <option value="Cash">CASH</option>
-                                                                                        <option value="Upi">UPI</option>
-                                                                                        <option value="Card">CREADIT/DEBIT CARD</option>
-
-                                                                                        <option value="Bank">Bank Transfer</option>
-                                                                                        <option value="Cheque">Cheque</option>
-
-                                                                                    </select>
-                                                                                </div>
-                                                                                <div class="sm:w-1/2 w-full mb-[30px]"
-                                                                                    id="bankDetails<?= $customer_info['invoice_no'] ?>"
-                                                                                    style="display:none;">
-                                                                                    <label
-                                                                                        class="text-dark dark:text-white text-[13px] mb-2">Account</label>
-                                                                                    <select name="bank"
-                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-                                                                                        id="bankAccount<?= $customer_info['invoice_no'] ?>">
-                                                                                        <option value="">--SELECT--</option>
-                                                                                        <?php
-                                                                                        // Fetch bank accounts from the database
-                                                                                        $account = $this->CommonModal->getRowById('account', 'user_id', $user['0']['id']);
-                                                                                        foreach ($account as $account_info) { ?>
-                                                                                            <option value="<?= htmlspecialchars($account_info['id']) ?>">
-                                                                                                <?= htmlspecialchars($account_info['bank_name']) ?> - <?= htmlspecialchars($account_info['account_no']) ?>
-                                                                                            </option>
-                                                                                        <?php } ?>
-                                                                                    </select>
-                                                                                </div>
-                                                                                <div class="sm:w-1/2 w-full mb-[30px]"
-                                                                                    id="chequeDetails<?= $customer_info['invoice_no'] ?>"
-                                                                                    style="display:none;">
-                                                                                    <label
-                                                                                        class="text-dark dark:text-white text-[13px] mb-2">Cheque Number</label>
-                                                                                    <input type="text" name="cheque_no"
-                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-                                                                                        placeholder="Cheque Number"
-                                                                                        id="cheque<?= $customer_info['invoice_no'] ?>">
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div
-                                                                            class="sm:py-5 sm:px-10 p-[25px] flex items-center justify-between border-t border-b-color">
-                                                                            <button type="submit" id="add-product-btn"
-                                                                                class="btn btn-primary sm:py-[0.719rem] py-2.5 sm:px-[1.563rem] px-4 sm:text-[15px] text-[13px] font-medium rounded text-white bg-primary leading-5 inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary">Pay</button>
-                                                                        </div>
-                                                                </div>
-                                                                </form>
-                                                                <script>
-                                                                    document.getElementById('paymentMode<?= $customer_info['invoice_no'] ?>').addEventListener('change', function() {
-                                                                        var bankDetails = document.getElementById('bankDetails<?= $customer_info['invoice_no'] ?>');
-                                                                        var selectDetails = document.getElementById('bankAccount<?= $customer_info['invoice_no'] ?>');
-                                                                        if (this.value === 'Bank') {
-                                                                            bankDetails.style.display = 'block';
-                                                                            selectDetails.setAttribute('required', 'required')
-                                                                        } else {
-                                                                            bankDetails.style.display = 'none';
-                                                                            selectDetails.removeAttribute('required');
-                                                                        }
-                                                                    });
-                                                                    document.addEventListener("DOMContentLoaded", function() {
-                                                                        var today = new Date();
-                                                                        var year = today.getFullYear();
-                                                                        var month = (today.getMonth() + 1).toString().padStart(2, '0');
-                                                                        var day = today.getDate().toString().padStart(2, '0');
-                                                                        var currentDate = `${year}-${month}-${day}`;
-                                                                        document.getElementById('paymentDate<?= $customer_info['invoice_no'] ?>').value = currentDate;
-                                                                    });
-                                                                    document.getElementById('paymentMode<?= $customer_info['invoice_no'] ?>').addEventListener('change', function() {
-                                                                        var chequeDetails = document.getElementById('chequeDetails<?= $customer_info['invoice_no'] ?>');
-                                                                        var selectDetails = document.getElementById('cheque<?= $customer_info['invoice_no'] ?>');
-                                                                        if (this.value === 'Cheque') {
-                                                                            chequeDetails.style.display = 'block';
-                                                                            selectDetails.setAttribute('required', 'required')
-                                                                        } else {
-                                                                            chequeDetails.style.display = 'none';
-                                                                            selectDetails.removeAttribute('required');
-                                                                        }
-                                                                    });
-                                                                </script>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                     </div>
                         <?php
                                                 }
@@ -782,6 +861,7 @@
     </div>
     <?php include "includes2/footer.php" ?>
 </body>
+
 <script>
     // Function to open modal and load content
     function openModal(invoice_no) {

@@ -116,8 +116,9 @@
             <th class="py-[0.7375rem] p-2.5 whitespace-nowrap uppercase text-[13px] font-medium text-primary border-b border-b-color text-left">Total Amount</th>
             <th class="py-[0.7375rem] p-2.5 whitespace-nowrap uppercase text-[13px] font-medium text-primary border-b border-b-color text-left">Paid Amount</th>
             <th class="py-[0.7375rem] p-2.5 whitespace-nowrap uppercase text-[13px] font-medium text-primary border-b border-b-color text-left">Due Amount</th>
-            <th class="py-[0.7375rem] p-2.5 whitespace-nowrap uppercase text-[13px] font-medium text-primary border-b border-b-color text-left">Add by</th>
-        </tr>
+           
+         <th class="py-[0.7375rem] p-2.5 whitespace-nowrap uppercase text-[13px] font-medium text-primary border-b border-b-color text-left">Add by</th>
+           </tr>
     </thead>
     <tbody>
         <?php 
@@ -135,22 +136,23 @@
                 $totalPaid += $paymentsum[0]['total_sum'];
                 $totalDue += $payment[0]['due'];
         ?>
-        <tr>
-            <td class="sm:pl-[1.275rem] pl-[0.9375rem] py-[0.7375rem] pr-[0.625rem] whitespace-nowrap"><?= $serial++ ?></td>
-            <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-body-color dark:text-white text-[13px]"><?= $place[0]['place_name'] ?></td>
-            <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-dark dark:text-white text-xs font-medium"><?= $user[0]['prefix'] ?>-<?= $product['invoice_no'] ?></td>
-            <td class="py-[0.7375rem] p-2.5 whitespace-nowrap"><?= date('d-m-y', strtotime($product['date'])) ?></td>
-            <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-body-color dark:text-white text-[13px]"><?= $customer[0]['name'] ?></td>
-            <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-body-color dark:text-white text-[13px]"><?= $product['p_name_count'] ?></td>
-            <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-body-color dark:text-white text-[13px]">₹ <?= $product['final_total'] ?></td>
-            <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-body-color dark:text-white text-[13px]">₹ <?= $paymentsum[0]['total_sum'] ?></td>
-            <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-body-color dark:text-white text-[13px]">₹ <?= $payment[0]['due'] ?></td>
-            <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-body-color dark:text-white text-[13px]">
-                <?= $product['branch_id'] != 0 
-                    ? $this->CommonModal->getRowByMultitpleId('branch', 'id', $product['branch_id'], 'user_id', $user[0]['id'])[0]['name'] 
-                    : 'Admin'; ?>
-            </td>
-        </tr>
+     <tr onclick="window.location='<?= base_url('Admin_Dashboard/print_invoice/' . encryptId($user['0']['id']) . '/' . $product['invoice_no']); ?>';" style="cursor: pointer;">
+    <td class="sm:pl-[1.275rem] pl-[0.9375rem] py-[0.7375rem] pr-[0.625rem] whitespace-nowrap"><?= $serial++ ?></td>
+    <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-body-color dark:text-white text-[13px]"><?= $place[0]['place_name'] ?></td>
+    <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-dark dark:text-white text-xs font-medium"><?= $user[0]['prefix'] ?>-<?= $product['invoice_no'] ?></td> 
+    <td class="py-[0.7375rem] p-2.5 whitespace-nowrap"><?= date('d-m-y', strtotime($product['date'])) ?></td>
+    <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-body-color dark:text-white text-[13px]"><?= $customer[0]['name'] ?></td>
+    <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-body-color dark:text-white text-[13px]"><?= $product['p_name_count'] ?></td>
+    <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-body-color dark:text-white text-[13px]">₹ <?= $product['final_total'] ?></td>
+    <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-body-color dark:text-white text-[13px]">₹ <?= $paymentsum[0]['total_sum'] ?></td>
+    <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-body-color dark:text-white text-[13px]">₹ <?= $payment[0]['due'] ?></td>
+    <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-body-color dark:text-white text-[13px]">
+        <?= $product['branch_id'] != 0 
+            ? $this->CommonModal->getRowByMultitpleId('branch', 'id', $product['branch_id'], 'user_id', $user[0]['id'])[0]['name'] 
+            : 'Admin'; ?>
+    </td>
+</tr>
+
         <?php endforeach; ?>
         </tbody>
         <tbody>

@@ -397,19 +397,28 @@ if (!empty($customer)) {
     document.getElementById('whatsappBtn').addEventListener('click', function () {
         let customerName = "<?= $cus['vender_name'] ?>";
         let contactNumber = "<?= $cus['mobile'] ?>"; 
+        let purchaseCode = "<?= $purchase_product['0']['purchase_code'] ?>";
+      
         let totalAmount = "<?= $purchase_product['0']['grand_total'] ?>";
         let paidAmount = "<?= $paymentsum[0]['total_sum'] ?>"; 
         let dueAmount = "<?= $payment[0]['due'] ?>"; 
+        let shopName = "<?= $user['0']['shop'] ?>";
+        let prifix = "<?= $user['0']['purchase_code'] ?>";
+
+      
         let purchaseInvoiceUrl = "<?= $purchaseInvoiceUrl ?>";
 
-        // WhatsApp Message Format
-        let message = `*Purchase Products Bill Details*%0A
-        *Vendor Name:* ${customerName}%0A
-        *Total Amount:* ₹${totalAmount}%0A
-        *Paid Amount:* ₹${paidAmount}%0A
-        *Due Amount:* ₹${dueAmount}%0A
-        *Purchase Invoice Link:* ${purchaseInvoiceUrl}%0A
-        Thank you!`;
+        // Updated WhatsApp Message Format
+        let message = `Hey ${customerName},%0A%0A
+Thank you for Business with ${shopName}!%0A%0A
+Details of My Purchase Invoice,%0A
+Invoice Number:- ${prifix}-${purchaseCode}%0A
+Total Amount:-  ₹${totalAmount}%0A
+Paid Amount:- ₹${paidAmount}%0A
+Due Amount:- ₹${dueAmount}%0A%0A
+View your invoice here:%0A
+${purchaseInvoiceUrl}%0A%0A
+Thank you for your purchase!`;
 
         let whatsappUrl = `https://wa.me/${contactNumber}?text=${message}`;
         window.open(whatsappUrl, '_blank');

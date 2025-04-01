@@ -56,7 +56,14 @@
 											<input type="text" name="address" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" placeholder="address" value="<?= $customer['0']['address']?>" >
 										</div>
                                         
-									
+										<div class="sm:w-1/2 w-full mb-[30px]">
+											<label class="text-dark dark:text-white text-[13px] mb-2">interest rate</label>
+											<input type="text" name="interest_rate" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" placeholder="interest rate" value="<?= $customer['0']['interest_rate']?>" >
+										</div>
+                                        <div class="sm:w-1/2 w-full mb-[30px]">
+											<label class="text-dark dark:text-white text-[13px] mb-2">interest days</label>
+											<input type="text" name="interest_days" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" placeholder="interest days" value="<?= $customer['0']['interest_days']?>" >
+										</div>
 										
 									</div>
 								</div>

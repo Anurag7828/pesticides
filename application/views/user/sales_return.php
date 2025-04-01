@@ -134,7 +134,9 @@
                 $totalPaid += $paymentsum[0]['total_sum'];
                 $totalDue += $payment[0]['due'];
         ?>
-        <tr>
+        <tr onclick="console.log('<?= base_url('Admin_Dashboard/print_return_invoice/' . encryptId($user[0]['id']) . '/' . $product['return_invoice_no']); ?>'); 
+        window.location='<?= base_url('Admin_Dashboard/print_return_invoice/' . encryptId($user[0]['id']) . '/' . $product['return_invoice_no']); ?>';" style="cursor: pointer;">
+       
             <td class="sm:pl-[1.275rem] pl-[0.9375rem] py-[0.7375rem] pr-[0.625rem] whitespace-nowrap"><?= $serial++ ?></td>
             <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-body-color dark:text-white text-[13px]"><?= $place[0]['place_name'] ?></td>
             <td class="py-[0.7375rem] p-2.5 whitespace-nowrap text-dark dark:text-white text-xs font-medium"><?= $user[0]['returne_code'] ?>-<?= $product['return_invoice_no'] ?></td>
