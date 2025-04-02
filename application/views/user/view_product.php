@@ -123,9 +123,7 @@
                                                     <th
                                                         class="bg-primary-light text-[13px] py-2.5 px-4 text-primary capitalize border-b border-b-color font-medium bg-none whitespace-nowrap text-left">
                                                         Date</th>
-                                                    <th
-                                                        class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">
-                                                        Vendor Name</th>
+                                                   
                                                     <th
                                                         class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">
                                                         Purchase <br>code</th>
@@ -228,16 +226,16 @@
                                                             <td
                                                                 class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
                                                                 <?= date('d-m-Y', strtotime($product_info['date'])) ?></td>
-                                                            <td
-                                                                class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color address-wrap">
-                                                                <?= $vender_name ?></td>
+                                                            
                                                             <td
                                                                 class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
                                                                 <?= $user['0']['purchase_code']?>-<?= $product_info['purchase_code'] ?>
                                                             </td>
                                                             <td
                                                                 class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
-                                                                <?= $total_products ?></td>
+                                                                <?= $total_products ?> <?php if($product_info['box'] == '1') { ?>
+                                                                (Box) <?php } else { ?>
+                                                                (Single)<?php } ?></td>
                                                             <td
                                                                 class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
                                                                 <?= $product_info['total_quantity'] ?><br>

@@ -164,17 +164,39 @@
                 <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color  break-all"><?= $stock_place_name ?: 'Not Found'; ?></td>
                 <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color address-wrap">
     <?= ($product_id && $product_name && $product_unit) 
-        ? $product_id . ' - ' . $product_name . ' - ' . $product_unit 
+        ? $product_id . ' - ' . $product_name 
         : 'Not Found'; 
     ?>
 </td>
 
                 <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"><?= $product_packing  ?> <?=  $product_net_unit; ?></td>
-                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"><?= $stock_info['quantity']; ?></td>
-                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"><?= $stock_info['return_quantity']; ?></td>
-                  <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"><?= $stock_info['selling_quantity']; ?></td>
-               <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"><?= $stock_info['transfer_quantity']; ?></td>
-                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"><?= $stock_info['availabile_quantity']; ?></td>
+                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
+    <?= $stock_info['quantity']; ?>
+    <?php if ($stock_info['box'] == '1') { ?>
+        - Box  ,<br><?= $stock_info['box_product_quantity']; ?> - Single
+    <?php } else { ?>
+        - Single
+    <?php } ?>
+</td>
+                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"><?= $stock_info['return_quantity']; ?>  <?php if ($stock_info['box'] == '1') { ?>
+        - Box  ,<br><?= $stock_info['per_product_return_quantity']; ?> - Single
+    
+    <?php } ?></td>
+                  <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"><?= $stock_info['selling_quantity']; ?>
+                  <?php if ($stock_info['box'] == '1') { ?>
+        - Box  ,<br><?= $stock_info['per_product_selling_quantity']; ?> - Single
+
+    <?php } ?></td>
+               <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"><?= $stock_info['transfer_quantity']; ?>
+               <?php if ($stock_info['box'] == '1') { ?>
+        - Box  ,<br><?= $stock_info['per_product_transfer_quantity']; ?> - Single
+   
+    <?php } ?></td>
+                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"><?= $stock_info['availabile_quantity']; ?>
+                <?php if ($stock_info['box'] == '1') { ?>
+        - Box  ,<br><?= $stock_info['per_product_available_quantity']; ?> - Single
+  
+    <?php } ?></td>
 
                 <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"><?= date('d-m-y', strtotime($stock_info['exp_date'])) ?></td>
                 <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
@@ -213,7 +235,7 @@ function filterProducts() {
     // Fetch products for the selected stock place
     if (stockPlaceId) {
         $.ajax({
-            url: '<?= base_url("Branch_Dashboard/get_products_by_stock_place") ?>',
+            url: '<?= base_url("Admin_Dashboard/get_products_by_stock_place") ?>',
             type: 'POST',
             data: { stock_place_id: stockPlaceId },
             dataType: 'json',
@@ -233,7 +255,7 @@ function filterProducts() {
 function filterTable(stockPlaceId) {
     // Make AJAX call to fetch filtered stock data based on stockPlaceId
     $.ajax({
-        url: '<?= base_url("Branch_Dashboard/stock/" . encryptId($user[0]['id'])) ?>', // Correct URL
+        url: '<?= base_url("Admin_Dashboard/stock/" . encryptId($user[0]['id'])) ?>', // Correct URL
         type: 'POST',
         data: { stock_place_id: stockPlaceId },
         success: function(response) {
@@ -246,7 +268,7 @@ function filterTable(stockPlaceId) {
 function filterTablep(stockPlaceId, productId) {
     // Make AJAX call to fetch filtered stock data based on both stockPlaceId and productId
     $.ajax({
-        url: '<?= base_url("Branch_Dashboard/stock/" . encryptId($user[0]['id'])) ?>', // Correct URL
+        url: '<?= base_url("Admin_Dashboard/stock/" . encryptId($user[0]['id'])) ?>', // Correct URL
         type: 'POST',
         data: { stock_place_id: stockPlaceId, product_id: productId },
         success: function(response) {

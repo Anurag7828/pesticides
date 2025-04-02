@@ -49,13 +49,13 @@
 							</defs>
 					</svg>
 					</div>	
-						<span class="nav-text">Invoice</span>
+						<span class="nav-text">Sales</span>
 						</a>
 						<ul aria-expanded="false">			
 						
-							<li><a href="<?= base_url('admin_Dashboard/add_invoice/'.encryptId($user['0']['id']))?>">Add Invoice</a></li>	
-								<li><a href="<?= base_url('admin_Dashboard/invoice/'.encryptId($user['0']['id'])) ?>">Invoice List</a></li>
-									<li><a href="<?= base_url('admin_Dashboard/view_return_invoice/'.encryptId($user['0']['id'])) ?>">Return Invoice</a></li>
+							<li><a href="<?= base_url('admin_Dashboard/add_invoice/'.encryptId($user['0']['id']))?>">Add Sales</a></li>	
+								<li><a href="<?= base_url('admin_Dashboard/invoice/'.encryptId($user['0']['id'])) ?>">Sales List</a></li>
+									<li><a href="<?= base_url('admin_Dashboard/view_return_invoice/'.encryptId($user['0']['id'])) ?>">Return Sales</a></li>
 								
 						</ul>
 					</li>

@@ -125,6 +125,11 @@
 																		class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
 																		placeholder="unit" required>
 
+
+																		<input type="hidden" name="unit_box_per_quantity[]"
+																		class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
+																		placeholder="undgit" required>
+
 																	<div class="md:w-1/6  mb-[30px]">
 																		<label
 																			class="text-dark dark:text-white text-[13px] mb-2">Quantity</label>
@@ -494,12 +499,12 @@
 											<td class="py-2 px-4"><?= $product_info['product_id']; ?></td>
 											<td class="py-2 px-4">
 												<button
-													onclick="selectProduct2(currentRow, '<?= $product_info['id']; ?>', '<?= $product_info['product_name']; ?>', '<?= $product_info['unit']; ?>', '<?= $product_info['packing']; ?>', '<?= $product_info['net_unit']; ?>', '<?= $product_info['total_purchase_price']; ?>')">
+													onclick="selectProduct2(currentRow, '<?= $product_info['id']; ?>', '<?= $product_info['product_name']; ?>', '<?= $product_info['unit']; ?>', '<?= $product_info['packing']; ?>', '<?= $product_info['net_unit']; ?>', '<?= $product_info['total_purchase_price']; ?>', '<?= $product_info['box_per_unit']; ?>')">
 													<?= $product_info['product_name']; ?>
 												</button>
 											</td>
 											<td class="py-2 px-4"><button
-													onclick="selectProduct2(''<?= $rowIndex ?>','<?= $product_info['pro_id']; ?>', '<?= $product_info['product_name']; ?>', '<?= $product_info['unit']; ?>', '<?= $product_info['packing']; ?>', '<?= $product_info['net_unit']; ?>', '<?= $product_info['p_id']; ?>')"><?= $product_info['company_name']; ?></button>
+													onclick="selectProduct2('<?= $rowIndex ?>','<?= $product_info['pro_id']; ?>', '<?= $product_info['product_name']; ?>', '<?= $product_info['unit']; ?>', '<?= $product_info['packing']; ?>', '<?= $product_info['net_unit']; ?>', '<?= $product_info['p_id']; ?>')"><?= $product_info['company_name']; ?></button>
 											</td>
 											<td class="py-2 px-4"><?= $product_info['HSN']; ?></td>
 											<td class="py-2 px-4">
@@ -734,6 +739,11 @@
 																				placeholder="unit"
 																				
 																				required>
+																				<input type="hidden" name="unit_box_per_quantity[]"
+																				class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
+																				placeholder="unit"
+																				
+																				required>
 																
 			<div class="sm:w-1/6 w-full mb-[30px]">
 				<label class="text-dark dark:text-white text-[13px] mb-2">Quantity</label>
@@ -829,11 +839,12 @@
 					productModal.classList.add('hidden');
 				}
 			}
-			function selectProduct2(row, pro_id, product_name, unit, packing, net_unit, p_id) {
+			function selectProduct2(row, pro_id, product_name, unit, packing, net_unit, p_id,box_per_unit) {
 				if (row) {
 					row.querySelector('[name="p_name[]"]').value = pro_id;
 					row.querySelector('.product-input').value = product_name;
 					row.querySelector('[name="unit_box[]"]').value = unit;
+					row.querySelector('[name="unit_box_per_quantity[]"]').value = box_per_unit;
 					row.querySelector('[name="packing[]"]').value = `${packing} ${net_unit}`;
 					closeProductModal2();
 
@@ -1041,6 +1052,8 @@
 								row.querySelector('[name="p_name[]"]').value = data.id;
 								row.querySelector('[name="packing[]"]').value = `${data.packing} ${data.net_unit}`;
 								row.querySelector('[name="unit_box[]"]').value = data.unit;
+								row.querySelector('[name="unit_box_per_quantity[]"]').value = data.box_per_unit || 0;
+
 								row.querySelector('[name="quantity[]"]').value = 1;
 								row.querySelector('[name="unit_rate[]"]').value = data.purchase_price;
 								row.querySelector('[name="tax[]"]').value = data.tax;

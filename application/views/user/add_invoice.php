@@ -128,6 +128,7 @@
 
 
                                                                     </div>
+                                                                  
                                                                     <div class="sm:w-1/6 w-full mb-[30px]">
                                                                         <label
                                                                             class="text-dark dark:text-white text-[13px] mb-2">Quantity</label>
@@ -135,6 +136,10 @@
                                                                         <input type="hidden" name="available_quantity[]"
                                                                             class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full "
                                                                             id="available" required readonly>
+
+                                                                            <input type="hidden" name="per_box[]"
+                                                                            class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full "
+                                                                            id="per_box" required readonly>
 
                                                                         <input type="number" id="p" name="quantity[]"
                                                                             class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
@@ -167,7 +172,11 @@
                                                                             class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
                                                                             placeholder="Total Price" required>
                                                                     </div>
-                                     
+                                                                    <div class=" mb-[30px] d-flex align-items-center" style="width: 20px; margin-top:25px">
+                <button type="button" class="btn btn-danger form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none " onclick="deleteProductForm(this)">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
                                                                 </div>
                                                             </div>
                                                             <div
@@ -268,6 +277,7 @@
                                                                             class="text-dark dark:text-white text-[13px]">No</label>
                                                                     </div>
                                                                 </div>
+                                                                
                                                             </div>
                                                             <hr>
                                                             <div class="row">
@@ -380,7 +390,7 @@
                                         <th class="py-2 px-4">Packing</th>
                                         <th class="py-2 px-4">Expire Date</th>
                                         <th class="py-2 px-4">Available Quantity</th>
-
+                                        <th class="py-2 px-4">Total Product<br> Available Quantity</th>
                                         <!-- <th class="py-2 px-4">Select</th> -->
                                     </tr>
                                 </thead>
@@ -616,7 +626,9 @@
                     
                     <input type="hidden"  name="available_quantity[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full available-quantity" data-index="${rowIndex}" oninput="this.value = this.value.replace(/[^0-9.]/g, '');" 
        onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"   required readonly>
-              
+
+               <input type="hidden"  name="per_box[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full per_box" data-index="${rowIndex}" oninput="this.value = this.value.replace(/[^0-9.]/g, '');" 
+       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"   required readonly>
                 <input type="number" id="pp" name="quantity[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full quantityy" placeholder="Quantity" required oninput="calculateTotalPrice(this.closest('.product-row'))" data-index="${rowIndex}">
             </div>
             <div class="sm:w-1/6 w-full mb-[30px]" style="width: 200px !important;">
@@ -677,11 +689,12 @@
                             products.forEach(product => {
                                 const row = `<tr class='border-b'>
                         <td class="py-2 px-4">${product.product_id}</td>
-                        <td class="py-2 px-4"><button onclick="selectaddProduct('${product.pro_id}', '${product.product_name}', '${product.unit}', '${product.packing}', '${product.net_unit}', '${product.p_id}', '${rowIndex}')">${product.product_name}</button></td>
+                        <td class="py-2 px-4"><button onclick="selectaddProduct('${product.pro_id}', '${product.product_name}', '${product.unit}', '${product.packing}', '${product.net_unit}', '${product.p_id}','${product.box}', '${rowIndex}')">${product.product_name}</button></td>
                         <td class="py-2 px-4">${product.unit}</td>
                         <td class="py-2 px-4">${product.packing}${product.net_unit}</td>
                         <td class="py-2 px-4">${product.exp_date}</td>
-                        <td class="py-2 px-4">${product.availabile_quantity}</td>
+                        <td class="py-2 px-4">${product.availabile_quantity}${product.box === '1' ? ' (Box)' : ''}</td>
+                            <td class="py-2 px-4">${product.box === '1' ? product.per_product_available_quantity : 'Single'}</td>
                     </tr>`;
                                 tableBody.innerHTML += row;
                             });
@@ -695,67 +708,110 @@
                 });
             }
 
-            //  Select Product from Modal
-            function selectaddProduct(proId, productName, unit, packing, netUnit, pId, rowIndex) {
-                const productInput = document.querySelector(`input.product-input[data-index="${rowIndex}"]`);
-                const productInputvalue = document.querySelector(`input.product-input-value[data-index="${rowIndex}"]`);
-                const unitRateField = document.querySelector(`input.unit-rate-select[data-index="${rowIndex}"]`);
-                const availableQuantity = document.querySelector(`input.available-quantity[data-index="${rowIndex}"]`);
-                const packingInput = document.querySelector(`input.packing[data-index="${rowIndex}"]`);
-                const row = document.querySelector(`.product-row[data-index="${rowIndex}"]`);
-                const packingunit = document.querySelector(`input.packing-unit[data-index="${rowIndex}"]`);
+       // Select Product from Modal
+function selectaddProduct(proId, productName, unit, packing, netUnit, pId, box, rowIndex) {
+    const productInput = document.querySelector(`input.product-input[data-index="${rowIndex}"]`);
+    const productInputvalue = document.querySelector(`input.product-input-value[data-index="${rowIndex}"]`);
+    const unitRateField = document.querySelector(`input.unit-rate-select[data-index="${rowIndex}"]`);
+    const availableQuantity = document.querySelector(`input.available-quantity[data-index="${rowIndex}"]`);
+    const perBox = document.querySelector(`input.per_box[data-index="${rowIndex}"]`);
 
-                const pIdField = document.querySelector(`input.p-id-select[data-index="${rowIndex}"]`);
-                const quantity = document.querySelector(`input.quantityy[data-index="${rowIndex}"]`);
-                productInput.value = `${productName} `;
-                packingInput.value = `${pId} `;
-                unitRateField.value = ''; // Clear previous rate
-                availableQuantity.value = ''; // Clear previous quantity
-                pIdField.value = pId; // Store product ID
+    const packingInput = document.querySelector(`input.packing[data-index="${rowIndex}"]`);
+    const row = document.querySelector(`.product-row[data-index="${rowIndex}"]`);
+    const packingunit = document.querySelector(`input.packing-unit[data-index="${rowIndex}"]`);
+    const pIdField = document.querySelector(`input.p-id-select[data-index="${rowIndex}"]`);
+    const quantity = document.querySelector(`input.quantityy[data-index="${rowIndex}"]`);
 
-                closeProductModal();
+    // Set product values
+    productInput.value = productName;
+    packingInput.value = pId;
+    unitRateField.value = ''; // Clear previous rate
+    availableQuantity.value = ''; // Clear previous quantity
+    perBox.value = ''; // Clear previous quantity
 
-                $.ajax({
-                    url: `<?= base_url("Admin_Dashboard/get_product_details/") ?>${proId}`,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data && data.id && data.selling_price && data.packing && data.net_unit) {
-                            unitRateField.value = data.selling_price;
-                            productInput.value = `${productName}`;
-                            productInputvalue.value = data.id;
-                            packingunit.value = data.packing + data.net_unit;
-                            quantity.value = '1';
-                            calculateTotalPrice(row);
-                        }
-                        else {
-                            alert(data.error || 'Error fetching product details.');
-                        }
-                    },
-                    error: function () {
-                        alert('Error fetching product details.');
-                    }
-                });
+    pIdField.value = pId; // Store product ID
 
-                // Fetch available quantity
-                $.ajax({
-                    url: `<?= base_url("Admin_Dashboard/get_unit_rate/") ?>${pId}`,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data) {
-                            availableQuantity.value = data.availabile_quantity || '0';
-                        } else {
-                            availableQuantity.value = '0';
-                        }
-                    },
-                    error: function () {
-                        alert('Failed to fetch unit rate.');
-                    }
-                });
+    closeProductModal();
+
+    // Add Unit Selection if box is enabled
+    if (box == 1) {
+        let packingUnit = document.querySelector(`input.packing-unit[data-index="${rowIndex}"]`); // Get the Packing input field
+        let existingUnitSelection = document.querySelector(`.unit-selection[data-index="${rowIndex}"]`);
+
+        if (!existingUnitSelection) {
+            let unitSelectHTML = `
+                <div class="unit-selection sm:w-1/6 w-full mb-[30px]" data-index="${rowIndex}">
+         
+                    <select name="box[]" data-index="${rowIndex}" class="unit-single form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" required>
+                        <option value="Box" selected>Box</option>
+                        <option value="Single">Single</option>
+                    </select>
+                </div>`;
+
+            // Insert the new unit selection field AFTER the Packing input field
+            packingUnit.parentNode.insertAdjacentHTML('afterend', unitSelectHTML);
+        }
+    } else {
+        // Remove the unit selection if box is not 1
+        let unitSelection = document.querySelector(`.unit-selection[data-index="${rowIndex}"]`);
+        if (unitSelection) {
+            unitSelection.remove();
+        }
+    }
+
+    // Function to update product details (unit rate & available quantity)
+    function updateProductDetails() {
+        let selectedUnit = document.querySelector(`select.unit-single[data-index="${rowIndex}"]`)?.value || 'Box'; // Get selected unit
+
+        // Fetch product details (selling price, unit rate)
+        $.ajax({
+            url: `<?= base_url("Admin_Dashboard/get_product_details/") ?>${proId}`,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if (data) {
+                    unitRateField.value = (selectedUnit === 'Box') ? data.selling_price : data.box_per_unit_sales_price;
+                    packingunit.value = data.packing + data.net_unit;
+                    perBox.value = data.box_per_unit || 0;
+
+                    productInput.value = productName;
+                    productInputvalue.value = data.id;
+                    quantity.value = '1';
+                    calculateTotalPrice(row);
+                }
+            },
+            error: function () {
+                alert('Error fetching product details.');
             }
+        });
 
-            // Close Modal
+        // Fetch available quantity
+        $.ajax({
+            url: `<?= base_url("Admin_Dashboard/get_unit_rate/") ?>${pId}`,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if (data) {
+                    availableQuantity.value = (selectedUnit === 'Box') ? (data.availabile_quantity || '0') : (data.per_product_available_quantity || '0');
+                } else {
+                    availableQuantity.value = '0';
+                }
+            },
+            error: function () {
+                alert('Failed to fetch unit rate.');
+            }
+        });
+    }
+
+    // **Call function on page load** to fetch default values
+    updateProductDetails();
+
+    // **Bind change event dynamically for unit selection**
+    $(document).off('change', `.unit-single[data-index="${rowIndex}"]`).on('change', `.unit-single[data-index="${rowIndex}"]`, function () {
+        updateProductDetails();
+    });
+}
+
             function closeProductModal() {
                 document.getElementById('productModal').classList.add('hidden');
             }
@@ -929,11 +985,13 @@
                             products.forEach(product => {
                                 const row = `<tr class="border-b">
             <td class="py-2 px-4">${product.product_id}</td>
-            <td class="py-2 px-4"><button onclick="selectProduct('${product.pro_id}', '${product.product_name}', '${product.unit}', '${product.packing}', '${product.net_unit}', '${product.p_id}')">${product.product_name}</button></td>
+            <td class="py-2 px-4"><button onclick="selectProduct('${product.pro_id}', '${product.product_name}', '${product.unit}', '${product.packing}', '${product.net_unit}', '${product.p_id}', '${product.box}')">${product.product_name}</button></td>
             <td class="py-2 px-4">${product.unit}</td>
+          
             <td class="py-2 px-4">${product.packing}${product.net_unit}</td>
             <td class="py-2 px-4">${product.exp_date}</td>
-            <td class="py-2 px-4">${product.availabile_quantity}</td>
+            <td class="py-2 px-4">${product.availabile_quantity}${product.box === '1' ? ' (Box)' : ''}</td>
+                 <td class="py-2 px-4">${product.box === '1' ? product.per_product_available_quantity : 'Single'}</td>
          
           </tr>`;
                                 tableBody.innerHTML += row;
@@ -953,66 +1011,101 @@
             }
 
             // Product Selection Logic
-            function selectProduct(productId, productName, unit, packing, netUnit) {
-                console.log(`Selected Product: ${productName} (ID: ${productId})`);
-                closeProductModal();
+         
+        
+            function selectProduct(pro_id, product_name, unit, packing, net_unit, p_id, box) {
+    const productInputs = document.getElementsByClassName('product-input');
+    const productInputValue = document.getElementById('product-input-value');
+    const productContainer = document.getElementById('product-container'); // Parent container for dynamic fields
+
+    if (productInputs.length > 0) {
+        productInputs[0].value = `${product_name}`; // Set product name in the input
+        productInputValue.value = `${pro_id}`; // Set product ID in hidden input
+        closeProductModal();
+
+        // Set the selected product ID
+        $('#p_id').val(p_id);
+        $('#packing').val(p_id);
+
+        // Show the unit selection field if box == 1
+        if (box == 1) {
+    let packingUnit = document.getElementById('packing-unit'); // Get the Packing input field
+
+    if (!document.getElementById('unit-selection')) {
+        let unitSelectHTML = `
+            <div id="unit-selection" class="sm:w-1/6 w-full mb-[30px]">
+                <label class="text-dark dark:text-white text-[13px] mb-2">Unit</label>
+                <select id="unit-single" name="box[]" class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" required>
+                    <option value="Box">Box</option>
+                    <option value="Single">Single</option>
+                </select>
+            </div>`;
+
+        // Insert the new unit selection field AFTER the Packing input field
+        packingUnit.parentNode.insertAdjacentHTML('afterend', unitSelectHTML);
+    }
+} else {
+    // Remove the unit selection if box is not 1
+    let unitSelection = document.getElementById('unit-selection');
+    if (unitSelection) {
+        unitSelection.remove();
+    }
+}
+
+// Function to update unit rate and available quantity based on unit selection
+function updateProductDetails() {
+    let selectedUnit = $('#unit-single').val() || 'Box'; // Get selected unit
+
+    // Fetch product details (selling price, unit rate)
+    $.ajax({
+        url: `<?= base_url("Admin_Dashboard/get_product_details/") ?>${pro_id}`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            if (data) {
+                
+                $('#unit-rate').val(selectedUnit === 'Box' ? data.selling_price : data.box_per_unit_sales_price); 
+                $('#packing-unit').val(data.packing + data.net_unit);
+                $('#per_box').val(data.box_per_unit ? data.box_per_unit : 0);
+
+
+                $('#p').val(1);
+                calculateTotalPrice($('#p').closest('.product-row')[0]);
             }
-            function selectProduct(pro_id, product_name, unit, packing, net_unit, p_id) {
-                const productInputs = document.getElementsByClassName('product-input');
-                const productInputValue = document.getElementById('product-input-value');
+        },
+        error: function () {
+            alert('Error fetching product details.');
+        }
+    });
 
-                if (productInputs.length > 0) {
-                    productInputs[0].value = `${product_name}`; // Set product name in the input
-                    productInputValue.value = `${pro_id}`; // Set product ID in hidden input
-                    closeProductModal();
-
-                    // Set the selected product ID
-                    $('#p_id').val(p_id);
-                    $('#packing').val(p_id);
-
-
-                    // Trigger category and subcategory-related actions using AJAX
-                    $.ajax({
-                        url: `<?= base_url("Admin_Dashboard/get_product_details/") ?>${pro_id}`,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (data) {
-                            if (data && !data.error) {
-                                $('#unit-rate').val(data.selling_price);
-                                $('#packing-unit').val(data.packing + data.net_unit);
-                                $('#p').val(1);
-                                calculateTotalPrice($('#p').closest('.product-row')[0]);
-                            } else {
-                                alert(data.error || 'Error fetching product details.');
-                            }
-                        },
-                        error: function () {
-                            alert('Error fetching product details.');
-                        }
-                    });
-
-                    // Fetch available quantity
-                    $.ajax({
-                        url: `<?= base_url("Admin_Dashboard/get_unit_rate/") ?>${p_id}`,
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (data) {
-                            if (data) {
-                                $('#available').val(data.availabile_quantity || '0');
-                            } else {
-                                $('#available').val('0');
-                            }
-                        },
-                        error: function () {
-                            alert('Failed to fetch unit rate.');
-                        }
-                    });
-
-                } else {
-                    console.error('Product input field not found!');
-                }
+    // Fetch available quantity
+    $.ajax({
+        url: `<?= base_url("Admin_Dashboard/get_unit_rate/") ?>${p_id}`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            if (data) {
+             
+                $('#available').val(selectedUnit === 'Box' ? data.availabile_quantity : data.per_product_available_quantity);
+            } else {
+                $('#available').val('0');
             }
+        },
+        error: function () {
+            alert('Failed to fetch unit rate.');
+        }
+    });
+}
 
+// **Call function on page load** to fetch default values
+updateProductDetails();
+
+// **Bind change event to unit selection dropdown**
+$(document).on('change', '#unit-single', function () {
+    updateProductDetails();
+});
+    }
+}
 
             function closeProductModal() {
                 document.getElementById('productModal').classList.add('hidden');
