@@ -163,7 +163,31 @@ function updateColumnValue($table, $whereColumn, $whereValue, $updateColumn, $up
 		}
 
 	}
+    function updateRowByIduser($table, $column, $id,$usercolumn, $userid, $data)
 
+	{
+
+		$clean_post = $this->security->xss_clean($data);
+
+		$this->db->set($clean_post)
+
+			->where($column, $id)
+			->where($usercolumn, $userid)
+
+
+			->update($table);
+
+		if ($this->db->affected_rows() > 0) {
+
+			return true;
+
+		} else {
+
+			return false;
+
+		}
+
+	}
 
 
 	function updateRowByMoreId($table, $where, $data)

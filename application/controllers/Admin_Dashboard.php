@@ -956,7 +956,28 @@ class Admin_Dashboard extends CI_Controller
         // $tid = decryptId($id);
         // $data['user'] = $this->CommonModal->getRowById('users','id',$tid);
         $BdID = $this->input->get('BdID');
+        $uID = $this->input->get('UI');
+        $purchase_code = $this->input->get('pc');
 
+        $product = $this->CommonModal->getRowById('purchase_product', 'p_id', $BdID);
+
+$left_quantity = $product[0]['total_quantity'] - $product[0]['quantity'];
+
+$sub = $product[0]['sub_total'] - $product[0]['total_price'];
+$grand = $product[0]['grand_total'] - $product[0]['total_price'];
+
+
+
+        if($purchase_code) {
+            $latest_data = [
+                'total_quantity'  => $left_quantity,
+                'sub_total'  => $sub,
+                'grand_total'  => $grand
+
+
+            ];
+            $this->CommonModal->updateRowByIduser('purchase_product','purchase_code',$purchase_code,'user_id',$uID, $latest_data);
+        }
         if ($this->CommonModal->deleteRowById('purchase_product', array('p_id' => $BdID))) {
 
             $this->session->set_flashdata('msg', 'Deleted successfully');
@@ -3293,7 +3314,36 @@ class Admin_Dashboard extends CI_Controller
             echo json_encode(['error' => 'Product not found']);
         }
     }
+    public function get_product_details_with_customer($product_id, $customer_id)
+    {
+        // Fetch product details
+        $product = $this->CommonModal->getRowById('product', 'id', $product_id);
+        // Fetch customer details
+        $customer = $this->CommonModal->getRowById('customer', 'id', $customer_id);
+    
+        if (!$product || !$customer) {
+            echo json_encode(['error' => 'Product or Customer not found']);
+            return;
+        }
+    
+        // Get customer price column (1, 2, or 3)
+        $price_column = $customer[0]['price'];
+    
+        // Select correct selling price
+        $selected_price = ($price_column == 1) ? $product[0]['selling_price'] :
+                          (($price_column == 2) ? $product[0]['selling_priceB'] : $product[0]['selling_priceC']);
 
+                          $selected_per_price = ($price_column == 1) ? $product[0]['box_per_unit_sales_price'] :
+                          (($price_column == 2) ? $product[0]['box_per_unit_sales_priceB'] : $product[0]['box_per_unit_sales_priceC']);
+    
+        // Add the correct selling price to response
+        $product[0]['final_price'] = $selected_price;
+        $product[0]['per_product_final_price'] = $selected_per_price;
+
+    
+        echo json_encode($product[0]);
+    }
+    
 
     public function return($id)
     {

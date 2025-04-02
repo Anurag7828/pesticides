@@ -77,7 +77,7 @@
                                                 placeholder="Purchase Code"
                                                 value="<?= $user[0]['purchase_code'] ?>-<?= $product[0]['purchase_code'] ?>"
                                                 readonly>
-                                                <input type="text" name="purchase_code"
+                                                <input type="hidden" name="purchase_code"
                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
                                                 placeholder="Purchase Code"
                                                 value="<?= $product[0]['purchase_code'] ?>"
@@ -372,7 +372,7 @@
                                                                         <div class="sm:w-1/6 w-full mb-[30px]    d-flex align-items-center "
                                                                             style="margin-top: 30px;">
                                                                             <a class="btn btn-danger border border-b-color block rounded-md py-1.5 px-3 outline-none"
-   href="<?= base_url('Admin_Dashboard/delete_product' . '?BdID=' . $p_info['p_id'] ); ?>"
+   href="<?= base_url('Admin_Dashboard/delete_product' . '?BdID=' . $p_info['p_id'].'&UI='. $p_info['user_id'].'&pc='.$p_info['purchase_code'] ); ?>"
    onclick="deleteProductForrm(event, this);">
    <i class="fas fa-trash-alt" style="color:red;"></i>
 </a>
@@ -682,7 +682,7 @@ readonly onclick="openProductModal2(this)">
                                                                     placeholder="unit"
                                                                     
                                                                     required>
-                                                                    <input type="hiddden" name="unit_box_per_quantity[]"
+                                                                    <input type="hidden" name="unit_box_per_quantity[]"
                                                                     class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
                                                                     placeholder="unit"
                                                                     
@@ -690,7 +690,9 @@ readonly onclick="openProductModal2(this)">
                                                     
 <div class="sm:w-1/6 w-full mb-[30px]">
     <label class="text-dark dark:text-white text-[13px] mb-2">Quantity</label>
-    <input type="text" name="quantity[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Quantity" required oninput="calculateTotalPrice(this.closest('.product-row'))">
+    <input type="number" name="quantity[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Quantity" required oninput="calculateTotalPrice(this.closest('.product-row'))"
+     
+                                                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46">
 </div>
 <div class="sm:w-1/6 w-full mb-[30px]">
     <label class="text-dark dark:text-white text-[13px] mb-2">Purchase Price</label>

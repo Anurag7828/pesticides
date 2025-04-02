@@ -721,7 +721,13 @@ function selectaddProduct(proId, productName, unit, packing, netUnit, pId, box, 
     const packingunit = document.querySelector(`input.packing-unit[data-index="${rowIndex}"]`);
     const pIdField = document.querySelector(`input.p-id-select[data-index="${rowIndex}"]`);
     const quantity = document.querySelector(`input.quantityy[data-index="${rowIndex}"]`);
+    const customerSelect = document.getElementById('customer-name');
+    const selectedCustomerID = customerSelect.value; // Get selected customer ID
 
+    if (!selectedCustomerID) {
+        alert('Please select a customer first!');
+        return;
+    }
     // Set product values
     productInput.value = productName;
     packingInput.value = pId;
@@ -765,12 +771,12 @@ function selectaddProduct(proId, productName, unit, packing, netUnit, pId, box, 
 
         // Fetch product details (selling price, unit rate)
         $.ajax({
-            url: `<?= base_url("Admin_Dashboard/get_product_details/") ?>${proId}`,
+            url: `<?= base_url("Admin_Dashboard/get_product_details_with_customer/") ?>${proId}/${selectedCustomerID}`,
             type: 'GET',
             dataType: 'json',
             success: function (data) {
                 if (data) {
-                    unitRateField.value = (selectedUnit === 'Box') ? data.selling_price : data.box_per_unit_sales_price;
+                    unitRateField.value = (selectedUnit === 'Box') ? data.final_price : data.per_product_final_price;
                     packingunit.value = data.packing + data.net_unit;
                     perBox.value = data.box_per_unit || 0;
 
@@ -1017,7 +1023,13 @@ function selectaddProduct(proId, productName, unit, packing, netUnit, pId, box, 
     const productInputs = document.getElementsByClassName('product-input');
     const productInputValue = document.getElementById('product-input-value');
     const productContainer = document.getElementById('product-container'); // Parent container for dynamic fields
+    const customerSelect = document.getElementById('customer-name');
+    const selectedCustomerID = customerSelect.value; // Get selected customer ID
 
+    if (!selectedCustomerID) {
+        alert('Please select a customer first!');
+        return;
+    }
     if (productInputs.length > 0) {
         productInputs[0].value = `${product_name}`; // Set product name in the input
         productInputValue.value = `${pro_id}`; // Set product ID in hidden input
@@ -1026,7 +1038,7 @@ function selectaddProduct(proId, productName, unit, packing, netUnit, pId, box, 
         // Set the selected product ID
         $('#p_id').val(p_id);
         $('#packing').val(p_id);
-
+       
         // Show the unit selection field if box == 1
         if (box == 1) {
     let packingUnit = document.getElementById('packing-unit'); // Get the Packing input field
@@ -1058,13 +1070,13 @@ function updateProductDetails() {
 
     // Fetch product details (selling price, unit rate)
     $.ajax({
-        url: `<?= base_url("Admin_Dashboard/get_product_details/") ?>${pro_id}`,
+        url: `<?= base_url("Admin_Dashboard/get_product_details_with_customer/") ?>${pro_id}/${selectedCustomerID}`,
         type: 'GET',
         dataType: 'json',
         success: function (data) {
             if (data) {
                 
-                $('#unit-rate').val(selectedUnit === 'Box' ? data.selling_price : data.box_per_unit_sales_price); 
+                 $('#unit-rate').val(data.final_price);
                 $('#packing-unit').val(data.packing + data.net_unit);
                 $('#per_box').val(data.box_per_unit ? data.box_per_unit : 0);
 
@@ -1106,7 +1118,7 @@ $(document).on('change', '#unit-single', function () {
 });
     }
 }
-
+//
             function closeProductModal() {
                 document.getElementById('productModal').classList.add('hidden');
             }
@@ -1123,6 +1135,7 @@ $(document).on('change', '#unit-single', function () {
                 });
             }
         </script>
+      
         <script>
 
             document.getElementById('paymentMode').addEventListener('change', function () {
