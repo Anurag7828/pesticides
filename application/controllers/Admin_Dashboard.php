@@ -658,12 +658,8 @@ if($add){
         $data['title'] = "Purchase Invoice";
         // Get Vendor ID from the URL query string
         $tid = decryptId($id);
-        
- 
-        $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
-        
-        $data['purchase_product'] = $this->CommonModal->getRowByMultitpleId('purchase_product', 'purchase_code', $purchase_code,'user_id',$tid);
-        
+        $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);      
+        $data['purchase_product'] = $this->CommonModal->getRowByMultitpleId('purchase_product', 'purchase_code', $purchase_code,'user_id',$tid);      
         // Load the view
         $this->load->view('user/purchase_invoice', $data);
     }
@@ -1026,12 +1022,12 @@ if($add){
     public function download_sample_csv() {
         // Define sample data
         $header = [
-            'Product Name', 'Company Name', 'HSN','packing','net_unit','unit',
-            'Purchase Price', 'Tax', 'Tax Type', 'Tax Amount', 'Total Purchase Price',
+            'Product Name',' Teach Name ', 'Company Name', 'HSN','packing','net_unit','unit',
+           'box_per_unit', 'Box Per Unit Price','Per Tax ','Per Tax Type','Per Tax Amount','Purchase Price', 'Tax', 'Tax Type', 'Tax Amount', 'Total Purchase Price',
             'MRP', 'Profit Margin', 'Selling Price'
         ];
         $sampleData = [
-            [ 'Sample Product', 'Sample Company', '123456', '100','Gram','Single','500', '5', 'Inclusive', '25', '525', '600', '10', '580'],
+            [ 'Sample Product','sample tech name' ,'Sample Company', '123456', '100','Gram','Single','500','10' ,'200','5','inclusive','','5', 'Inclusive', '25', '525', '600', '10', '580'],
             [ 'Example Product', 'Example Company', '654321','500','Liter','Box', '700', '10', 'Exclusive', '70', '770', '900', '15', '885']
         ];
     

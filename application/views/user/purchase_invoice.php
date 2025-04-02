@@ -390,7 +390,6 @@ $customer = $this->CommonModal->getRowByMultitpleId('vender', 'id', $purchase_pr
 
 if (!empty($customer)) {  
     foreach ($customer as $cus) {
-        // Purchase Invoice URL (Same as "View Purchase" Button)
         $purchaseInvoiceUrl = base_url('Admin_Dashboard/print_purchase/' . encryptId($user[0]['id']) . '/' . $purchase_product['0']['purchase_code']);
 ?>
 <script>
