@@ -61,6 +61,15 @@
     <label class="text-dark dark:text-white text-[13px] mb-2">Interest Days</label>
     <input type="text" name="interest_days" class="form-control text-[13px] text-body-color border border-b-color rounded-md py-1.5 px-3 w-full" placeholder="Enter interest days" required>
 </div>
+<div class="sm:w-1/2 w-full mb-[30px]">
+    <label class="text-dark dark:text-white text-[13px] mb-2">Price Type</label>
+    <select name="price" class="form-control text-[13px] text-body-color border border-b-color rounded-md py-1.5 px-3 w-full" required>
+        <option value="">Select Price Type</option>
+        <option value="1">A (Sales Price 1)</option>
+        <option value="2">B (Sales Price 2)</option>
+        <option value="3">C (Sales Price 3)</option>
+    </select>
+</div>
 
 									</div>
 								</div>
