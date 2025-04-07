@@ -842,7 +842,7 @@
 			function selectProduct2(row, pro_id, product_name, unit, packing, net_unit, p_id,box_per_unit) {
 				if (row) {
 					row.querySelector('[name="p_name[]"]').value = pro_id;
-					row.querySelector('.product-input').value = product_name;
+					row.querySelector('.product-input').value = product_name + ' (' + unit + ')';
 					row.querySelector('[name="unit_box[]"]').value = unit;
 					row.querySelector('[name="unit_box_per_quantity[]"]').value = box_per_unit;
 					row.querySelector('[name="packing[]"]').value = `${packing} ${net_unit}`;
@@ -1034,7 +1034,8 @@
 				const productInputValue = document.getElementById('product-input-value');
 
 				if (productInputs.length > 0) {
-					productInputs[0].value = `${product_name}`;
+					productInputs[0].value = `${product_name} (${unit})`;
+
 					productInputValue.value = `${pro_id}`;
 					closeProductModal();
 

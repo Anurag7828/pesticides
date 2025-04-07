@@ -233,9 +233,7 @@
                                                             </td>
                                                             <td
                                                                 class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
-                                                                <?= $total_products ?> <?php if($product_info['box'] == '1') { ?>
-                                                                (Box) <?php } else { ?>
-                                                                (Single)<?php } ?></td>
+                                                                <?= $total_products ?> </td>
                                                             <td
                                                                 class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
                                                                 <?= $product_info['total_quantity'] ?><br>

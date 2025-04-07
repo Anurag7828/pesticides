@@ -508,150 +508,156 @@ if($add){
             return 1;
         }
     }
- public function add_product($id)
-{
-    $data['title'] = "Add Product";
-    $data['tag'] = "add";
-    $tid = decryptId($id);
-    $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
-     $uid = $this->CommonModal->getRowById('users', 'id', $tid);
-    $data['product'] = $this->CommonModal->getRowByIdDesc('product', 'user_id', $uid[0]['id'], 'id', 'DESC');
+    public function add_product($id)
+    {
+        $data['title'] = "Add Product";
+        $data['tag'] = "add";
+        $tid = decryptId($id);
+        $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
+        $uid = $this->CommonModal->getRowById('users', 'id', $tid);
+        $data['product'] = $this->CommonModal->getRowByIdDesc('product', 'user_id', $uid[0]['id'], 'id', 'DESC');
         $data['vender'] = $this->CommonModal->getRowByIdDesc('vender', 'user_id', $uid[0]['id'], 'id', 'DESC');
-    $data['stock'] = $this->CommonModal->getRowByIdDesc('stock_place', 'user_id', $uid[0]['id'], 'id', 'DESC');
-    $data['account'] = $this->CommonModal->getRowByIdDesc('account', 'user_id', $uid[0]['id'], 'id', 'DESC');
-    if ($this->input->post()) {
-        $post = $this->input->post();
+        $data['stock'] = $this->CommonModal->getRowByIdDesc('stock_place', 'user_id', $uid[0]['id'], 'id', 'DESC');
+        $data['account'] = $this->CommonModal->getRowByIdDesc('account', 'user_id', $uid[0]['id'], 'id', 'DESC');
+        if ($this->input->post()) {
+            $post = $this->input->post();
 
-        // Gather form data
-        $vender_id = $post['vender_name'];
-        $stock_place_name = $post['stock_place_name'];
-       
-        $date = $post['purchase_date'];
-        $discount_type = $post['discount_type'];
-       
-        
-        $discount_value = floatval($post['discount_value']);
-        $total_quantity = floatval($post['total_quantity']);
-         $sub_total = floatval($post['sub_total']);
-         $grand_total = floatval($post['grand_total']);
+            // Gather form data
+            $vender_id = $post['vender_name'];
+            $stock_place_name = $post['stock_place_name'];
 
-         $discount_amountt = "";
-        
-         if($post['discount_type'] == 'rupee'){
-             $discount_amountt = $post['discount_value'];
-         } else{ 
-             $discount_am = $post['sub_total'] * $post['discount_value'];
-             $discount_amountt = $discount_am/100;
-         }
+            $date = $post['purchase_date'];
+            $discount_type = $post['discount_type'];
 
-        $paid = floatval($post['paid']);
-        $mode = $post['mode'];
-        $cheque_no = $post['cheque_no'];
-        $bank = floatval($post['bank']);
-        $due = $grand_total - $paid;
-        $purchase_code = $this->generate_purchase_code($uid[0]['id']); 
-        // Prepare product arrays
-        $product_names = $post['p_name'] ?? [];
-        $packings = $post['packing'] ?? [];
-        $quantities = $post['quantity'] ?? [];
-        $unit_box = $post['unit_box'] ?? [];
 
-        $unit_rates = $post['unit_rate'] ?? [];
-        $units = $post['unit'] ?? [];
-        $exp_dates = $post['exp_date'] ?? [];
-        $HSN_code = $post['HSN_code'];
-        $p_prices = $post['p_price'] ?? [];
-        $mrps = $post['mrp'] ?? [];
-        $selling_prices = $post['selling_price'] ?? [];
-        $gst_percentages = $post['tax'] ?? [];
-         $tax_type = $post['tax_type'] ?? [];
-        $gst_amounts = $post['tax_amount'] ?? [];
-        $p_discount_type = $post['p_discount_type'] ?? [];
-        $p_discount_amounts = $post['p_discount'] ?? [];
-        $total_prices = $post['total_price'] ?? [];
-       
-        // Insert invoice items
-        foreach ($product_names as $index => $product_name) {
-            // Prepare data for each row
-            $data_to_insert = [
-                'vender_name' => $vender_id,
-                'date' => $date,
-                'user_id' => $tid,
-                'purchase_code' => $purchase_code,
-                'stock_place_name' => $stock_place_name,
-                'product_name' => $product_name,
-                'packing' => $packings[$index],
-                'quantity' => $quantities[$index],
-                'unit_box' => $unit_box[$index],
-                'availabile_quantity' => $quantities[$index],
-                'unit_rate' => $unit_rates[$index],
-                'unit' => $units[$index],
-                'gst_percent' => $gst_percentages[$index],
-                'gst_tax' => $gst_amounts[$index],
-                'tax_type' => $tax_type[$index],
-                'p_discount' => $p_discount_amounts[$index],
+            $discount_value = floatval($post['discount_value']);
+            $total_quantity = floatval($post['total_quantity']);
+            $sub_total = floatval($post['sub_total']);
+            $grand_total = floatval($post['grand_total']);
 
-                'p_discount_type' => $p_discount_type[$index],
+            $discount_amountt = "";
 
-                'exp_date' => $exp_dates[$index],
-                'HSN_code' => $HSN_code[$index],
-                'p_price' => $p_prices[$index],
-                'mrp' => $mrps[$index],
-                'selling_price' => $selling_prices[$index],
-                'total_price' => $total_prices[$index],
-                'grand_total' => $grand_total,
-                'discount_value' => $discount_value,
-                'discount_type' => $discount_type,
-                'discount_amount' => $discount_amountt,
-                'total_quantity' => $total_quantity,
-                'sub_total' => $sub_total,
-            ];
-
-            // Insert data into the purchase_product table
-            $savedata = $this->CommonModal->insertRowReturnId('purchase_product', $data_to_insert);
-
-            if (!$savedata) {
-                // Handle insert error
-                $this->session->set_userdata('msg', '<div class="alert alert-danger">Error adding invoice item.</div>');
-                redirect(base_url('admin_Dashboard/product/' . $id));
-                return;
+            if ($post['discount_type'] == 'rupee') {
+                $discount_amountt = $post['discount_value'];
+            } else {
+                $discount_am = $post['sub_total'] * $post['discount_value'];
+                $discount_amountt = $discount_am / 100;
             }
-        }
 
-        // Insert payment data if paid amount is provided
-        if ($paid >= 0) {
-            $pay_to_insert = [
-                'vender_id' => $vender_id,
-                'user_id' => $tid,
-                'purchase_code' => $purchase_code,
-                'paid' => $paid,
-                  'date' => $date,
-                'mode' => $mode,
-                'total' => $grand_total,
-                'due' => $due,
-                'bank' => $bank,
-                 'cheque_no' =>$cheque_no
-            ];
+            $paid = floatval($post['paid']);
+            $mode = $post['mode'];
+            $cheque_no = $post['cheque_no'];
+            $bank = floatval($post['bank']);
+            $due = $grand_total - $paid;
+            $purchase_code = $this->generate_purchase_code($uid[0]['id']);
+            // Prepare product arrays
+            $product_names = $post['p_name'] ?? [];
+            $packings = $post['packing'] ?? [];
+            $quantities = $post['quantity'] ?? [];
+            $unit_box = $post['unit_box'] ?? [];
 
-            $savedata1 = $this->CommonModal->insertRowReturnId('purchase_payment', $pay_to_insert);
+            $unit_rates = $post['unit_rate'] ?? [];
+            $units = $post['unit'] ?? [];
+            $exp_dates = $post['exp_date'] ?? [];
+            $HSN_code = $post['HSN_code'];
+            $p_prices = $post['p_price'] ?? [];
+            $mrps = $post['mrp'] ?? [];
+            $selling_prices = $post['selling_price'] ?? [];
+            $gst_percentages = $post['tax'] ?? [];
+            $tax_type = $post['tax_type'] ?? [];
+            $gst_amounts = $post['tax_amount'] ?? [];
+            $p_discount_type = $post['p_discount_type'] ?? [];
+            $p_discount_amounts = $post['p_discount'] ?? [];
+            $total_prices = $post['total_price'] ?? [];
 
-            if (!$savedata1) {
-                // Handle insert error
-                $this->session->set_userdata('msg', '<div class="alert alert-danger">Error adding payment information.</div>');
-                redirect(base_url('admin_Dashboard/product/' . $id));
-                return;
+            // Insert invoice items
+            foreach ($product_names as $index => $product_name) {
+                // Prepare data for each row
+                $box = ($unit_box[$index] === 'Box') ? '1' : '0';
+                $p_b_q = ($box === '1') ? (($quantities[$index] ?? 0) * ($post['unit_box_per_quantity'][$index] ?? 0)) : '0';
+
+                $data_to_insert = [
+                    'vender_name' => $vender_id,
+                    'date' => $date,
+                    'user_id' => $tid,
+                    'purchase_code' => $purchase_code,
+                    'stock_place_name' => $stock_place_name,
+                    'product_name' => $product_name,
+                    'packing' => $packings[$index],
+                    'quantity' => $quantities[$index],
+                    'unit_box' => $unit_box[$index],
+                    'box' => $box,
+                    'box_product_quantity' => $p_b_q,
+                    'per_product_available_quantity' => $p_b_q,
+                    'availabile_quantity' => $quantities[$index],
+                    'unit_rate' => $unit_rates[$index],
+                    'unit' => $units[$index],
+                    'gst_percent' => $gst_percentages[$index],
+                    'gst_tax' => $gst_amounts[$index],
+                    'tax_type' => $tax_type[$index],
+                    'p_discount' => $p_discount_amounts[$index],
+
+                    'p_discount_type' => $p_discount_type[$index],
+
+                    'exp_date' => $exp_dates[$index],
+                    'HSN_code' => $HSN_code[$index],
+                    'p_price' => $p_prices[$index],
+                    'mrp' => $mrps[$index],
+                    'selling_price' => $selling_prices[$index],
+                    'total_price' => $total_prices[$index],
+                    'grand_total' => $grand_total,
+                    'discount_value' => $discount_value,
+                    'discount_type' => $discount_type,
+                    'discount_amount' => $discount_amountt,
+                    'total_quantity' => $total_quantity,
+                    'sub_total' => $sub_total,
+                ];
+
+                // Insert data into the purchase_product table
+                $savedata = $this->CommonModal->insertRowReturnId('purchase_product', $data_to_insert);
+
+                if (!$savedata) {
+                    // Handle insert error
+                    $this->session->set_userdata('msg', '<div class="alert alert-danger">Error adding invoice item.</div>');
+                    redirect(base_url('admin_Dashboard/product/' . $id));
+                    return;
+                }
             }
+
+            // Insert payment data if paid amount is provided
+            if ($paid >= 0) {
+                $pay_to_insert = [
+                    'vender_id' => $vender_id,
+                    'user_id' => $tid,
+                    'purchase_code' => $purchase_code,
+                    'paid' => $paid,
+                    'date' => $date,
+                    'mode' => $mode,
+                    'total' => $grand_total,
+                    'due' => $due,
+                    'bank' => $bank,
+                    'cheque_no' => $cheque_no
+                ];
+
+                $savedata1 = $this->CommonModal->insertRowReturnId('purchase_payment', $pay_to_insert);
+
+                if (!$savedata1) {
+                    // Handle insert error
+                    $this->session->set_userdata('msg', '<div class="alert alert-danger">Error adding payment information.</div>');
+                    redirect(base_url('admin_Dashboard/product/' . $id));
+                    return;
+                }
+            }
+
+            // Success message and redirection
+            $this->session->set_userdata('msg', '<div class="alert alert-success">Invoice added successfully.</div>');
+            redirect(base_url('Admin_Dashboard/print_purchase/' . $id . '/' . $purchase_code));
+        } else {
+
+            $data['product_list'] = $this->CommonModal->getRowByIdDesc('product', 'user_id', $uid[0]['id'], 'id', 'DESC');
+            $this->load->view('user/add_product', $data);
         }
-
-        // Success message and redirection
-        $this->session->set_userdata('msg', '<div class="alert alert-success">Invoice added successfully.</div>');
-        redirect(base_url('Admin_Dashboard/print_purchase/' . $id . '/' . $purchase_code));
-    } else {
-
-        $data['product_list'] = $this->CommonModal->getRowByIdDesc('product', 'user_id', $uid[0]['id'], 'id', 'DESC');
-        $this->load->view('user/add_product', $data);
     }
-}
 
     public function print_purchase($id, $purchase_code)
     {
@@ -699,95 +705,146 @@ if($add){
         $this->load->view('user/purchase_tax_invoice', $data);
     }
 
- public function edit_product()
+    public function edit_product()
     {
         $data['title'] = "Edit Product";
         $data['tag'] = "edit";
         $tid = $this->input->get('user_id'); // User ID
-         $data['branchi'] = $this->input->get('branch_id'); // User ID
-        $purchase_code = $this->input->get('purchase_code'); 
+        $data['branchi'] = $this->input->get('branch_id'); // User ID
+        $purchase_code = $this->input->get('purchase_code');
         $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
-         $uid = $this->CommonModal->getRowById('users', 'id', $tid);
-         $data['product_list'] = $this->CommonModal->getRowByIdDesc('product', 'user_id', $uid[0]['id'], 'id', 'DESC');
+        $uid = $this->CommonModal->getRowById('users', 'id', $tid);
+        $data['product_list'] = $this->CommonModal->getRowByIdDesc('product', 'user_id', $uid[0]['id'], 'id', 'DESC');
         $data['vender'] = $this->CommonModal->getRowByIdDesc('vender', 'user_id', $uid[0]['id'], 'id', 'DESC');
-    $data['stock'] = $this->CommonModal->getRowByIdDesc('stock_place', 'user_id', $uid[0]['id'], 'id', 'DESC');
-    $data['account'] = $this->CommonModal->getRowByIdDesc('account', 'user_id', $uid[0]['id'], 'id', 'DESC');
-  
+        $data['stock'] = $this->CommonModal->getRowByIdDesc('stock_place', 'user_id', $uid[0]['id'], 'id', 'DESC');
+        $data['account'] = $this->CommonModal->getRowByIdDesc('account', 'user_id', $uid[0]['id'], 'id', 'DESC');
+
         $data['product'] = $this->CommonModal->getRowByMultitpleId('purchase_product', 'purchase_code', $purchase_code, 'user_id', $uid[0]['id']);
         if (count($_POST) > 0) {
             $post = $this->input->post();
-    
+
             // Gather form data
             $vender_id = $post['vender_name'];
             $stock_place_name = $post['stock_place_name'];
-           $brid = $post['branch_id'];
+            $brid = $post['branch_id'];
             $date = $post['date'];
+            $purchase_code = $post['purchase_code'];
+
             $discount_type = $post['discount_type'];
-            
+
             $discount_value = floatval($post['discount_value']);
             $total_quantity = floatval($post['total_quantity']);
-             $sub_total = floatval($post['sub_total']);
-             $grand_total = floatval($post['grand_total']);
+            $sub_total = floatval($post['sub_total']);
+            $grand_total = floatval($post['grand_total']);
             $paid = floatval($post['paid']);
             $mode = $post['mode'];
-             $ppid = $post['p_p_id'];
+            $ppid = $post['p_p_id'];
             $bank = floatval($post['bank']);
             $cheque_no = $post['cheque_no'];
             $due = $grand_total - $paid;
 
-       $discount_amountt = "";
-        
-        if($post['discount_type'] == 'rupee'){
-            $discount_amountt = $post['discount_value'];
-        } else{ 
-            $discount_am = $post['sub_total'] * $post['discount_value'];
-            $discount_amountt = $discount_am/100;
-        }
+            $discount_amountt = "";
+
+            if ($post['discount_type'] == 'rupee') {
+                $discount_amountt = $post['discount_value'];
+            } else {
+                $discount_am = $post['sub_total'] * $post['discount_value'];
+                $discount_amountt = $discount_am / 100;
+            }
             // Prepare product arrays
             $product_names = $post['p_name'] ?? [];
-             $product_ids = $post['p_id'] ?? [];
+            $product_ids = $post['p_id'] ?? [];
             $packings = $post['packing'] ?? [];
             $quantities = $post['quantity'] ?? [];
             $unit_rates = $post['unit_rate'] ?? [];
             $units = $post['unit'] ?? [];
             $exp_dates = $post['exp_date'] ?? [];
-            $HSN_code = $post['HSN_code'];
+            $unit_box = $post['unit_box'] ?? [];
             $p_prices = $post['p_price'] ?? [];
             $mrps = $post['mrp'] ?? [];
             $selling_prices = $post['selling_price'] ?? [];
             $gst_percentages = $post['tax'] ?? [];
             $gst_amounts = $post['tax_amount'] ?? [];
-            $total_prices = $post['total_price'] ?? [];
+            $tax_type = $post['tax_type'] ?? [];
            
+            $p_discount_type = $post['p_discount_type'] ?? [];
+            $p_discount_amounts = $post['p_discount'] ?? [];
+            $total_prices = $post['total_price'] ?? [];
+
             // Insert invoice items
             foreach ($product_names as $index => $product_name) {
                 // Prepare data for each row
-                  $select = $this->CommonModal->getRowById('purchase_product', 'p_id', $product_ids[$index]);
-            
-            if (!empty($select)) {
-                $sellingquantity = $select[0]['selling_quantity'];
-                 $returnquantity = $select[0]['return_quantity'];
-                 $transferquantity = $select[0]['transfer_quantity'];
-                 $totalsr=$sellingquantity + $returnquantity+$transferquantity;
-// $new_available_quantity = $quantities[$index] 
-                // Adjust available and selling quantities based on the new quantity
-                if ($quantities[$index] > $totalsr) {
-                   
-                    $new_available_quantity = $quantities[$index] - $totalsr;
-                } elseif ($quantities[$index] <  $totalsr) {
-                   $new_available_quantity = $totalsr - $quantities[$index] ;
-                }else{
-                     $new_available_quantity =$quantities[$index];
-                }
+                if($product_ids[$index] == "-11"){
+                    $box = ($unit_box[$index] === 'Box') ? '1' : '0';
+                    $p_b_q = ($box === '1') ? (($quantities[$index] ?? 0) * ($post['unit_box_per_quantity'][$index] ?? 0)) : '0';
+                
+                    $add_data_to_insert = [
+                        'vender_name' => $vender_id,
+                        'date' => $date,
+                        'user_id' => $tid,
+                        'purchase_code' => $purchase_code,
+                        'stock_place_name' => $stock_place_name,
+                        'product_name' => $product_name,
+                        'packing' => $packings[$index],
+                        'quantity' => $quantities[$index],
+                        'unit_box' => $unit_box[$index],
+                        'box' => $box,
+                        'box_product_quantity' => $p_b_q,
+                        'per_product_available_quantity' => $p_b_q,
+                        'availabile_quantity' => $quantities[$index],
+                        'unit_rate' => $unit_rates[$index],
+                        'unit' => $units[$index],
+                        'gst_percent' => $gst_percentages[$index],
+                        'gst_tax' => $gst_amounts[$index],
+                        'tax_type' => $tax_type[$index],
+                        'p_discount' => $p_discount_amounts[$index],
+                
+                        'p_discount_type' => $p_discount_type[$index],
+                
+                        'exp_date' => $exp_dates[$index],
+                      
+                        'p_price' => $p_prices[$index],
+                        'mrp' => $mrps[$index],
+                        'selling_price' => $selling_prices[$index],
+                        'total_price' => $total_prices[$index],
+                        'grand_total' => $grand_total,
+                        'discount_value' => $discount_value,
+                        'discount_type' => $discount_type,
+                        'discount_amount' => $discount_amountt,
+                        'total_quantity' => $total_quantity,
+                        'sub_total' => $sub_total,
+                    ];
+                
+                    // Insert data into the purchase_product table
+                    $this->CommonModal->insertRowReturnId('purchase_product', $add_data_to_insert);
+                
+                } else{
+                $select = $this->CommonModal->getRowById('purchase_product', 'p_id', $product_ids[$index]);
 
-                
-                
-             } else {
-                // Handle case where product data is missing
-                $this->session->set_userdata('msg', '<div class="alert alert-danger">Product data missing.</div>');
-                redirect(base_url('admin_Dashboard/invoice/' . encryptId($tid)));
-                return;
-            }
+                if (!empty($select)) {
+                    $sellingquantity = $select[0]['selling_quantity'];
+                    $returnquantity = $select[0]['return_quantity'];
+                    $transferquantity = $select[0]['transfer_quantity'];
+                    $totalsr = $sellingquantity + $returnquantity + $transferquantity;
+                    // $new_available_quantity = $quantities[$index] 
+                    // Adjust available and selling quantities based on the new quantity
+                    if ($quantities[$index] > $totalsr) {
+
+                        $new_available_quantity = $quantities[$index] - $totalsr;
+                    } elseif ($quantities[$index] < $totalsr) {
+                        $new_available_quantity = $totalsr - $quantities[$index];
+                    } else {
+                        $new_available_quantity = $quantities[$index];
+                    }
+
+
+
+                } else {
+                    // Handle case where product data is missing
+                    $this->session->set_userdata('msg', '<div class="alert alert-danger">Product data missing.</div>');
+                    redirect(base_url('admin_Dashboard/product/' . encryptId($tid)));
+                    return;
+                }
 
                 $data_to_insert = [
                     'vender_name' => $vender_id,
@@ -796,7 +853,7 @@ if($add){
                     'branch_id' => $brid,
                     'stock_place_name' => $stock_place_name,
                     'product_name' => $product_name,
-                     
+
                     'packing' => $packings[$index],
                     'quantity' => $quantities[$index],
                     'availabile_quantity' => $new_available_quantity,
@@ -805,8 +862,8 @@ if($add){
                     'gst_percent' => $gst_percentages[$index],
                     'gst_tax' => $gst_amounts[$index],
                     'exp_date' => $exp_dates[$index],
-                    'HSN_code' => $HSN_code[$index],
-                     'p_price' => $p_prices[$index],
+                   
+                    'p_price' => $p_prices[$index],
                     'mrp' => $mrps[$index],
                     'selling_price' => $selling_prices[$index],
                     'total_price' => $total_prices[$index],
@@ -815,82 +872,82 @@ if($add){
                     'discount_type' => $discount_type,
                     'discount_amount' => $discount_amountt,
                     'total_quantity' => $total_quantity,
-                  
+
                     'sub_total' => $sub_total,
                 ];
-    
+
                 // Insert data into the purchase_product table
-                $savedata = $this->CommonModal->updateRowById('purchase_product','p_id', $product_ids[$index] , $data_to_insert);
-    
+                $savedata = $this->CommonModal->updateRowById('purchase_product', 'p_id', $product_ids[$index], $data_to_insert);
+
                 // if (!$savedata) {
                 //     // Handle insert error
                 //     $this->session->set_userdata('msg', '<div class="alert alert-danger">Error adding invoice item.</div>');
                 //     redirect(base_url('admin_Dashboard/product/' . encryptId($tid)));
                 //     return;
                 // }
-            
-    
-            // Insert payment data if paid amount is provided
-            if ($ppid) {
-                $pay_to_insert = [
-                    'vender_id' => $vender_id,
-                    'user_id' => $tid,
-                   'branch_id' => $brid,
-                    'paid' => $paid,
-                    'mode' => $mode,
-                    'total' => $grand_total,
-                    'due' => $due,
-                    'date' => $date,
-                    'bank' => $bank,
-                     'cheque_no' =>$cheque_no
-                ];
-    
-                $savedata1 = $this->CommonModal->updateRowById('purchase_payment','id',  $ppid, $pay_to_insert);
-     if ($savedata1) {
-    // Get all rows after the given ID for the same invoice
-    $rows_after_id = $this->CommonModal->getRowsAfterId('purchase_payment', 'id', $ppid,'purchase_code', $purchase_code);
 
-    if ($rows_after_id) {
-        foreach ($rows_after_id as $row) {
-            // Fetch the row just before the current row for recalculating due
-            
-            $rows_before_id = $this->CommonModal->getRowsBeforeId('purchase_payment', 'id', $row['id'], 'purchase_code', $purchase_code);
+                }
+                // Insert payment data if paid amount is provided
+                if ($ppid) {
+                    $pay_to_insert = [
+                        'vender_id' => $vender_id,
+                        'user_id' => $tid,
+                        'branch_id' => $brid,
+                        'paid' => $paid,
+                        'mode' => $mode,
+                        'total' => $grand_total,
+                        'due' => $due,
+                        'date' => $date,
+                        'bank' => $bank,
+                        'cheque_no' => $cheque_no
+                    ];
 
-            // Ensure that there is a previous row to calculate the due amount
-            $previous_due = $rows_before_id ? $rows_before_id[0]['due'] : $grand_total;
+                    $savedata1 = $this->CommonModal->updateRowById('purchase_payment', 'id', $ppid, $pay_to_insert);
+                    if ($savedata1) {
+                        // Get all rows after the given ID for the same invoice
+                        $rows_after_id = $this->CommonModal->getRowsAfterId('purchase_payment', 'id', $ppid, 'purchase_code', $purchase_code);
 
-            // Calculate the new due amount
-            $due2 = $previous_due - $row['paid'];
+                        if ($rows_after_id) {
+                            foreach ($rows_after_id as $row) {
+                                // Fetch the row just before the current row for recalculating due
 
-            $latest_data = [
-                    'vender_id' => $vender_id,
-                    'user_id' => $tid,
-            
-                   'branch_id' => $brid,
-                    'paid' => $row['paid'],
-                    'mode' => $row['mode'],
-                    'total' => $grand_total,
-                    'due' => $due2,
-                    'bank' => $row['bank'],
-                     'cheque_no' =>$cheque_no
-                ];
+                                $rows_before_id = $this->CommonModal->getRowsBeforeId('purchase_payment', 'id', $row['id'], 'purchase_code', $purchase_code);
 
-            // Update each row with the recalculated due
-            $this->CommonModal->updateRowById('purchase_payment', 'id', $row['id'], $latest_data);
-        }
-    }
-} 
-            }
+                                // Ensure that there is a previous row to calculate the due amount
+                                $previous_due = $rows_before_id ? $rows_before_id[0]['due'] : $grand_total;
+
+                                // Calculate the new due amount
+                                $due2 = $previous_due - $row['paid'];
+
+                                $latest_data = [
+                                    'vender_id' => $vender_id,
+                                    'user_id' => $tid,
+
+                                    'branch_id' => $brid,
+                                    'paid' => $row['paid'],
+                                    'mode' => $row['mode'],
+                                    'total' => $grand_total,
+                                    'due' => $due2,
+                                    'bank' => $row['bank'],
+                                    'cheque_no' => $cheque_no
+                                ];
+
+                                // Update each row with the recalculated due
+                                $this->CommonModal->updateRowById('purchase_payment', 'id', $row['id'], $latest_data);
+                            }
+                        }
+                    }
+                }
             }
             // Success message and redirection
             $this->session->set_userdata('msg', '<div class="alert alert-success">Invoice added successfully.</div>');
             redirect(base_url('Admin_Dashboard/print_purchase/' . encryptId($tid) . '/' . $purchase_code));
         } else {
-    
+
             $data['product_list'] = $this->CommonModal->getRowByIdDesc('product', 'user_id', $uid[0]['id'], 'id', 'DESC');
             $this->load->view('user/edit_product', $data);
-      }
-}
+        }
+    }
 
     public function delete_product()
     {
@@ -931,6 +988,80 @@ $grand = $product[0]['grand_total'] - $product[0]['total_price'];
         $referrer = $this->input->server('HTTP_REFERER');
         redirect($referrer);
     }
+    public function delete_invoice()
+    {
+        $BdID = $this->input->get('BdID', true);
+        $uID = $this->input->get('UI', true);
+        $invoice_code = $this->input->get('inv', true);
+        $p_id = $this->input->get('p_id', true);
+    
+        if (!$BdID || !$uID || !$invoice_code || !$p_id) {
+            $this->session->set_flashdata('msg', 'Invalid request parameters.');
+            $this->session->set_flashdata('msg_class', 'alert-danger');
+            redirect($this->input->server('HTTP_REFERER'));
+        }
+    
+        $product = $this->CommonModal->getRowById('invoice', 'id', $BdID);
+        $p_product = $this->CommonModal->getRowById('purchase_product', 'p_id', $p_id);
+    
+        if (!$product || !$p_product) {
+            $this->session->set_flashdata('msg', 'Product or Invoice not found.');
+            $this->session->set_flashdata('msg_class', 'alert-danger');
+            redirect($this->input->server('HTTP_REFERER'));
+        }
+    
+        $this->db->trans_start(); // Start transaction
+    
+        $quantity = $product[0]['quantity'];
+    
+        if ($product[0]['box'] == 'Single') {
+            $avail = $p_product[0]['per_product_available_quantity'] + $quantity;
+            $sales = $p_product[0]['per_product_selling_quantity'] - $quantity;
+    
+            $latest_data1 = [
+                'per_product_available_quantity' => $avail,
+                'per_product_selling_quantity'    => $sales,
+            ];
+            $this->CommonModal->updateRowByIduser('purchase_product', 'p_id', $p_id, 'user_id', $uID, $latest_data1);
+        } else {
+            $availl = $p_product[0]['availabile_quantity'] + $quantity;
+            $saless = $p_product[0]['selling_quantity'] - $quantity;
+    
+            $latest_data2 = [
+                'availabile_quantity' => $availl,
+                'selling_quantity'    => $saless,
+            ];
+            $this->CommonModal->updateRowByIduser('purchase_product', 'p_id', $p_id, 'user_id', $uID, $latest_data2);
+        }
+    
+        $sub = $product[0]['grand_total'] - $product[0]['total_price'];
+        $wot = $product[0]['total_without_tax'] - $product[0]['total_price'];
+        $final = $product[0]['final_total'] - $product[0]['total_price'];
+    
+        if ($invoice_code) {
+            $latest_data = [
+                'grand_total'      => $sub,
+                'final_total'      => $final,
+                'total_without_tax' => $wot,
+            ];
+            $this->CommonModal->updateRowByIduser('invoice', 'invoice_no', $invoice_code, 'user_id', $uID, $latest_data);
+        }
+    
+        $delete_success = $this->CommonModal->deleteRowById('invoice', ['id' => $BdID]);
+    
+        if ($delete_success) {
+            $this->session->set_flashdata('msg', 'Deleted successfully');
+            $this->session->set_flashdata('msg_class', 'alert-success');
+        } else {
+            $this->session->set_flashdata('msg', 'Deletion failed. Please try again!');
+            $this->session->set_flashdata('msg_class', 'alert-danger');
+        }
+    
+        $this->db->trans_complete(); // Complete transaction
+    
+        redirect($this->input->server('HTTP_REFERER'));
+    }
+    
     public function product_name($id)
     {
         $data['title'] = "Our Products Name";
@@ -2152,15 +2283,16 @@ public function normal_invoice($id, $invoice_number)
     
         // Output the PDF file
         $mpdf->Output("invoice_$invoice_number.pdf", 'D');  // 'D' forces download, 'I' to display inline
-    }public function add_invoice($id)
+    }
+    public function add_invoice($id)
     {
         $data['title'] = "Add Invoice";
         $data['tag'] = "add";
         $tid = decryptId($id);
         $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
-         $uid = $this->CommonModal->getRowById('users', 'id', $tid);
+        $uid = $this->CommonModal->getRowById('users', 'id', $tid);
         $data['account'] = $this->CommonModal->getRowByIdDesc('account', 'user_id', $uid[0]['id'], 'id', 'DESC');
-        
+
         if ($_POST) {
             $post = $this->input->post();
             $c_names = $post['customer_name'];
@@ -2168,8 +2300,8 @@ public function normal_invoice($id, $invoice_number)
             $d_type = $post['discount_type'];
             $date = $post['date'];
             $discount = floatval($post['discount']);
-             $total_without_tax = floatval($post['total_without_tax']);
-              $tax = floatval($post['tax_amount']);
+            $total_without_tax = floatval($post['total_without_tax']);
+            $tax = floatval($post['tax_amount']);
             $final = floatval($post['final_total']);
             $paid = floatval($post['paid']);
             $mode = $post['mode'];
@@ -2177,34 +2309,53 @@ public function normal_invoice($id, $invoice_number)
             $bank = floatval($post['bank']);
             $include_interest = $post['include_interest'];
             $due = $final - $paid;
-           
+
             // Generate invoice number
             $invoice_number = $this->generate_invoice_number($uid[0]['id']);
-    
+
             // Assuming 'product_name', 'packing', 'quantity', 'unit_rate', 'total_price' are array inputs
             $product_names = $post['p_name'];
             $product_ids = $post['p_id'];
             $packings = $post['packing'];
             $quantities = $post['quantity'];
             $available_quantities = $post['available_quantity'];
+            $box = $post['box'];
+           
+            $per_box = $post['per_box'];
+            if($per_box != '0'){
+               
+                $box1 = $box;
+             
+               
+               
+            }else{
+                $box1 = "";
+                
+            }
+         
             $unit_rates = $post['unit_rate'];
             $unit = $post['unit'];
             $total_prices = $post['total_price'];
-    
+
             $grand_total = array_sum($total_prices);
-    
+
             $discount_amountt = "";
-            
-            if($post['discount_type'] == 'rupee'){
+
+            if ($post['discount_type'] == 'rupee') {
                 $discount_amountt = $post['discount'];
-            } else{ 
+            } else {
                 $discount_am = $grand_total * $post['discount'];
-                $discount_amountt = $discount_am/100;
+                $discount_amountt = $discount_am / 100;
             }
+          
+
             // Insert invoice items
             foreach ($product_names as $index => $product_name) {
                 $new_available_quantity = $available_quantities[$index] - $quantities[$index];
-    
+               
+               if($box1[$index] != ''){
+                $box_product1 ='1';
+               }
                 // Prepare data for each row
                 $data_to_insert = [
                     'customer_name' => $c_names,
@@ -2217,40 +2368,124 @@ public function normal_invoice($id, $invoice_number)
                     'quantity' => $quantities[$index],
                     'unit_rate' => $unit_rates[$index],
                     'unit' => $unit[$index],
+                    'box' => $box1[$index],
+                    'box_product' => $box_product1,
+                    'per_box' => $per_box[$index],
+
+
+
                     'total_price' => $total_prices[$index],
                     'grand_total' => $grand_total,
                     'discount_type' => $d_type,
                     'discount' => $discount,
                     'discount_amount' => $discount_amountt,
                     'total_without_tax' => $total_without_tax,
-                    'include_interest' => $include_interest, 
-                    'tax_amount' => $tax, 
-                    'final_total' => $final
+                    'include_interest' => $include_interest,
+                    'tax_amount' => $tax,
+                    'final_total' => $final,
+
                 ];
-    
+               
                 $savedata = $this->CommonModal->insertRowReturnId('invoice', $data_to_insert);
-    
+
                 if ($savedata) {
                     $select = $this->CommonModal->getRowById('purchase_product', 'p_id', $product_ids[$index]);
                     $selling = $select[0]['selling_quantity'] + $quantities[$index];
-    
-                    // Update available_quantity and selling_quantity
-                    $updatedata = $this->CommonModal->updateColumnValue(
-                        'purchase_product',
-                        'p_id',
-                        $product_ids[$index],
-                        'availabile_quantity',
-                        $new_available_quantity
-                    );
-    
-                    $updatesellingdata = $this->CommonModal->updateColumnValue(
-                        'purchase_product',
-                        'p_id',
-                        $product_ids[$index],
-                        'selling_quantity',
-                        $selling
-                    );
-    
+                    $sellingg = $select[0]['per_product_selling_quantity'] + $quantities[$index];
+
+                    if ($box[$index] == "Box") {
+                        // Update available_quantity and selling_quantity
+                        $updatedata = $this->CommonModal->updateColumnValue(
+                            'purchase_product',
+                            'p_id',
+                            $product_ids[$index],
+                            'availabile_quantity',
+                            $new_available_quantity
+                        );
+
+                        $updatesellingdata = $this->CommonModal->updateColumnValue(
+                            'purchase_product',
+                            'p_id',
+                            $product_ids[$index],
+                            'selling_quantity',
+                            $selling
+                        );
+                        $per_selling = $quantities[$index] * $per_box[$index];
+                        $per_avail = $select[0]['per_product_available_quantity'] - $per_selling;
+                        $per_sellingg = $select[0]['per_product_selling_quantity'] + $per_selling;
+
+                      $this->CommonModal->updateColumnValue(
+                            'purchase_product',
+                            'p_id',
+                            $product_ids[$index],
+                            'per_product_available_quantity',
+                            $per_avail
+                        );
+                      $this->CommonModal->updateColumnValue(
+                            'purchase_product',
+                            'p_id',
+                            $product_ids[$index],
+                            'per_product_selling_quantity',
+                            $per_sellingg
+                        );
+
+                    } elseif($box[$index] == "Single" && $per_box[$index]) {
+                        
+                        $updatedata = $this->CommonModal->updateColumnValue(
+                            'purchase_product',
+                            'p_id',
+                            $product_ids[$index],
+                            'per_product_available_quantity',
+                            $new_available_quantity
+                        );
+
+                        $updatesellingdata = $this->CommonModal->updateColumnValue(
+                            'purchase_product',
+                            'p_id',
+                            $product_ids[$index],
+                            'per_product_selling_quantity',
+                            $sellingg
+                        );
+                        $box_avail = intval($new_available_quantity / $per_box[$index]);
+
+    $new_box_avail1 = $select[0]['availabile_quantity'] - $box_avail;
+    $sellinggg = $select[0]['selling_quantity'] + $new_box_avail1;
+    $this->CommonModal->updateColumnValue(
+        'purchase_product',
+        'p_id',
+        $product_ids[$index],
+        'availabile_quantity',
+        $box_avail
+    );
+    $this->CommonModal->updateColumnValue(
+        'purchase_product',
+        'p_id',
+        $product_ids[$index],
+        'selling_quantity',
+        $sellinggg
+    );
+
+
+
+
+                    } else{
+                        $updatedata = $this->CommonModal->updateColumnValue(
+                            'purchase_product',
+                            'p_id',
+                            $product_ids[$index],
+                            'availabile_quantity',
+                            $new_available_quantity
+                        );
+
+                        $updatesellingdata = $this->CommonModal->updateColumnValue(
+                            'purchase_product',
+                            'p_id',
+                            $product_ids[$index],
+                            'selling_quantity',
+                            $selling
+                        );
+                    }
+
                     if (!$updatedata || !$updatesellingdata) {
                         $this->session->set_userdata('msg', '<div class="alert alert-danger">Error updating product quantities.</div>');
                         redirect(base_url('admin_Dashboard/invoice/' . $id));
@@ -2262,7 +2497,7 @@ public function normal_invoice($id, $invoice_number)
                     return;
                 }
             }
-    
+
             // Insert payment data if paid amount is provided
             if ($paid >= 0) {
                 $pay_to_insert = [
@@ -2270,23 +2505,23 @@ public function normal_invoice($id, $invoice_number)
                     'user_id' => $tid,
                     'invoice_no' => $invoice_number,
                     'paid' => $paid,
-                      'date' => $date,
+                    'date' => $date,
                     'mode' => $mode,
                     'total' => $final,
                     'due' => $due,
                     'bank' => $bank,
-                    'cheque_no' =>$cheque_no
+                    'cheque_no' => $cheque_no
                 ];
-    
+
                 $savedata1 = $this->CommonModal->insertRowReturnId('payment', $pay_to_insert);
-    
+
                 if (!$savedata1) {
                     $this->session->set_userdata('msg', '<div class="alert alert-danger">Error adding payment information.</div>');
                     redirect(base_url('admin_Dashboard/invoice/' . $id));
                     return;
                 }
             }
-    
+
             $this->session->set_userdata('msg', '<div class="alert alert-success">Invoice added successfully.</div>');
             redirect(base_url('admin_Dashboard/print_invoice/' . $id . '/' . $invoice_number));
         } else {
@@ -2295,6 +2530,50 @@ public function normal_invoice($id, $invoice_number)
             $data['product_list'] = $this->CommonModal->getRowByIdDesc('product', 'user_id', $uid[0]['id'], 'id', 'DESC');
             $this->load->view('user/add_invoice', $data);
         }
+    }
+    public function updateInterest()
+    {
+        $query = $this->db->get('invoice');
+        $results = $query->result();
+
+        $current_date = strtotime(date('Y-m-d'));
+
+        foreach ($results as $row) {
+            // Date Conversion
+            $bill_date = DateTime::createFromFormat('d-m-Y', $row->date);
+            if (!$bill_date) {
+                echo "Invalid date format for ID: " . $row->id . "<br>";
+                continue;
+            }
+            $bill_date = $bill_date->getTimestamp();
+            $due_date = strtotime("+$row->intrest_days days", $bill_date);
+
+
+
+            $final_total = (float) $row->final_total;
+            $intrest_rate = (float) $row->intrest_rate;
+
+            // Interest Calculation
+            if ($current_date >= $due_date) {
+                $days_late = ceil(($current_date - $due_date) / (60 * 60 * 24));
+                $daily_interest = ($final_total * $intrest_rate / 100) / 365;
+                $interest_amount = $daily_interest * $days_late;
+            } else {
+                $days_late = 0;
+                $interest_amount = 0;
+            }
+
+            // Update Database
+            $this->db->where('id', $row->id);
+            $this->db->update('invoice', [
+                'total_with_intrest' => $final_total + $interest_amount,
+                'late_days' => $days_late
+            ]);
+
+            echo "Updated ID: " . $row->id . " | Days Late: " . $days_late . " | Interest: " . $interest_amount . "<br>";
+        }
+
+        echo "Interest Updated Successfully!";
     }
 
     public function edit_invoice()
@@ -2336,10 +2615,25 @@ public function normal_invoice($id, $invoice_number)
             $product_ids = $post['p_id'];
             $invoice_ids = $post['invoice_id'];
             $packings = $post['packing'];
+            $box = $post['box'];
+          
+            $per_box = $post['per_box'];
+            if($per_box != '0'){
+               
+                $box1 = $box;
+             
+               
+               
+            }else{
+                $box1 = "";
+              
+            }
+           
             $quantities = $post['quantity'];
             $available_quantities = $post['available_quantity'];
             $unit_rates = $post['unit_rate'];
             $units = $post['unit'];
+            
             $total_prices = $post['total_price'];
 
             $grand_total = array_sum($total_prices);
@@ -2351,9 +2645,301 @@ public function normal_invoice($id, $invoice_number)
                 $discount_amountt = $discount_am / 100;
             }
             foreach ($product_names as $index => $product_name) {
+                if($box[$index] != ''){
+                    $box_product='1';
+                }
+                if($invoice_ids[$index] == '-11'){
+                    $new_available_quantity = $available_quantities[$index] - $quantities[$index];
+
+                    // Prepare data for each row
+                    $data_to_insert = [
+                        'customer_name' => $c_names,
+                        'stock_place' => $stock_place,
+                        'date' => $date,
+                        'user_id' => $tid,
+                        'invoice_no' => $invoice_no,
+                        'p_name' => $product_name,
+                        'packing' => $packings[$index],
+                        'quantity' => $quantities[$index],
+                        'unit_rate' => $unit_rates[$index],
+                        'unit' => $units[$index],
+                        'box' => $box1[$index],
+                        'box_product' => $box_product,
+                        'per_box' => $per_box[$index],
+
+    
+    
+                        'total_price' => $total_prices[$index],
+                        'grand_total' => $grand_total,
+                        'discount_type' => $d_type,
+                        'discount' => $discount,
+                        'discount_amount' => $discount_amountt,
+                        'total_without_tax' => $total_without_tax,
+                        'include_interest' => $include_interest,
+                        'tax_amount' => $tax,
+                        'final_total' => $final,
+    
+                    ];
+                   
+                    $savedata = $this->CommonModal->insertRowReturnId('invoice', $data_to_insert);
+    
+                    if ($savedata) {
+                        $select = $this->CommonModal->getRowById('purchase_product', 'p_id', $product_ids[$index]);
+                        $selling = $select[0]['selling_quantity'] + $quantities[$index];
+                        $sellingg = $select[0]['per_product_selling_quantity'] + $quantities[$index];
+    
+                        if ($box[$index] == "Box") {
+                            // Update available_quantity and selling_quantity
+                            $updatedata = $this->CommonModal->updateColumnValue(
+                                'purchase_product',
+                                'p_id',
+                                $product_ids[$index],
+                                'availabile_quantity',
+                                $new_available_quantity
+                            );
+    
+                            $updatesellingdata = $this->CommonModal->updateColumnValue(
+                                'purchase_product',
+                                'p_id',
+                                $product_ids[$index],
+                                'selling_quantity',
+                                $selling
+                            );
+                            $per_selling = $quantities[$index] * $per_box[$index];
+                            $per_avail = $select[0]['per_product_available_quantity'] - $per_selling;
+                            $per_sellingg = $select[0]['per_product_selling_quantity'] + $per_selling;
+    
+                          $this->CommonModal->updateColumnValue(
+                                'purchase_product',
+                                'p_id',
+                                $product_ids[$index],
+                                'per_product_available_quantity',
+                                $per_avail
+                            );
+                          $this->CommonModal->updateColumnValue(
+                                'purchase_product',
+                                'p_id',
+                                $product_ids[$index],
+                                'per_product_selling_quantity',
+                                $per_sellingg
+                            );
+    
+    
+                        }  elseif($box[$index] == "Single" && $per_box[$index]) {
+                        
+                            $updatedata = $this->CommonModal->updateColumnValue(
+                                'purchase_product',
+                                'p_id',
+                                $product_ids[$index],
+                                'per_product_available_quantity',
+                                $new_available_quantity
+                            );
+    
+                            $updatesellingdata = $this->CommonModal->updateColumnValue(
+                                'purchase_product',
+                                'p_id',
+                                $product_ids[$index],
+                                'per_product_selling_quantity',
+                                $sellingg
+                            );
+                            $box_avail = intval($new_available_quantity / $per_box[$index]);
+
+                            $new_box_avail1 = $select[0]['availabile_quantity'] - $box_avail;
+                            $sellinggg = $select[0]['selling_quantity'] + $new_box_avail1;
+                            $this->CommonModal->updateColumnValue(
+                                'purchase_product',
+                                'p_id',
+                                $product_ids[$index],
+                                'availabile_quantity',
+                                $box_avail
+                            );
+                            $this->CommonModal->updateColumnValue(
+                                'purchase_product',
+                                'p_id',
+                                $product_ids[$index],
+                                'selling_quantity',
+                                $sellinggg
+                            );
+    
+    
+    
+                        }  else{
+                            $updatedata = $this->CommonModal->updateColumnValue(
+                                'purchase_product',
+                                'p_id',
+                                $product_ids[$index],
+                                'availabile_quantity',
+                                $new_available_quantity
+                            );
+    
+                            $updatesellingdata = $this->CommonModal->updateColumnValue(
+                                'purchase_product',
+                                'p_id',
+                                $product_ids[$index],
+                                'selling_quantity',
+                                $selling
+                            );
+                        }
+    
+                        if (!$updatedata || !$updatesellingdata) {
+                            $this->session->set_userdata('msg', '<div class="alert alert-danger">Error updating product quantities.</div>');
+                            redirect($this->input->server('HTTP_REFERER'));
+                            return;
+                        }
+                    } else {
+                        $this->session->set_userdata('msg', '<div class="alert alert-danger">Error adding invoice item.</div>');
+                        redirect($this->input->server('HTTP_REFERER'));
+                        return;
+                    }
+                } 
+
+                
                 // Fetch the product data from purchase_product table
                 $select = $this->CommonModal->getRowById('purchase_product', 'p_id', $product_ids[$index]);
+ if($box[$index] == "Box"){
+    $sellingquantity = $select[0]['selling_quantity'];
+    $per_selling = $quantities[$index] * $per_box[$index];
+    // Adjust available and selling quantities based on the new quantity
+    if ($quantities[$index] > $sellingquantity) {
+        $quantityDiff = $quantities[$index] - $sellingquantity;
+        $new_available_quantity = $available_quantities[$index] - $quantityDiff;
+        $per_avail = $select[0]['per_product_available_quantity'] - $per_selling;
+     
+    } elseif ($quantities[$index] < $sellingquantity) {
+        $quantityDiff = $sellingquantity - $quantities[$index];
+        $new_available_quantity =  $available_quantities[$index] + $quantityDiff;
+        $per_avail = $select[0]['per_product_available_quantity'] + $per_selling;
+    } else {
+        $new_available_quantity = $available_quantities[$index];
+    }
 
+    // Update the available quantity in the purchase_product table
+    $updatedata = $this->CommonModal->updateColumnValue(
+        'purchase_product',
+        'p_id',
+        $product_ids[$index],
+        'availabile_quantity',
+        $new_available_quantity
+    );
+    $this->CommonModal->updateColumnValue(
+        'return_invoice',
+        'p_name',
+        $product_ids[$index],
+        'available_quantity',
+        $quantities[$index]
+    );
+
+
+
+  $this->CommonModal->updateColumnValue(
+        'purchase_product',
+        'p_id',
+        $product_ids[$index],
+        'per_product_available_quantity',
+        $per_avail
+    );
+ 
+    // Update selling quantity if needed
+    if ($quantities[$index] > $sellingquantity) {
+        $selling = $sellingquantity + $quantityDiff;
+        $per_sellingg = $select[0]['per_product_selling_quantity'] + $per_selling;
+    } elseif ($quantities[$index] < $sellingquantity) {
+        $selling = $sellingquantity - $quantityDiff;
+        $per_sellingg = $select[0]['per_product_selling_quantity'] - $per_selling;
+    } else {
+        $selling =   $sellingquantity;
+        $per_sellingg = $select[0]['per_product_selling_quantity'] ;
+    }
+
+    // Update the selling quantity in the purchase_product table
+    if (isset($selling)) {
+        $updatesellingdata = $this->CommonModal->updateColumnValue(
+            'purchase_product',
+            'p_id',
+            $product_ids[$index],
+            'selling_quantity',
+            $selling
+        );
+        $this->CommonModal->updateColumnValue(
+            'purchase_product',
+            'p_id',
+            $product_ids[$index],
+            'per_product_selling_quantity',
+            $per_sellingg
+        );
+    }
+ } elseif($box[$index] == "Single"){
+    $sellingquantityy = $select[0]['per_product_selling_quantity'];
+  
+    if ($quantities[$index] > $sellingquantityy) {
+        $quantityDiff = $quantities[$index] - $sellingquantityy;
+        $new_available_quantityy = $available_quantities[$index] - $quantityDiff;
+    } elseif ($quantities[$index] < $sellingquantityy) {
+        $quantityDiff = $sellingquantityy - $quantities[$index];
+        $new_available_quantityy =  $available_quantities[$index] + $quantityDiff;
+    } else {
+        $new_available_quantityy = $available_quantities[$index];
+    }
+    $box_avail = intval($new_available_quantityy / $per_box[$index]);
+                            $updatedata = $this->CommonModal->updateColumnValue(
+                                'purchase_product',
+                                'p_id',
+                                $product_ids[$index],
+                                'per_product_available_quantity',
+                                $new_available_quantityy
+                            );
+                            $this->CommonModal->updateColumnValue(
+                                'return_invoice',
+                                'p_name',
+                                $product_ids[$index],
+                                'available_quantity',
+                                $quantities[$index]
+                            );
+                           
+                         
+
+                     
+                            $this->CommonModal->updateColumnValue(
+                                'purchase_product',
+                                'p_id',
+                                $product_ids[$index],
+                                'availabile_quantity',
+                                $box_avail
+                            );
+                           
+                         // Update selling quantity if needed
+                        
+                         
+                    if ($quantities[$index] > $sellingquantity) {
+                        $selling = $sellingquantity + $quantityDiff;
+                        $new_box_avail1 =$select[0]['availabile_quantity']-$box_avail   ;
+                        $sellinggg = $select[0]['selling_quantity'] + $new_box_avail1;
+                    } elseif ($quantities[$index] < $sellingquantity) {
+                        $selling = $sellingquantity - $quantityDiff;
+                        $new_box_avail1 =$box_avail - $select[0]['availabile_quantity'] ;
+                        $sellinggg = $select[0]['selling_quantity'] - $new_box_avail1;
+                    } else {
+                        $selling =   $sellingquantity;
+                        $sellinggg = $select[0]['selling_quantity'];
+                    }
+
+                    // Update the selling quantity in the purchase_product table
+                    if (isset($selling)) {
+                        $updatesellingdata = $this->CommonModal->updateColumnValue(
+                            'purchase_product',
+                            'p_id',
+                            $product_ids[$index],
+                            'per_product_selling_quantity',
+                            $selling
+                        );
+                        $this->CommonModal->updateColumnValue(
+                            'purchase_product',
+                            'p_id',
+                            $product_ids[$index],
+                            'selling_quantity',
+                            $sellinggg
+                        );
+                    }}else{
                 if (!empty($select)) {
                     $sellingquantity = $select[0]['selling_quantity'];
 
@@ -2409,7 +2995,8 @@ public function normal_invoice($id, $invoice_number)
                     redirect(base_url('admin_Dashboard/invoice/' . encryptId($tid)));
                     return;
                 }
-
+            }
+            
                 // Prepare data to update the invoice record
                 $data_to_update = [
                     'customer_name' => $c_names,
@@ -2424,6 +3011,10 @@ public function normal_invoice($id, $invoice_number)
                     'quantity' => $quantities[$index],
                     'unit_rate' => $unit_rates[$index],
                     'unit' => $units[$index],
+                    'box' => $box1[$index],
+                        'box_product' => $box_product,
+                        'per_box' => $per_box[$index],
+
                     'total_price' => $total_prices[$index],
                     'grand_total' => $grand_total,
                     'discount_type' => $d_type,
@@ -2631,6 +3222,20 @@ foreach ($select as $roww) {
         // Collect product-related data
         $product_names = $post['p_name'];
         $product_ids = $post['p_id'];
+        $box = $post['box'];
+           
+            $per_box = $post['per_box'];
+            if($per_box != '0'){
+               
+                $box1 = $box;
+             
+               
+               
+            }else{
+                $box1 = "";
+                
+            }
+         
          $invoice_ids = $post['invoice_id'];
         $packings = $post['packing'];
         $quantities = $post['quantity'];
@@ -2650,7 +3255,12 @@ foreach ($select as $roww) {
         }
         foreach ($product_names as $index => $product_name) {
             $new_available_quantity = $available_quantities[$index] + $quantities[$index];
-
+            $new_per_p_avail_qty = $per_box[$index] *  $quantities[$index];
+            if($box1[$index] != ''){
+                $box_product1 ='1';
+               } else{
+                $box_product1 ='';
+               }
             $data_to_insert = [
                 'customer_name' => $c_names,
                 'stock_place' => $stock_place,
@@ -2665,6 +3275,10 @@ foreach ($select as $roww) {
                 'quantity' => $quantities[$index],
                 'unit_rate' => $unit_rates[$index],
                 'unit' => $unit[$index],
+                'box' => $box1[$index],
+                'box_product' => $box_product1[$index],
+                'per_box' => $per_box[$index],
+               
                 'available_quantity' => $ava_quantities[$index],
                 'total_price' => $total_prices[$index],
                 'grand_total' => $grand_total,
@@ -2679,6 +3293,139 @@ foreach ($select as $roww) {
             $savedata = $this->CommonModal->insertRowReturnId('return_invoice',  $data_to_insert);
 
             if ($savedata) {
+                if($box1[$index] == "Box"){
+ 
+                    $select = $this->CommonModal->getRowById('purchase_product', 'p_id', $product_ids[$index]);
+                    $selling = $select[0]['selling_quantity'] - $quantities[$index];
+      $selectinvoice = $this->CommonModal->getRowById('invoice', 'id',  $invoice_ids[$index]);
+                    $ava = $selectinvoice[0]['return_quantity'] + $quantities[$index];
+$per_selling = $select[0]['per_product_selling_quantity'] - $new_per_p_avail_qty;
+$per_avail = $select[0]['per_product_available_quantity'] + $new_per_p_avail_qty;
+
+
+
+                    $updatedata = $this->CommonModal->updateColumnValue(
+                        'purchase_product',
+                        'p_id',
+                        $product_ids[$index],
+                        'availabile_quantity',
+                        $new_available_quantity
+                    );
+                    $updatedata = $this->CommonModal->updateColumnValue(
+                        'purchase_product',
+                        'p_id',
+                        $product_ids[$index],
+                        'per_product_availabile_quantity',
+                        $per_avail
+                    );
+                    $updatedata = $this->CommonModal->updateColumnValue(
+                        'purchase_product',
+                        'p_id',
+                        $product_ids[$index],
+                        'per_product_selling_quantity',
+                        $per_selling
+                    ); 
+                    $this->CommonModal->updateColumnValue(
+                        'return_purchase',
+                        'p_id',
+                        $product_ids[$index],
+                        'availabile_quantity',
+                        $new_available_quantity
+                    );
+     $updatestatusdata = $this->CommonModal->updateColumnValue(
+                'invoice',            // Table name
+                'id',                        // Column to match (product ID)
+                 $invoice_ids[$index],          // Product ID to update
+                'status',         // Column to update (available_quantity)
+                1       // New available quantity
+            );
+             $updatereturndata = $this->CommonModal->updateColumnValue(
+                'invoice',            // Table name
+                'id',                        // Column to match (product ID)
+                 $invoice_ids[$index],          // Product ID to update
+                'return_quantity',         // Column to update (available_quantity)
+                   $ava // New available quantity
+            );
+                    $updatesellingdata = $this->CommonModal->updateColumnValue(
+                        'purchase_product',
+                        'p_id',
+                        $product_ids[$index],
+                        'selling_quantity',
+                        $selling
+                    );
+    
+                    if (!$updatedata || !$updatesellingdata) {
+                        $this->session->set_userdata('msg', '<div class="alert alert-danger">Error updating product quantities.</div>');
+                        redirect(base_url('admin_Dashboard/invoice/' . encryptId($tid) ));
+                        return;
+                    }
+                } elseif($box1[$index] == "Single"){
+ 
+                    $select = $this->CommonModal->getRowById('purchase_product', 'p_id', $product_ids[$index]);
+                    $selling = $select[0]['per_product_selling_quantity'] - $quantities[$index];
+      $selectinvoice = $this->CommonModal->getRowById('invoice', 'id',  $invoice_ids[$index]);
+                    $ava = $selectinvoice[0]['return_quantity'] + $quantities[$index];
+                    $updatedata = $this->CommonModal->updateColumnValue(
+                        'purchase_product',
+                        'p_id',
+                        $product_ids[$index],
+                        'per_product_availabile_quantity',
+                        $new_available_quantity
+                    );
+                    $this->CommonModal->updateColumnValue(
+                        'return_purchase',
+                        'p_id',
+                        $product_ids[$index],
+                        'availabile_quantity',
+                        $new_available_quantity
+                    );
+     $updatestatusdata = $this->CommonModal->updateColumnValue(
+                'invoice',            // Table name
+                'id',                        // Column to match (product ID)
+                 $invoice_ids[$index],          // Product ID to update
+                'status',         // Column to update (available_quantity)
+                1       // New available quantity
+            );
+             $updatereturndata = $this->CommonModal->updateColumnValue(
+                'invoice',            // Table name
+                'id',                        // Column to match (product ID)
+                 $invoice_ids[$index],          // Product ID to update
+                'return_quantity',         // Column to update (available_quantity)
+                   $ava // New available quantity
+            );
+                    $updatesellingdata = $this->CommonModal->updateColumnValue(
+                        'purchase_product',
+                        'p_id',
+                        $product_ids[$index],
+                        'per_selling_quantity',
+                        $selling
+                    );
+                    $box_avail = intval($new_available_quantity / $per_box[$index]);
+
+                    $new_box_avail1 =   $box_avail - $select[0]['availabile_quantity'];
+                    $sellinggg =  $new_box_avail1-$select[0]['selling_quantity'] ;
+                    $this->CommonModal->updateColumnValue(
+                        'purchase_product',
+                        'p_id',
+                        $product_ids[$index],
+                        'availabile_quantity',
+                        $box_avail
+                    );
+                    $this->CommonModal->updateColumnValue(
+                        'purchase_product',
+                        'p_id',
+                        $product_ids[$index],
+                        'selling_quantity',
+                        $sellinggg
+                    );
+                    if (!$updatedata || !$updatesellingdata) {
+                        $this->session->set_userdata('msg', '<div class="alert alert-danger">Error updating product quantities.</div>');
+                        redirect(base_url('admin_Dashboard/invoice/' . encryptId($tid) ));
+                        return;
+                    }
+                } else{
+
+                
                 $select = $this->CommonModal->getRowById('purchase_product', 'p_id', $product_ids[$index]);
                 $selling = $select[0]['selling_quantity'] - $quantities[$index];
   $selectinvoice = $this->CommonModal->getRowById('invoice', 'id',  $invoice_ids[$index]);
@@ -2724,6 +3471,7 @@ foreach ($select as $roww) {
                     redirect(base_url('admin_Dashboard/invoice/' . encryptId($tid) ));
                     return;
                 }
+            }
             } else {
                 $this->session->set_userdata('msg', '<div class="alert alert-danger">Error updating invoice item.</div>');
                 redirect(base_url('admin_Dashboard/invoice/' . encryptId($tid)));
@@ -3065,10 +3813,13 @@ public function get_unit_rate($packing) {
     // Check if the data is found
     if (!empty($unitRateData)) {
         // Send unit rate as a JSON response
+        
         echo json_encode([
            
             'total_quantity' => $unitRateData[0]['total_quantity'],
              'availabile_quantity' => $unitRateData[0]['availabile_quantity'],
+             'per_product_available_quantity' => $unitRateData[0]['per_product_available_quantity'],
+
                'p_id' => $unitRateData[0]['p_id']
 
         ]);
@@ -3077,6 +3828,8 @@ public function get_unit_rate($packing) {
         echo json_encode([
           
               'availabile_quantity' => '',
+             'per_product_available_quantity' => '',
+
                'p_id' => ''
         ]);
     }
@@ -3124,7 +3877,35 @@ public function get_product_details($product_id)
     }
 }
 
+public function get_product_details_with_customer($product_id, $customer_id)
+    {
+        // Fetch product details
+        $product = $this->CommonModal->getRowById('product', 'id', $product_id);
+        // Fetch customer details
+        $customer = $this->CommonModal->getRowById('customer', 'id', $customer_id);
+    
+        if (!$product || !$customer) {
+            echo json_encode(['error' => 'Product or Customer not found']);
+            return;
+        }
+    
+        // Get customer price column (1, 2, or 3)
+        $price_column = $customer[0]['price'];
+    
+        // Select correct selling price
+        $selected_price = ($price_column == 1) ? $product[0]['selling_price'] :
+                          (($price_column == 2) ? $product[0]['selling_priceB'] : $product[0]['selling_priceC']);
 
+                          $selected_per_price = ($price_column == 1) ? $product[0]['box_per_unit_sales_price'] :
+                          (($price_column == 2) ? $product[0]['box_per_unit_sales_priceB'] : $product[0]['box_per_unit_sales_priceC']);
+    
+        // Add the correct selling price to response
+        $product[0]['final_price'] = $selected_price;
+        $product[0]['per_product_final_price'] = $selected_per_price;
+
+    
+        echo json_encode($product[0]);
+    }
  public function return($id)
 { 
     $data['title'] = "Return Product";
@@ -3174,35 +3955,7 @@ foreach ($select as $roww) {
         }
         redirect(base_url('Admin_Dashboard/return/' . $id));  // Redirect after deletion
     }
-    public function get_product_details_with_customer($product_id, $customer_id)
-    {
-        // Fetch product details
-        $product = $this->CommonModal->getRowById('product', 'id', $product_id);
-        // Fetch customer details
-        $customer = $this->CommonModal->getRowById('customer', 'id', $customer_id);
     
-        if (!$product || !$customer) {
-            echo json_encode(['error' => 'Product or Customer not found']);
-            return;
-        }
-    
-        // Get customer price column (1, 2, or 3)
-        $price_column = $customer[0]['price'];
-    
-        // Select correct selling price
-        $selected_price = ($price_column == 1) ? $product[0]['selling_price'] :
-                          (($price_column == 2) ? $product[0]['selling_priceB'] : $product[0]['selling_priceC']);
-
-                          $selected_per_price = ($price_column == 1) ? $product[0]['box_per_unit_sales_price'] :
-                          (($price_column == 2) ? $product[0]['box_per_unit_sales_priceB'] : $product[0]['box_per_unit_sales_priceC']);
-    
-        // Add the correct selling price to response
-        $product[0]['final_price'] = $selected_price;
-        $product[0]['per_product_final_price'] = $selected_per_price;
-
-    
-        echo json_encode($product[0]);
-    }
     
 
     // Fetch return purchases with a join on the vendor table
@@ -3282,8 +4035,11 @@ foreach ($select as $roww) {
              $t_quantity = $post['t_quantity'] ?? [];
             $unit_rates = $post['unit_rate'] ?? [];
             $units = $post['unit'] ?? [];
+            $p_discount_type = $post['p_discount_type'] ?? [];
+            $p_discount = $post['p_discount'] ?? [];
+
             $exp_dates = $post['exp_date'] ?? [];
-            $HSN_code = $post['HSN_code'];
+           
             $p_prices = $post['p_price'] ?? [];
             $mrps = $post['mrp'] ?? [];
             $selling_prices = $post['selling_price'] ?? [];
@@ -3311,6 +4067,9 @@ foreach ($select as $roww) {
                     'availabile_quantity' =>  $new_available_quantity,
                     'unit_rate' => $unit_rates[$index],
                     'unit' => $units[$index],
+                    'p_discount_type' => $p_discount_type[$index],
+                    'p_discount' => $p_discount[$index],
+
                     'gst_percent' => $gst_percentages[$index],
                      'tax_type' => $gst_type[$index],
                     'gst_tax' => $gst_amounts[$index],
@@ -3334,7 +4093,14 @@ foreach ($select as $roww) {
       if ($savedata) {
         // Fetch the current selling_quantity for the product
         $select = $this->CommonModal->getRowById('purchase_product', 'p_id', $product_ids[$index]);
+        $select_product = $this->CommonModal->getRowById('product', 'id', $product_name);
+
         $return = $select[0]['return_quantity'] + $quantities[$index];
+        $box = ($select_product[0]['unit'] == 'Box') ? '1' : '0';
+        $p_b_q = ($box === '1') ? (($quantities[$index] ?? 0) * ($select_product[0]['box_per_unit'] ?? 0)) : '0';
+$p_a_q = $select[0]['per_product_available_quantity'] - $p_b_q;
+$p_r_q = $select[0]['per_product_return_quantity'] + $p_b_q;
+
 
         // Update available_quantity in the purchase_product table for the current product
         $updatedata = $this->CommonModal->updateColumnValue(
@@ -3359,7 +4125,20 @@ foreach ($select as $roww) {
             'return_quantity',            // Column to update (selling_quantity)
             $return                       // New selling quantity
         );
-
+        $this->CommonModal->updateColumnValue(
+            'purchase_product',            // Table name
+            'p_id',                        // Column to match (product ID)
+            $product_ids[$index],          // Product ID to update
+            'per_product_return_quantity',            // Column to update (selling_quantity)
+            $p_r_q                      // New selling quantity
+        );
+        $this->CommonModal->updateColumnValue(
+            'purchase_product',            // Table name
+            'p_id',                        // Column to match (product ID)
+            $product_ids[$index],          // Product ID to update
+            'per_product_available_quantity',            // Column to update (selling_quantity)
+            $p_a_q                      // New selling quantity
+        );
         // Error handling for update failure
         if (!$updatedata || !$updatesellingdata ) {
             // Handle update error

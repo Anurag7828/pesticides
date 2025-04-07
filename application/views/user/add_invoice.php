@@ -77,7 +77,7 @@
                                                 <?php foreach ($customer_list as $customer_info) { ?>
                                                     <option value="<?= $customer_info['id']; ?>"
                                                         <?= ($customer_info['name'] == $customer['0']['name']) ? 'selected' : ''; ?>>
-                                                        <?= $customer_info['name']; ?> - <?= $customer_info['contact']; ?>
+                                                        <?= $customer_info['name']; ?> - <?= $customer_info['contact']; ?>- <?= $customer_info['address']; ?>
                                                     </option>
                                                 <?php } ?>
                                             </select>
@@ -128,6 +128,15 @@
 
 
                                                                     </div>
+                                                                    <div id="unit-selection" class="sm:w-1/6 w-full mb-[30px]" style="display:none">
+                <label class="text-dark dark:text-white text-[13px] mb-2">Unit</label>
+                <select id="unit-single" name="box[]" class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" >
+                <option value="">Select Unit</option>
+                    
+                    <option value="Box">Box</option>
+                    <option value="Single">Single</option>
+                </select>
+            </div>
                                                                   
                                                                     <div class="sm:w-1/6 w-full mb-[30px]">
                                                                         <label
@@ -374,7 +383,7 @@
                         <input type="text" id="productSearch" class="form-control mb-4 p-2 border rounded-md w-full"
                             placeholder="Search Product..." oninput="filterModalProducts()">
                             </div>
-                            <div class="sm:w-1/4 w-full mb-[30px]">
+                            <div class="sm:w-1/2 w-full mb-[30px]">
                             <a href="<?= base_url('Admin_Dashboard/add_product/' . encryptId($user['0']['id'])) ?>"
                                     class="btn btn-primary sm:py-[0.719rem] px-2 sm:px-[1.563rem] py-2 sm:text-[15px] text-xs font-medium rounded text-white bg-primary leading-5 inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary dz-modal-btn">
                                     Add New product</a>
@@ -390,7 +399,7 @@
                                         <th class="py-2 px-4">Packing</th>
                                         <th class="py-2 px-4">Expire Date</th>
                                         <th class="py-2 px-4">Available Quantity</th>
-                                        <th class="py-2 px-4">Total Product<br> Available Quantity</th>
+                                        
                                         <!-- <th class="py-2 px-4">Select</th> -->
                                     </tr>
                                 </thead>
@@ -621,6 +630,15 @@
               
                 <input type="text"  class="packing-unit form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full " placeholder="Packing" required data-index="${rowIndex}" readonly >
             </div>
+            <div class="unit-selection sm:w-1/6 w-full mb-[30px]" data-index="${rowIndex}" style="display:none;">
+         
+                    <select name="box[]" data-index="${rowIndex}" class="unit-single form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" >
+                <option value="">Select Unit</option>
+
+                        <option value="Box">Box</option>
+                        <option value="Single">Single</option>
+                    </select>
+                </div>
             <div class="sm:w-1/6 w-full mb-[30px]" style="width: 202px !important;">
                
                     
@@ -693,8 +711,13 @@
                         <td class="py-2 px-4">${product.unit}</td>
                         <td class="py-2 px-4">${product.packing}${product.net_unit}</td>
                         <td class="py-2 px-4">${product.exp_date}</td>
-                        <td class="py-2 px-4">${product.availabile_quantity}${product.box === '1' ? ' (Box)' : ''}</td>
-                            <td class="py-2 px-4">${product.box === '1' ? product.per_product_available_quantity : 'Single'}</td>
+         <td class="py-2 px-4">
+  ${product.availabile_quantity}${product.box === '1' ? ' (Box)' : ''}
+  <br>
+  ${product.box === '1' ? `${product.per_product_available_quantity} (Single)` : ''}
+</td>
+
+                          
                     </tr>`;
                                 tableBody.innerHTML += row;
                             });
@@ -728,6 +751,7 @@ function selectaddProduct(proId, productName, unit, packing, netUnit, pId, box, 
         alert('Please select a customer first!');
         return;
     }
+   
     // Set product values
     productInput.value = productName;
     packingInput.value = pId;
@@ -741,29 +765,32 @@ function selectaddProduct(proId, productName, unit, packing, netUnit, pId, box, 
 
     // Add Unit Selection if box is enabled
     if (box == 1) {
-        let packingUnit = document.querySelector(`input.packing-unit[data-index="${rowIndex}"]`); // Get the Packing input field
-        let existingUnitSelection = document.querySelector(`.unit-selection[data-index="${rowIndex}"]`);
+    let packingUnit = document.querySelector(`input.packing-unit[data-index="${rowIndex}"]`);
+    let existingUnitSelection = document.querySelector(`.unit-selection[data-index="${rowIndex}"]`);
 
-        if (!existingUnitSelection) {
-            let unitSelectHTML = `
-                <div class="unit-selection sm:w-1/6 w-full mb-[30px]" data-index="${rowIndex}">
-         
-                    <select name="box[]" data-index="${rowIndex}" class="unit-single form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" required>
-                        <option value="Box" selected>Box</option>
-                        <option value="Single">Single</option>
-                    </select>
-                </div>`;
+    if (existingUnitSelection) {
+        existingUnitSelection.style.display = 'block';
 
-            // Insert the new unit selection field AFTER the Packing input field
-            packingUnit.parentNode.insertAdjacentHTML('afterend', unitSelectHTML);
-        }
-    } else {
-        // Remove the unit selection if box is not 1
-        let unitSelection = document.querySelector(`.unit-selection[data-index="${rowIndex}"]`);
-        if (unitSelection) {
-            unitSelection.remove();
+        let selectInput = existingUnitSelection.querySelector('select');
+        if (selectInput) {
+            selectInput.disabled = false;
+            selectInput.required = true;
         }
     }
+} else {
+    let unitSelection = document.querySelector(`.unit-selection[data-index="${rowIndex}"]`);
+    if (unitSelection) {
+        unitSelection.style.display = 'none';
+
+        let selectInput = unitSelection.querySelector('select');
+        if (selectInput) {
+               // Disable input
+            selectInput.required = false;    // Not required anymore
+        }
+    }
+}
+
+
 
     // Function to update product details (unit rate & available quantity)
     function updateProductDetails() {
@@ -996,8 +1023,13 @@ function selectaddProduct(proId, productName, unit, packing, netUnit, pId, box, 
           
             <td class="py-2 px-4">${product.packing}${product.net_unit}</td>
             <td class="py-2 px-4">${product.exp_date}</td>
-            <td class="py-2 px-4">${product.availabile_quantity}${product.box === '1' ? ' (Box)' : ''}</td>
-                 <td class="py-2 px-4">${product.box === '1' ? product.per_product_available_quantity : 'Single'}</td>
+            <td class="py-2 px-4">
+  ${product.availabile_quantity}${product.box === '1' ? ' (Box)' : ''}
+  <br>
+  ${product.box === '1' ? `${product.per_product_available_quantity} (Single)` : ''}
+</td>
+
+                 
          
           </tr>`;
                                 tableBody.innerHTML += row;
@@ -1041,28 +1073,33 @@ function selectaddProduct(proId, productName, unit, packing, netUnit, pId, box, 
        
         // Show the unit selection field if box == 1
         if (box == 1) {
-    let packingUnit = document.getElementById('packing-unit'); // Get the Packing input field
-
-    if (!document.getElementById('unit-selection')) {
-        let unitSelectHTML = `
-            <div id="unit-selection" class="sm:w-1/6 w-full mb-[30px]">
-                <label class="text-dark dark:text-white text-[13px] mb-2">Unit</label>
-                <select id="unit-single" name="box[]" class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" required>
-                    <option value="Box">Box</option>
-                    <option value="Single">Single</option>
-                </select>
-            </div>`;
-
-        // Insert the new unit selection field AFTER the Packing input field
-        packingUnit.parentNode.insertAdjacentHTML('afterend', unitSelectHTML);
-    }
-} else {
-    // Remove the unit selection if box is not 1
+    let packingUnit = document.getElementById('packing-unit');
     let unitSelection = document.getElementById('unit-selection');
+    
     if (unitSelection) {
-        unitSelection.remove();
+        let selectInput = unitSelection.querySelector('select');
+        unitSelection.style.display = 'block';
+        
+        if (selectInput) {
+            selectInput.disabled = false;
+            selectInput.required = true;
+        }
+    }
+
+} else {
+    let unitSelection = document.getElementById('unit-selection');
+    
+    if (unitSelection) {
+        let selectInput = unitSelection.querySelector('select');
+        unitSelection.style.display = 'none';
+        
+        if (selectInput) {
+               // ✅ Disable input
+            selectInput.required = false;     // ✅ Not required
+        }
     }
 }
+
 
 // Function to update unit rate and available quantity based on unit selection
 function updateProductDetails() {
@@ -1076,7 +1113,7 @@ function updateProductDetails() {
         success: function (data) {
             if (data) {
                 
-                 $('#unit-rate').val(data.final_price);
+                $('#unit-rate').val(selectedUnit === 'Box' ? data.final_price : data.per_product_final_price); 
                 $('#packing-unit').val(data.packing + data.net_unit);
                 $('#per_box').val(data.box_per_unit ? data.box_per_unit : 0);
 

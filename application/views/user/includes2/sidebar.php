@@ -16,7 +16,7 @@
 						</a>
 					</li>
 				
-					<li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+					<!-- <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
 					<div class="menu-icon">
 						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<g opacity="0.5">
@@ -34,7 +34,7 @@
 							<li><a href="<?= base_url('admin_Dashboard/add_branch/'.encryptId($user['0']['id'])) ?>">Add User</a></li>
 							<li><a href="<?= base_url('admin_Dashboard/branch/'.encryptId($user['0']['id'])) ?>">User List</a></li>
 						</ul>
-					</li>
+					</li> -->
 						<li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
 						<div class="menu-icon">
 						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

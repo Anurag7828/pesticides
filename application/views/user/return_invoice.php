@@ -64,7 +64,7 @@
                                                         value="<?= $customer_info['id']; ?>">
                                                     <input type="text"
                                                         class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-                                                        value="<?= $customer_info['name']; ?>-<?= $customer_info['contact']; ?>"
+                                                        value="<?= $customer_info['name']; ?>-<?= $customer_info['contact']; ?>-<?= $customer_info['address']; ?>"
                                                         readonly>
                                                 <?php }
                                             } ?>
@@ -75,7 +75,7 @@
                                         </div>
                                         <div class="sm:w-1/4 w-full mb-[30px]">
                                             <label class="text-dark dark:text-white text-[13px] mb-2">Date</label>
-                                            <input type="date" name="date"
+                                            <input type="date" name="date"  value="<?= date('Y-m-d'); ?>"
                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
                                                 value="" required>
                                                 <input type="hidden" name="branch_id"
@@ -89,7 +89,7 @@
                                                 <div class="xl:w-6/4 lg:w-4/3">
                                                     <div class="card flex flex-col max-sm:mb-[30px] profile-card">
 
-                                                        <div class="sm:p-10 sm:pb-2.5 p-[25px] pb-0">
+                                                        <div class="pb-0">
                                                             <?php $p_produc = $this->CommonModal->getRowByMultitpleId('invoice', 'invoice_no', $invoice[0]['invoice_no'], 'user_id', $user[0]['id']); ?>
                                                             <?php foreach ($p_produc as $p_info): ?>
                                                                 <div id="product-container">
@@ -119,7 +119,7 @@
                                                                         <div class="sm:w-1/6 w-full mb-[30px]">
                                                                             <label
                                                                                 class="text-dark dark:text-white text-[13px] mb-2">Packing
-                                                                                Quantity</label>
+                                                                                </label>
 
                                                                             <?php $pp_produc = $this->CommonModal->getRowById('purchase_product', 'p_id', $p_info['packing']);
                                                                             if ($p_info['packing'] == $pp_produc[0]['p_id']) { ?>
@@ -134,18 +134,42 @@
        onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 
                                                   readonly>
                                                                             <?php } ?>
-                                                                            <input type="hidden" name="unit[]" id="unit"
-                                                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full  "
-                                                                                data-index="${rowIndex}" placeholder="Unit "
-                                                                                required value="<?= $p_info['unit'] ?> ">
+                                                                            
                                                                         </div>
+                                                                        <?php if ($p_info['box_product'] == '1') { ?>
+                                                                                <div class="mb-[30px]" style="width: 120px; !important">
+                                                                                    <label
+                                                                                        class="text-dark dark:text-white text-[13px] mb-2">Unit</label>
+                                                                                        <input type="text" name="box[]"
+                                                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                                                 required readonly
+                                                                                value="<?=$p_info['box']?>">
+                                                                                <input type="hidden" name="box_product[]"
+                                                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                                                 required readonly
+                                                                                value="<?=$p_info['box_product'] ?>">
+                                                                                <input type="hidden" name="per_box[]"
+                                                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                                                 required readonly
+                                                                                value="<?=$p_info['per_box'] ?>">
+                                                                                </div>
+                                                                            <?php } ?>
                                                                         <div class="sm:w-1/6 w-full mb-[30px]">
                                                                             <label
                                                                                 class="text-dark dark:text-white text-[13px] mb-2">Quantity</label>
-                                                                            <input type="hidden" name="available_quantity[]"
-                                                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-                                                                                id="available" required readonly
-                                                                                value="<?= $pp_produc[0]['availabile_quantity'] ?> ">
+                                                                                <input type="hidden" 
+    name="available_quantity[]"
+    class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+    id="available" 
+    required 
+    readonly
+    value="<?php 
+        if ($p_info['box'] == 'Single') {
+            echo $pp_produc[0]['per_product_availabile_quantity'];
+        } else {
+            echo $pp_produc[0]['availabile_quantity'];
+        }
+    ?>">
 
                                                                             <?php
                                                                             $ava = $p_info['quantity'] - $p_info['return_quantity'];
@@ -200,14 +224,11 @@
                                                                                 value="<?= $p_info['total_price'] ?> ">
                                                                         </div>
 
-                                                                        <div class="sm:w-1/6 w-full mb-[0px] " style="margin-top: 35px;">
-                                                                            <label
-                                                                                class="text-dark dark:text-white text-[13px] mb-2"></label>
-                                                                            <button type="button" class="btn btn-danger"
-                                                                                onclick="deleteProductForm(this)">
-                                                                                <i class="fas fa-trash-alt"></i>
-                                                                            </button>
-                                                                        </div>
+                                                                             <div class=" mb-[30px] d-flex align-items-center" style="width: 20px; margin-top: 30px;">
+                <button type="button" class="btn btn-danger form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none " onclick="deleteProductForm(this)">
+                    <i class="fas fa-trash-alt" style="color:red"></i>
+                </button>
+            </div>
                                                                     </div>
                                                                 </div>
                                                             <?php endforeach; ?>
@@ -371,35 +392,7 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
-            // Function to add a new product row
-
-
-
-
-            var stockPlaceId = document.querySelector('select[name="stock_place"]').value;
-            var productSelect = newProductRow.querySelector(`.category-select[data-index="${rowIndex}"]`);
-
-            if (stockPlaceId) {
-                $.ajax({
-                    url: '<?= base_url("Admin_Dashboard/get_products_by_stock_place") ?>',
-                    type: 'POST',
-                    data: { stock_place_id: stockPlaceId },
-                    dataType: 'json',
-                    success: function (products) {
-                        // Clear existing options before appending new ones
-                        productSelect.innerHTML = '<option value="">Select Product</option>';
-
-                        // Loop through the products and add them as options
-                        products.forEach(function (product) {
-                            productSelect.innerHTML += '<option value="' + product.pro_id + '">' + product.product_name + '</option>';
-                        });
-                    },
-                    error: function () {
-                        console.error('Failed to fetch products.');
-                    }
-                });
-            }
-}
+           
             // Function to delete a product row
             function deleteProductForm(button) {
                 const productRow = button.closest('.product-row');
@@ -461,107 +454,9 @@
                 document.getElementById('final-total').value = finalTotalWithTax.toFixed(2);
             }
             // Use event delegation for dynamically added product rows
-            $(document).on('change', '.category-select', function () {
-                fetchProductDetails(this);
-            });
+           
 
-            // AJAX function to fetch packing and unit rate data
-            function fetchProductDetails(selectElement) {
-                var selectedProductId = selectElement.value;
-                var rowIndex = $(selectElement).data('index'); // Get the row index
-                var subCategorySelect = $(`.sub-category-select[data-index="${rowIndex}"]`);
-                var unitRateField = $(`.unit-rate-select[data-index="${rowIndex}"]`);
-                var unitField = $(`.unit-select[data-index="${rowIndex}"]`);
-                var pId = $(`.p-id-select[data-index="${rowIndex}"]`);
-                var availableQuantity = $(`.available-quantity[data-index="${rowIndex}"]`);
-
-                // Clear previous options
-                subCategorySelect.html('<option selected>Select Packing</option>');
-                unitRateField.val(''); // Reset unit rate field
-                unitField.val('');
-                availableQuantity.val('');// Reset unit field
-                pId.val('');
-                // Fetch packing options via AJAX based on product id
-                if (selectedProductId) {
-                    $.ajax({
-                        url: '<?= base_url("Admin_Dashboard/get_subcategories/") ?>' + selectedProductId, // Adjust the URL to match your route
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (data) {
-                            if (Array.isArray(data)) {
-                                $.each(data, function (index, subCategory) {
-                                    if (subCategory.p_id) {
-                                        subCategorySelect.append('<option value="' + subCategory.p_id + '">' + subCategory.packing + ' ' + subCategory.unit + '</option>');
-                                    }
-                                });
-                            }
-                        },
-                        error: function () {
-                            console.error('Failed to fetch packing data.');
-                        }
-                    });
-                }
-
-                // Attach event handler for subcategory select change (handle both unit rate and unit in one event)
-                subCategorySelect.off('change').on('change', function () {
-                    var selectedPacking = $(this).val();
-                    fetchPackingDetails(selectedPacking, unitRateField, unitField, availableQuantity, pId);
-                });
-            }
-
-            // Function to fetch both unit rate and unit based on the selected packing
-            function fetchPackingDetails(selectedPacking, unitRateField, unitField, availableQuantity, pId) {
-                if (selectedPacking) {
-                    // Fetch unit rate
-                    $.ajax({
-                        url: '<?= base_url("Admin_Dashboard/get_unit_rate/") ?>' + selectedPacking, // Update with your actual route for unit rate
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (data) {
-                            if (data.unit_rate) {
-                                unitRateField.val(data.unit_rate);
-                                availableQuantity.val(data.availabile_quantity);
-                                pId.val(data.p_id);
-                            } else {
-                                unitRateField.val('');
-                                availableQuantity.val('');
-                                pId.val('');
-                            }
-                        },
-                        error: function () {
-                            console.error('Failed to fetch unit rate.');
-                        }
-                    });
-
-                    // Fetch unit
-                    $.ajax({
-                        url: '<?= base_url("Admin_Dashboard/get_unit/") ?>' + selectedPacking, // Update with your actual route for unit
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (data) {
-                            if (data.unit) {
-                                unitField.val(data.unit);
-                            } else {
-                                unitField.val('');
-                            }
-                        },
-                        error: function () {
-                            console.error('Failed to fetch unit.');
-                        }
-                    });
-                } else {
-                    unitRateField.val('');
-                    unitField.val('');
-                    availableQuantity.val('');
-                    pId.val('');
-                }
-            }
-
-            // Add new product row on button click
-            $('#add-product-btn').on('click', function () {
-                addProductForm();
-            });
-
+          
 
 
 
@@ -569,130 +464,8 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
-            $(document).ready(function () {
-                $('#category-select').change(function () {
-                    var selectedCategory = $(this).val();
-                    var subCategorySelect = $('#sub-category-select');
-                    var unitRateField = $('#unit-rate');
-                    var availableQuantity = $('#available');
-                    var pid = $('#p_id');
-                    // Clear previous options
-                    subCategorySelect.empty();
-                    subCategorySelect.append('<option selected>Select Packing</option>');
-
-                    // Reset unit rate field
-                    unitRateField.val(''); // Reset the unit rate field
-                    availableQuantity.val('');
-                    pid.val('');
-                    // Fetch subcategories and unit rates via AJAX
-                    if (selectedCategory) {
-                        $.ajax({
-                            url: '<?= base_url("Admin_Dashboard/get_subcategories/") ?>' + selectedCategory, // Update with your actual route
-                            type: 'GET',
-                            dataType: 'json',
-                            success: function (data) {
-                                $.each(data, function (index, subCategory) {
-                                    // Append packing options to the dropdown
-                                    subCategorySelect.append('<option value="' + subCategory.p_id + '">' + subCategory.packing + ' ' + subCategory.unit + '</option>');
-                                });
-                            },
-                            error: function () {
-                                console.error('Failed to fetch packing options.');
-                            }
-                        });
-                    }
-                });
-
-                // Handle change event on sub-category-select to update unit rate
-                $('#sub-category-select').change(function () {
-                    var selectedPacking = $(this).val();
-                    var unitRateField = $('#unit-rate');
-                    var availableQuantity = $('#available');
-                    var pid = $('#p_id');
-                    // Fetch the unit rate based on the selected packing
-                    if (selectedPacking) {
-                        $.ajax({
-                            url: '<?= base_url("Admin_Dashboard/get_unit_rate/") ?>' + selectedPacking, // Update with your actual route for unit rate
-                            type: 'GET',
-                            dataType: 'json',
-                            success: function (data) {
-                                // console.log('Subcategory:', data);
-
-                                // Assuming the response contains the unit rate
-                                if (data.unit_rate) {
-                                    unitRateField.val(data.unit_rate); // Set the unit rate
-                                    availableQuantity.val(data.availabile_quantity);
-                                    pid.val(data.p_id);
-                                } else {
-                                    unitRateField.val(''); // Clear if no unit rate found
-                                    availableQuantity.val(' ');
-                                    pid.val('');
-                                }
-                            },
-                            error: function () {
-                                console.error('Failed to fetch unit rate.');
-                            }
-                        });
-                    } else {
-                        unitRateField.val(''); // Reset if no packing is selected
-                        availableQuantity.val('');
-                        pid.val('');
-                    }
-                });
-                $('#sub-category-select').change(function () {
-                    var selectedPacking = $(this).val();
-                    var unit = $('#unit');
-
-                    // Fetch the unit rate based on the selected packing
-                    if (selectedPacking) {
-                        $.ajax({
-                            url: '<?= base_url("Admin_Dashboard/get_unit/") ?>' + selectedPacking, // Update with your actual route for unit rate
-                            type: 'GET',
-                            dataType: 'json',
-                            success: function (data) {
-                                // console.log('Subcategory:', data);
-
-                                // Assuming the response contains the unit rate
-                                if (data.unit) {
-                                    unit.val(data.unit); // Set the unit rate
-                                } else {
-                                    unit.val(''); // Clear if no unit rate found
-                                }
-                            },
-                            error: function () {
-                                console.error('Failed to fetch unit rate.');
-                            }
-                        });
-                    } else {
-                        unit.val(''); // Reset if no packing is selected
-                    }
-                });
-            });
-            $(document).ready(function () {
-                $('#contact').change(function () {
-                    var selectedContact = $(this).val();
-                    var nameSelect = $('#customer-name');
-                    // Clear previous options
-                    nameSelect.empty();
-                    nameSelect.append('<option selected>Select Customer</option>');
-
-                    // Fetch customer names via AJAX
-                    $.ajax({
-                        url: '<?= base_url("Admin_Dashboard/get_name/") ?>' + (selectedContact ? selectedContact : 'all'), // If no contact, fetch all customers
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (data) {
-                            $.each(data, function (index, cname) {
-                                // Append customer options to the dropdown
-                                nameSelect.append('<option value="' + cname.id + '">' + cname.name + '</option>');
-                            });
-                        },
-                        error: function () {
-                            console.error('Failed to fetch customer names.');
-                        }
-                    });
-                });
-            });
+         
+          
             document.getElementById('paymentMode').addEventListener('change', function () {
                 var bankDetails = document.getElementById('bankDetails');
                   var selectDetails = document.getElementById('bankAccount');
@@ -777,64 +550,8 @@
             document.getElementById('discount-type').addEventListener('change', updateGrandTotal); 
         </script>
         <script>
-            function filterProducts() {
-                var stockPlaceId = document.getElementById('stock_place').value;
-
-
-
-                // Fetch products for the selected stock place
-                if (stockPlaceId) {
-                    $.ajax({
-                        url: '<?= base_url("Admin_Dashboard/get_products_by_stock_place") ?>',
-                        type: 'POST',
-                        data: { stock_place_id: stockPlaceId },
-                        dataType: 'json',
-                        success: function (products) {
-                            // Clear existing options before appending new ones
-                            $('#category-select').empty().append('<option value="all">Select Product</option>');
-
-                            // Loop through the products and add them as options
-                            products.forEach(function (product) {
-                                // Logging the product name to check
-                                $('#category-select').append('<option value="' + product.pro_id + '">' + product.product_name + '</option>');
-                            });
-                        }
-                    });
-                }
-
-            }
-            // Listen for stock place change and update product lists accordingly
-            $(document).on('change', 'select[name="stock_place"]', function () {
-                const stockPlaceId = $(this).val();
-                updateProductOptionsForAllRows(stockPlaceId);
-            });
-
-            // Function to update product options for all rows based on stock place
-            function updateProductOptionsForAllRows(stockPlaceId) {
-                if (stockPlaceId) {
-                    $.ajax({
-                        url: '<?= base_url("Admin_Dashboard/get_products_by_stock_place") ?>',
-                        type: 'POST',
-                        data: { stock_place_id: stockPlaceId },
-                        dataType: 'json',
-                        success: function (products) {
-                            // For each product row, update the product options
-                            $('.category-select').each(function () {
-                                const productSelect = $(this);
-                                productSelect.html('<option value="">Select Product</option>');
-
-                                // Append products to the dropdown
-                                products.forEach(function (product) {
-                                    productSelect.append('<option value="' + product.pro_id + '">' + product.product_name + '</option>');
-                                });
-                            });
-                        },
-                        error: function () {
-                            console.error('Failed to fetch products.');
-                        }
-                    });
-                }
-            }
+           
+            
             //   
             $(document).on('input', 'input[name="quantity[]"]', function () {
                 var row = $(this).closest('.product-row');

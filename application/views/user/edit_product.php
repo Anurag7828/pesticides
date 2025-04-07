@@ -110,7 +110,7 @@
                                                                                 Product</label>
                                                                             <?php $product_name = $this->CommonModal->getRowByMultitpleId('product', 'id', $p_info['product_name'], 'user_id', $user[0]['id']); ?>
                                                                             <input type="text"
-                                                                                value="<?= $product_name[0]['product_name'] ?>"
+                                                                                value="<?= $product_name[0]['product_name'] ?> (<?= $product_name[0]['unit'] ?>)"
                                                                                 class="product-input form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
                                                                                 placeholder="Click to select product"
                                                                                 readonly
@@ -210,7 +210,7 @@
                                                                                                             <td
                                                                                                                 class="py-2 px-4">
                                                                                                                 <button
-                                                                                                                    onclick="selectProduct('<?= $product_info['pro_id']; ?>', '<?= $product_info['product_name']; ?>', '<?= $product_info['unit']; ?>', '<?= $product_info['packing']; ?>', '<?= $product_info['net_unit']; ?>', '<?= $product_info['p_id']; ?>')"><?= $product_info['company_name']; ?></button>
+                                                                                                                    onclick="selectProduct(event,'<?= $product_info['pro_id']; ?>', '<?= $product_info['product_name']; ?>', '<?= $product_info['unit']; ?>', '<?= $product_info['packing']; ?>', '<?= $product_info['net_unit']; ?>', '<?= $product_info['p_id']; ?>')"><?= $product_info['company_name']; ?></button>
                                                                                                             </td>
                                                                                                             <td
                                                                                                                 class="py-2 px-4">
@@ -237,9 +237,9 @@
                                                                                     <!-- Modal Footer -->
                                                                                     <div
                                                                                         class="modal-footer flex justify-end py-4 px-6 border-t border-gray-200 dark:border-gray-700">
-                                                                                        <button
+                                                                                        <a href="javascript:void(0);"
                                                                                             class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-auto"
-                                                                                            onclick="closeProductModal(<?= $p_info['p_id'] ?>)">Close</button>
+                                                                                            onclick="closeProductModal(<?= $p_info['p_id'] ?>)">Close</a>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -325,7 +325,7 @@
                                                                             <input type="float" name="p_price[]"
                                                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
                                                                                 placeholder="Total Price"
-                                                                                value="<?= $p_info['total_price'] ?>">
+                                                                                value="<?= $p_info['p_price'] ?>">
                                                                         </div>
                                                                         <div class="sm:w-1/6 w-full mb-[30px]">
                                                                             <label
@@ -369,8 +369,7 @@
                                                                                 placeholder="Purchase Date"
                                                                                 value="<?= $p_info['exp_date'] ?>" required>
                                                                         </div>
-                                                                        <div class="sm:w-1/6 w-full mb-[30px]    d-flex align-items-center "
-                                                                            style="margin-top: 30px;">
+                                                                        <div class="mb-[30px] d-flex align-items-center" style="width: 60px; margin-top:25px">
                                                                             <a class="btn btn-danger border border-b-color block rounded-md py-1.5 px-3 outline-none"
    href="<?= base_url('Admin_Dashboard/delete_product' . '?BdID=' . $p_info['p_id'].'&UI='. $p_info['user_id'].'&pc='.$p_info['purchase_code'] ); ?>"
    onclick="deleteProductForrm(event, this);">
@@ -571,7 +570,7 @@
                         class="modal-header flex justify-between items-center py-4 px-6 border-b border-gray-200 dark:border-gray-700">
                         <h5 class="text-lg font-bold text-gray-800 dark:text-white">Select Product</h5>
                         <button type="button" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                            onclick="closeProductModal()">&times;</button>
+                            onclick="closeProductModal2()">&times;</button>
                     </div>
 
                     <!-- Modal Body -->
@@ -611,13 +610,13 @@
                                         <tr class="border-b">
                                             <td class="py-2 px-4"><?= $product_info['product_id']; ?></td>
                                             <td class="py-2 px-4">
-                                                <button
+                                                <a href="javascript:void(0);"
                                                     onclick="selectProduct2(currentRow, '<?= $product_info['id']; ?>', '<?= $product_info['product_name']; ?>', '<?= $product_info['unit']; ?>', '<?= $product_info['packing']; ?>', '<?= $product_info['net_unit']; ?>', '<?= $product_info['total_purchase_price']; ?>', '<?= $product_info['box_per_unit']; ?>')">
                                                     <?= $product_info['product_name']; ?>
-                                                </button>
+                                    </a>
                                             </td>
-                                            <td class="py-2 px-4"><button
-                                                    onclick="selectProduct2('<?= $rowIndex ?>','<?= $product_info['pro_id']; ?>', '<?= $product_info['product_name']; ?>', '<?= $product_info['unit']; ?>', '<?= $product_info['packing']; ?>', '<?= $product_info['net_unit']; ?>', '<?= $product_info['p_id']; ?>')"><?= $product_info['company_name']; ?></button>
+                                            <td class="py-2 px-4"><a href="javascript:void(0);"
+                                                    onclick="selectProduct2(currentRow,'<?= $product_info['pro_id']; ?>', '<?= $product_info['product_name']; ?>', '<?= $product_info['unit']; ?>', '<?= $product_info['packing']; ?>', '<?= $product_info['net_unit']; ?>', '<?= $product_info['p_id']; ?>')"><?= $product_info['company_name']; ?></a>
                                             </td>
                                             <td class="py-2 px-4"><?= $product_info['HSN']; ?></td>
                                             <td class="py-2 px-4">
@@ -636,9 +635,9 @@
 
                     <!-- Modal Footer -->
                     <div class="modal-footer flex justify-end py-4 px-6 border-t border-gray-200 dark:border-gray-700">
-                        <button
+                        <a href="javascript:void(0);"
                             class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-auto"
-                            onclick="closeProductModal2()">Close</button>
+                            onclick="closeProductModal2()">Close</a>
                     </div>
                 </div>
             </div>
@@ -787,7 +786,7 @@ readonly onclick="openProductModal2(this)">
             function selectProduct2(row, pro_id, product_name, unit, packing, net_unit, p_id, box_per_unit) {
                 if (row) {
                     row.querySelector('[name="p_name[]"]').value = pro_id;
-                    row.querySelector('.product-input').value = product_name;
+                    row.querySelector('.product-input').value = product_name + ' (' + unit + ')';
                     row.querySelector('[name="unit_box[]"]').value = unit;
                     row.querySelector('[name="unit_box_per_quantity[]"]').value = box_per_unit || 0;
                     row.querySelector('[name="packing[]"]').value = `${packing} ${net_unit}`;
@@ -976,8 +975,7 @@ readonly onclick="openProductModal2(this)">
                 const productModal = document.getElementById(`productModal${productId}`);
                 if (productModal) {
                     productModal.classList.remove('hidden');
-                    console.log("Product ID:", productId); // For debugging
-                    // You can now use productId inside this function
+                   
                 } else {
                     console.error("Modal not found!");
                 }
@@ -1003,7 +1001,7 @@ readonly onclick="openProductModal2(this)">
                 }
 
                 // Set selected product name in input
-                row.querySelector('.product-input').value = product_name;
+                row.querySelector('.product-input').value = product_name + ' (' + unit + ')';
                 row.querySelector('#product-input-value').value = pro_id;
 
                 closeProductModal(p_id);

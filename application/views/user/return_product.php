@@ -67,7 +67,9 @@
 												<?php }endforeach; ?>
 
 										</div>
-										<input type="hidden" name="branch_id" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" value="<?= $branchi?>">
+										<input type="hidden" name="branch_id"
+											class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
+											value="<?= $branchi ?>">
 
 										<div class="sm:w-1/2 w-full mb-[30px]">
 											<label class="text-dark dark:text-white text-[13px] mb-2">Purchase
@@ -86,7 +88,7 @@
 											<label class="text-dark dark:text-white text-[13px] mb-2">Date</label>
 											<input type="date" name="purchase_date"
 												class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-												placeholder="Purchase Date" value="" required>
+												placeholder="Purchase Date" value="<?= date('Y-m-d'); ?>" required>
 										</div>
 
 										<hr>
@@ -97,7 +99,7 @@
 														<?php $p_produc = $this->CommonModal->getRowByMultitpleId('purchase_product', 'purchase_code', $product[0]['purchase_code'], 'user_id', $user[0]['id']); ?>
 														<?php foreach ($p_produc as $p_info):
 															if ($p_info['availabile_quantity'] > 0) { ?>
-																<div class="sm:p-10 sm:pb-2.5 p-[25px] pb-0">
+																<div class="pb-0">
 																	<div id="product-container">
 																		<!-- Product fields that will be cloned -->
 																		<div class="row product-row">
@@ -112,7 +114,7 @@
 																						<input type="text"
 																							class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
 																							placeholder="Product Name"
-																							value="<?= $product_info['product_name']; ?>"
+																							value="<?= $product_info['product_name']; ?> (<?= $product_info['unit']; ?>)"
 																							readonly>
 																						<input type="hidden" name="p_name[]"
 																							id="category-select"
@@ -121,46 +123,12 @@
 																							placeholder="Product Name"
 																							value="<?= $product_info['id']; ?>"
 																							readonly>
+																						
 																					<?php }endforeach; ?>
 																			</div>
-																			<div class="sm:w-1/6 w-full mb-[30px]">
-																				<label
-																					class="text-dark dark:text-white text-[13px] mb-2">HSN
-																					Code</label>
-																				<input type="text" name="HSN_code[]"
-																					class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-																					placeholder="HSN Code"
-																					value="<?= $p_info['HSN_code'] ?>" readonly>
-																			</div>
 
-																			<!-- Net Quantity Field with Unit Dropdown -->
-																			<div
-																				class="flex items-center sm:w-1/3 w-full mb-[30px]">
-																				<!-- Net Quantity Input -->
-																				<div class="sm:w-2/3 w-full">
-																					<label
-																						class="text-dark dark:text-white text-[13px] mb-2">Packing
-																						Quantity</label>
-																					<input type="number" name="packing[]"
-																						class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
-																						placeholder="Quantity"
-																				oninput="this.value = this.value.replace(/[^0-9.]/g, ''); calculateTotalPrice(this.closest('.row'));" 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 
-																						value="<?= $p_info['packing'] ?>"
-																						readonly>
-																				</div>
-																				<!-- Unit Dropdown -->
-																				<div class="sm:w-1/3 w-full pl-3">
-																					<label
-																						class="text-dark dark:text-white text-[13px] mb-2">Unit</label>
 
-																					<input type="float" name="unit[]"
-																						class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
-																						placeholder="Unit"
-													oninput="this.value = this.value.replace(/[^0-9.]/g, ''); " 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 									value="<?= $p_info['unit'] ?>" readonly>
-																				</div>
-																			</div>
+
 																			<div class="sm:w-1/6 w-full mb-[30px]">
 																				<label
 																					class="text-dark dark:text-white text-[13px] mb-2">Return
@@ -177,21 +145,22 @@
 																				<input type="float" name="quantity[]"
 																					class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
 																					placeholder="Quantity"
-																				oninput="this.value = this.value.replace(/[^0-9.]/g, ''); calculateTotalPrice(this.closest('.row'));" 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 						value="<?= $p_info['availabile_quantity'] ?>">
+																					oninput="this.value = this.value.replace(/[^0-9.]/g, ''); calculateTotalPrice(this.closest('.row'));"
+																					onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
+																					value="<?= $p_info['availabile_quantity'] ?>">
 																				<input type="hidden" name="p_id[]"
 																					class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
 																					value="<?= $p_info['p_id'] ?>">
 																			</div>
 																			<div class="sm:w-1/6 w-full mb-[30px]">
 																				<label
-																					class="text-dark dark:text-white text-[13px] mb-2">Unit
-																					Rate</label>
+																					class="text-dark dark:text-white text-[13px] mb-2">Purchase
+																					Price</label>
 																				<input type="float" name="unit_rate[]"
 																					class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
 																					placeholder="Unit Rate" id="unit-rate"
-																					oninput="this.value = this.value.replace(/[^0-9.]/g, ''); calculateTotalPrice(this.closest('.row'));" 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 
+																					oninput="this.value = this.value.replace(/[^0-9.]/g, ''); calculateTotalPrice(this.closest('.row'));"
+																					onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
 																					value="<?= $p_info['unit_rate'] ?>">
 																			</div>
 																			<div class="sm:w-1/6 w-full mb-[30px]">
@@ -201,64 +170,58 @@
 																				<input type="float" name="tax[]"
 																					class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
 																					placeholder="Tax" id="tax"
-																				oninput="this.value = this.value.replace(/[^0-9.]/g, ''); calculateTotalPrice(this.closest('.row'));" 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 
-																					value="<?= $p_info['gst_percent'] ?>" readonly>
+																					oninput="this.value = this.value.replace(/[^0-9.]/g, ''); calculateTotalPrice(this.closest('.row'));"
+																					onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
+																					value="<?= $p_info['gst_percent'] ?>"
+																					readonly>
 																			</div>
+																			
+																			<div class="sm:w-1/6 w-full mb-[30px]">
+																		<label
+																			class="text-dark dark:text-white text-[13px] mb-2">Tax
+																			Amount</label>
+																		<input type="text" name="tax_amount[]"
+																			class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+																			placeholder="Tax Amount" id="tax-amount" value="<?= $p_info['gst_tax'] ?>"
+																			oninput="calculateTotalPrice(this.closest('.row'))"
+																			required>
+																	</div>
 																			<div class="sm:w-1/6 w-full mb-[30px]">
 																				<label
-																					class="text-dark dark:text-white text-[13px] mb-2">Tax Type</label>
-																				<input type="text" name="tax_type[]"
-																					class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-																					placeholder="Tax" id="tax_type"
-																				
-																					value="<?= $p_info['tax_type'] ?>" readonly>
-																			</div>
-																			<div class="sm:w-1/6 w-full mb-[30px]">
-																				<label
-																					class="text-dark dark:text-white text-[13px] mb-2">Tax
-																					Amount</label>
-																				<input type="float" name="tax_amount[]"
-																					class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-																					placeholder="Tax Amount" id="tax-amount"
-																				oninput="this.value = this.value.replace(/[^0-9.]/g, ''); calculateTotalPrice(this.closest('.row'));" 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 
-																					value="<?= $p_info['gst_tax'] ?>">
-																			</div>
-																			<div class="sm:w-1/6 w-full mb-[30px]">
-																				<label
-																					class="text-dark dark:text-white text-[13px] mb-2">Total
-																					Unit Price</label>
+																					class="text-dark dark:text-white text-[13px] mb-2">Unit
+																					Price</label>
 																				<input type="float" name="p_price[]"
 																					class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-																					placeholder="total Unit Amount"
+																					placeholder="Unit price"
 																					id="total-unit-price"
-																				oninput="this.value = this.value.replace(/[^0-9.]/g, ''); calculateTotalPrice(this.closest('.row'));" 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 
+																					oninput="this.value = this.value.replace(/[^0-9.]/g, ''); calculateTotalPrice(this.closest('.row'));"
+																					onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
 																					value="<?= $p_info['p_price'] ?>">
 																			</div>
 																			<div class="sm:w-1/6 w-full mb-[30px]">
 																				<label
-																					class="text-dark dark:text-white text-[13px] mb-2">mrp</label>
-																				<input type="float" name="mrp[]"
+																					class="text-dark dark:text-white text-[13px] mb-2">Discount
+																					Type</label>
+																				<input type="text" name="p_discount_type[]"
 																					class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-																					placeholder="MRP Price" id="mrp"
-																				oninput="this.value = this.value.replace(/[^0-9.]/g, ''); calculateTotalPrice(this.closest('.row'));" 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 
-																					value="<?= $p_info['MRP'] ?>">
+																					placeholder="Tax" id="tax_type"
+																					value="<?= $p_info['p_discount_type'] ?>"
+																					readonly>
 																			</div>
 																			<div class="sm:w-1/6 w-full mb-[30px]">
 																				<label
-																					class="text-dark dark:text-white text-[13px] mb-2">Selling
-																					Price</label>
-																				<input type="float" name="selling_price[]"
+																					class="text-dark dark:text-white text-[13px] mb-2">Discount
+																					Value</label>
+																				<input type="float" name="p_discount[]"
 																					class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-																					placeholder="Selling Price"
-																					id="selling-price"
-																				oninput="this.value = this.value.replace(/[^0-9.]/g, ''); calculateTotalPrice(this.closest('.row'));" 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 
-																					value="<?= $p_info['selling_price'] ?>">
+																					placeholder="Tax" id="tax"
+																					oninput="this.value = this.value.replace(/[^0-9.]/g, ''); calculateTotalPrice(this.closest('.row'));"
+																					onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
+																					value="<?= $p_info['p_discount'] ?>"
+																					readonly>
 																			</div>
+
+
 
 																			<div class="sm:w-1/6 w-full mb-[30px]">
 																				<label
@@ -266,34 +229,33 @@
 																					Price</label>
 																				<input type="float" name="total_price[]"
 																					class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-										oninput="this.value = this.value.replace(/[^0-9.]/g, '');" 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 											placeholder="Total Price"
+																					oninput="this.value = this.value.replace(/[^0-9.]/g, '');"
+																					onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
+																					placeholder="Total Price"
 																					value="<?= $p_info['total_price'] ?>">
 																			</div>
 																			<div class="sm:w-1/6 w-full mb-[30px]">
 																				<label
-																					class="text-dark dark:text-white text-[13px] mb-2">expire
+																					class="text-dark dark:text-white text-[13px] mb-2">Expire
 																					date</label>
 																				<input type="date" name="exp_date"
 																					class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-																					
 																					value="<?= $p_info['exp_date'] ?>">
 																			</div>
 
 
-																			<div class="sm:w-1/6 w-full mb-[30px] ">
-																				<label
-																					class="text-dark dark:text-white text-[13px] mb-2"></label>
-																				<button type="button" class="btn btn-danger"
+																			<div class=" mb-[30px] d-flex align-items-center"
+																				style="width: 20px; margin-top: 30px;">
+																				<button type="button"
+																					class="btn btn-danger form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none "
 																					onclick="deleteProductForm(this)">
-																					<i class="fas fa-trash-alt"></i>
+																					<i class="fas fa-trash-alt"
+																						style="color:red"></i>
 																				</button>
 																			</div>
 																		</div>
 																	</div>
 																</div>
-															<?php } else { ?>
-																<p> 0 Product Is available</p>
 															<?php }
 														endforeach; ?>
 														<!--<div class="sm:py-5 sm:px-10 p-[25px] flex items-center justify-between border-t border-b-color">-->
@@ -321,8 +283,9 @@
 																		Total</label>
 																	<input type="float" id="sub-total" name="sub_total"
 																		class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
-														oninput="this.value = this.value.replace(/[^0-9.]/g, ''); " 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 				placeholder="subtotal"
+																		oninput="this.value = this.value.replace(/[^0-9.]/g, ''); "
+																		onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
+																		placeholder="subtotal"
 																		value="<?= $product[0]['sub_total'] ?>">
 																</div>
 
@@ -332,10 +295,12 @@
 																		class="text-dark dark:text-white text-[13px] mb-2">Discount
 																		Type</label>
 																	<select id="discount-type" name="discount_type"
-																		class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" required>
-																		<option value="percent">Select Discount type</option>
+																		class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
+																		required>
+																		<option value="percent">Select Discount type
+																		</option>
 																		<option value="percent"
-																			<?= strpos($p_info['discount_type'], 'percent') !== false ? 'selected' : '' ?> >
+																			<?= strpos($p_info['discount_type'], 'percent') !== false ? 'selected' : '' ?>>
 																			Discount in Percentage</option>
 																		<option value="rupee"
 																			<?= strpos($p_info['discount_type'], 'rupee') !== false ? 'selected' : '' ?>>Discount in
@@ -350,9 +315,10 @@
 																		Value</label>
 																	<input type="float" id="discount-value"
 																		name="discount_value"
-																		class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"oninput="this.value = this.value.replace(/[^0-9.]/g, '');" 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"  required
-																		placeholder="enter discount value"
+																		class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
+																		oninput="this.value = this.value.replace(/[^0-9.]/g, '');"
+																		onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
+																		required placeholder="enter discount value"
 																		value="<?= $product[0]['discount_value'] ?>">
 																</div>
 
@@ -363,8 +329,9 @@
 																		Total</label>
 																	<input type="float" id="grand-total"
 																		name="grand_total"
-																		class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"oninput="this.value = this.value.replace(/[^0-9.]/g, ''); " 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46" 
+																		class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
+																		oninput="this.value = this.value.replace(/[^0-9.]/g, ''); "
+																		onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
 																		placeholder="grand total"
 																		value="<?= $product[0]['grand_total'] ?>">
 																</div>
@@ -382,7 +349,7 @@
 																		<option value="Upi">UPI</option>
 																		<option value="Card">CREADIT/DEBIT CARD</option>
 																		<option value="Bank">Bank Transfer</option>
-																		 <option value="Cheque">Cheque</option>
+																		<option value="Cheque">Cheque</option>
 																		<option value="None">None</option>
 																	</select>
 																</div>
@@ -404,16 +371,15 @@
 																		<?php } ?>
 																	</select>
 																</div>
-																 <div class="sm:w-1/3 w-full mb-[30px]"
-                                                                                    id="chequeDetails"
-                                                                                    style="display:none;">
-                                                                                    <label
-                                                                                        class="text-dark dark:text-white text-[13px] mb-2">Cheque Number</label>
-                                                            <input type="text" name="cheque_no"
-                                                                                        class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
-                                                                                        placeholder="Cheque Number"
-                                                                                       id="cheque" >
-                                                                                </div>
+																<div class="sm:w-1/3 w-full mb-[30px]"
+																	id="chequeDetails" style="display:none;">
+																	<label
+																		class="text-dark dark:text-white text-[13px] mb-2">Cheque
+																		Number</label>
+																	<input type="text" name="cheque_no"
+																		class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
+																		placeholder="Cheque Number" id="cheque">
+																</div>
 																<div class="sm:w-1/3 w-full mb-[30px]">
 																	<label
 																		class="text-dark dark:text-white text-[13px] mb-2">Paid
@@ -421,8 +387,10 @@
 
 																	<input type="float" name="paid"
 																		class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
-																		placeholder="paid amount"oninput="this.value = this.value.replace(/[^0-9.]/g, '');" 
-       onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"  value="">
+																		placeholder="paid amount"
+																		oninput="this.value = this.value.replace(/[^0-9.]/g, '');"
+																		onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
+																		value="">
 
 																</div>
 
@@ -443,130 +411,54 @@
 		<!-- Content body end -->
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	
 		<script>
 
-			// Function to add a new product row
-			function addProductForm() {
-				const productContainer = document.getElementById('product-container');
-				const newProductRow = document.createElement('div');
-				const rowIndex = document.querySelectorAll('.product-row').length; // Index to keep track of each row
+function calculateTotalPrice(row) {
+    var quantity = parseFloat(row.querySelector('[name="quantity[]"]').value) || 0;
+    var unitRate = parseFloat(row.querySelector('[name="unit_rate[]"]').value) || 0;
+    var taxRate = parseFloat(row.querySelector('[name="tax[]"]').value) || 0;
 
-				newProductRow.classList.add('row', 'product-row');
+    // Fetch discount type and value correctly
+    var discountType = row.querySelector('[name="p_discount_type[]"]')?.value || "rupee";
+    var discountValueInput = row.querySelector('[name="p_discount[]"]');
+    if (!discountValueInput) return;
 
-				newProductRow.innerHTML = `
-		<div class="row product-row">
-			<div class="sm:w-1/6 w-full mb-[40px]">
-				<label class="text-dark dark:text-white text-[13px] mb-2">Select Product</label>
-				<select name="p_name[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full category-select" data-index="${rowIndex}">
-					<option selected>Select Product</option>
-					<?php foreach ($product_list as $product_info) { ?>
-							<option value="<?= $product_info['id']; ?>"><?= $product_info['product_name']; ?></option>
-					<?php } ?>
-				</select>
-			</div>
-			<div class="flex items-center sm:w-1/3 w-full mb-[30px]">
-				<!-- Net Quantity Input -->
-				<div class="sm:w-2/3 w-full">
-					<label class="text-dark dark:text-white text-[13px] mb-2">Net Quantity</label>
-					<input type="text" name="packing[]" class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="Quantity" oninput="calculateTotalPrice(this.closest('.row'))">
-				</div>
-				<!-- Unit Dropdown -->
-				<div class="sm:w-1/3 w-full pl-3">
-					<label class="text-dark dark:text-white text-[13px] mb-2">Unit</label>
-					<select name="unit[]" class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full">
-						<option value="grams">Grams</option>
-						<option value="liters">Liters</option>
-						<option value="kilograms">Kilograms</option>
-					</select>
-				</div>
-			</div>
-			<div class="sm:w-1/6 w-full mb-[30px]">
-				<label class="text-dark dark:text-white text-[13px] mb-2">Quantity</label>
-				<input type="text" name="quantity[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Quantity" required oninput="calculateTotalPrice(this.closest('.product-row'))">
-			</div>
-			<div class="sm:w-1/6 w-full mb-[30px]">
-				<label class="text-dark dark:text-white text-[13px] mb-2">Unit Rate</label>
-				<input type="text" name="unit_rate[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="Unit Rate" oninput="calculateTotalPrice(this.closest('.row'))">
-			</div>
-			<div class="sm:w-1/6 w-full mb-[30px]">
-				<label class="text-dark dark:text-white text-[13px] mb-2">Tax(IN %)</label>
-				<input type="text" name="tax[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="Tax" oninput="calculateTotalPrice(this.closest('.row'))">
-			</div>
-			<div class="sm:w-1/6 w-full mb-[30px]">
-				<label class="text-dark dark:text-white text-[13px] mb-2">Tax Amount</label>
-				<input type="text" name="tax_amount[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="Tax Amount" readonly>
-			</div>
-			<div class="sm:w-1/6 w-full mb-[30px]">
-				<label class="text-dark dark:text-white text-[13px] mb-2">Total Unit Price</label>
-				<input type="text" name="p_price[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="Total Unit Price" readonly>
-			</div>
-												<div class="sm:w-1/6 w-full mb-[30px]">
-																		<label class="text-dark dark:text-white text-[13px] mb-2">mrp</label>
-																		<input type="text" name="mrp[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="MRP Price" id="mrp" oninput="calculateTotalPrice(this.closest('.row'))">
-																	</div>
-																	<div class="sm:w-1/6 w-full mb-[30px]">
-																		<label class="text-dark dark:text-white text-[13px] mb-2">Selling Price</label>
-																		<input type="text" name="selling_price[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full" placeholder="Selling Price" id="selling-price" oninput="calculateTotalPrice(this.closest('.row'))">
-																	</div>
+    // If discount field empty
+    if (discountValueInput.value.trim() === "") {
+        discountValueInput.value = "0";
+    }
+    var discountValue = parseFloat(discountValueInput.value) || 0;
 
-			<div class="sm:w-1/6 w-full mb-[30px]">
-				<label class="text-dark dark:text-white text-[13px] mb-2">Total Price</label>
-				<input type="text" name="total_price[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="Total Price" readonly>
-			</div>
-			
-		   <div class="sm:w-1/6 w-full mb-[30px]">
-	<label class="text-dark dark:text-white text-[13px] mb-2">Expire Date</label>
-	<input type="date" name="exp_date[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="expired date">
-</div>
-   
-		   <div class="sm:w-1/6 w-full mb-[30px]">
-	<label class="text-dark dark:text-white text-[13px] mb-2">HSN Code</label>
-	<input type="text" name="HSN_code[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="HSN Code">
-</div>
+    // ✅ Calculate Tax Amount
+    var taxAmount = (unitRate * quantity * taxRate) / 100;
 
-			<div class="sm:w-1/6 w-full mb-[30px] d-flex align-items-center">
-				<button type="button" class="btn btn-danger" onclick="deleteProductForm(this)">
-					<i class="fas fa-trash-alt"></i>
-				</button>
-			</div>
-		</div>
-	`;
+    // ✅ Calculate Unit Price including tax (for single unit)
+    var unitPriceWithTax = unitRate + (unitRate * taxRate / 100);
 
-				productContainer.appendChild(newProductRow);
-			}
+    // ✅ Set updated Unit Price
+    row.querySelector('[name="p_price[]"]').value = unitPriceWithTax.toFixed(2);
 
-			// Function to delete a product row
-			function deleteProductForm(button) {
-				const productRow = button.closest('.product-row');
-				productRow.remove();
-				updateSubTotal(); // Update subtotal after deleting a row
-			}
-			function calculateTotalPrice(row) {
-				const quantity = row.querySelector('input[name="quantity[]"]').value || 0;
-				const unitRate = row.querySelector('input[name="unit_rate[]"]').value || 0;
-				const taxPercentage = parseFloat(row.querySelector('input[name="tax[]"]').value) || 0;
+    // ✅ Calculate total price (with discount applied)
+    var totalPrice = unitPriceWithTax * quantity;
 
-				// Correct DOM element references for taxAmount and totalUnitPrice
-				const taxAmountInput = row.querySelector('input[name="tax_amount[]"]');
-				const totalUnitPriceInput = row.querySelector('input[name="p_price[]"]');
-				const totalPriceInput = row.querySelector('input[name="total_price[]"]');
+    if (discountType === 'percent') {
+        totalPrice -= (totalPrice * discountValue / 100);
+    } else if (discountType === 'rupee') {
+        totalPrice -= discountValue;
+    }
 
-				// Calculate tax amount and total unit price
-				const taxAmount = (unitRate * taxPercentage) / 100;
-				taxAmountInput.value = taxAmount.toFixed(2); // Ensure proper formatting
+    // ✅ Update tax_amount and total_price
+    let taxAmountInput = row.querySelector('[name="tax_amount[]"]');
+    if (taxAmountInput) taxAmountInput.value = taxAmount.toFixed(2);
 
-				const totalUnitPrice = parseFloat(unitRate) + parseFloat(taxAmount);
-				totalUnitPriceInput.value = totalUnitPrice.toFixed(2);
+    row.querySelector('[name="total_price[]"]').value = totalPrice.toFixed(2);
 
-				// Calculate total price for the row
-				const totalPrice = parseFloat(quantity) * totalUnitPrice;
-				totalPriceInput.value = totalPrice.toFixed(2);
+    updateSubTotal();
+    updateGrandTotal();
+}
 
-				// Update the subtotal and grand total
-				updateSubTotal();
-				updateGrandTotal();
-			}
+
 			function deleteProductForm(button) {
 				const productRow = button.closest('.product-row');
 				productRow.remove();
@@ -619,28 +511,28 @@
 					addProductForm();
 				});
 			});
- document.getElementById('paymentMode').addEventListener('change', function () {
-                var bankDetails = document.getElementById('bankDetails');
-                  var selectDetails = document.getElementById('bankAccount');
-                if (this.value === 'Bank') {
-                    bankDetails.style.display = 'block';
-                    selectDetails.setAttribute('required', 'required')
-                } else {
-                    bankDetails.style.display = 'none';
-                     selectDetails.removeAttribute('required'); 
-                }
-            });
-               document.getElementById('paymentMode').addEventListener('change', function () {
-                                                                        var chequeDetails = document.getElementById('chequeDetails');
-                                                                          var selectDetails = document.getElementById('cheque');
-                                                                        if (this.value === 'Cheque') {
-                                                                            chequeDetails.style.display = 'block';
-                                                                              selectDetails.setAttribute('required', 'required')
-                                                                        } else {
-                                                                            chequeDetails.style.display = 'none';
-                                                                             selectDetails.removeAttribute('required'); 
-                                                                        }
-                                                                    });
+			document.getElementById('paymentMode').addEventListener('change', function () {
+				var bankDetails = document.getElementById('bankDetails');
+				var selectDetails = document.getElementById('bankAccount');
+				if (this.value === 'Bank') {
+					bankDetails.style.display = 'block';
+					selectDetails.setAttribute('required', 'required')
+				} else {
+					bankDetails.style.display = 'none';
+					selectDetails.removeAttribute('required');
+				}
+			});
+			document.getElementById('paymentMode').addEventListener('change', function () {
+				var chequeDetails = document.getElementById('chequeDetails');
+				var selectDetails = document.getElementById('cheque');
+				if (this.value === 'Cheque') {
+					chequeDetails.style.display = 'block';
+					selectDetails.setAttribute('required', 'required')
+				} else {
+					chequeDetails.style.display = 'none';
+					selectDetails.removeAttribute('required');
+				}
+			});
 			document.getElementById('paymentMode').addEventListener('change', function () {
 				var paidInput = document.querySelector('input[name="paid"]');
 
