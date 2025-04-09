@@ -255,61 +255,6 @@
 
                                     </table>
 
-                                    <!-- Include Interest Checkbox -->
-
-                                    <?php if ($invoice[0]['include_interest'] == 1 && $invoice[0]['days_late'] > 0): ?>
-                                        <!-- Interest Details Section -->
-                                        <div id="interestSection" style="padding: 10px; margin-top: 10px; border: 1px solid #ccc; border-radius: 5px;">
-                                            <h4>Interest Details</h4>
-
-                                            <table class="w-full border-collapse">
-                                                <tr>
-                                                    <td class="py-2 px-2 border-b border-gray-300"><strong>Interest Rate:</strong></td>
-                                                    <td class="py-2 px-2 border-b border-gray-300 text-right">
-                                                        <span id="interestRate"><?= number_format($invoice[0]['interest_rate'], 2); ?>%</span>
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td class="py-2 px-2 border-b border-gray-300"><strong>Days Passed After Due Date:</strong></td>
-                                                    <td class="py-2 px-2 border-b border-gray-300 text-right">
-                                                        <span id="daysLate"><?= $invoice[0]['days_late']; ?> days</span>
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td class="py-2 px-2 border-b border-gray-300"><strong>Interest Amount:</strong></td>
-                                                    <td class="py-2 px-2 border-b border-gray-300 text-right">
-                                                        ₹<span id="interestAmount"><?= number_format($invoice[0]['interest_amount'], 2); ?></span>
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td class="py-2 px-2 border-b border-gray-300"><strong>Grand Total (Including Interest):</strong></td>
-                                                    <td class="py-2 px-2 border-b border-gray-300 text-right">
-                                                        ₹<span id="grandTotal"><?= number_format($invoice[0]['final_total'] + $invoice[0]['interest_amount'], 2); ?></span>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    <?php endif; ?>
-
-
-                                    <script>
-                                        document.addEventListener("DOMContentLoaded", function() {
-                                            var interestSection = document.getElementById("interestSection");
-
-                                            // PHP variable ko JavaScript me pass karna
-                                            var includeInterest = <?= $include_interest; ?>;
-
-                                            // Agar include_interest = 1 hai toh interest section dikhao
-                                            if (includeInterest == 1) {
-                                                interestSection.style.display = "block";
-                                            } else {
-                                                interestSection.style.display = "none";
-                                            }
-                                        });
-                                    </script>
 
 
 
@@ -342,9 +287,7 @@
 
                                     // Final total calculation (Including Interest if applicable)
                                     $final_total = $invoice[0]['final_total'];
-                                    if ($invoice[0]['include_interest'] == 1 && $invoice[0]['days_late'] > 0) {
-                                        $final_total += $invoice[0]['interest_amount'];
-                                    }
+                                   
 
                                     // Updated due amount calculation
                                     $paid_amount = floatval($paymentsum[0]['total_sum']);

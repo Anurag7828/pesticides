@@ -470,7 +470,7 @@ if($add){
         } else {
             $this->session->set_userdata('msg', '<div class="alert alert-danger">Error deleting the product.</div>');
         }
-        redirect(base_url('Admin_Dashboard/product/' . encryptId($tid)));  // Redirect after deletion
+        redirect($this->input->server('HTTP_REFERER')); // Redirect after deletion
     }
 
             // Load the view
@@ -2053,32 +2053,41 @@ if($add){
     
         // Interest Calculation for Each Invoice
         foreach ($invoices as &$invoice) {
-            $final_total = floatval($invoice['final_total']);
-            $customer_id = $invoice['c_id']; 
-    
-            // Fetch Customer Details
+            $payment = $this->CommonModal->getRowByIdOrderByLimit('payment', 'invoice_no', $invoice['invoice_no'], 'user_id', $invoice['user_id'], 'id', 'DESC', '1');
+
+            $customer_id = $invoice['c_id'];
             $customer = $this->CommonModal->getRowById('customer', 'id', $customer_id);
+            
             $interest_rate = !empty($customer) ? floatval($customer[0]['interest_rate']) : 0;
             $interest_days = !empty($customer) ? intval($customer[0]['interest_days']) : 0;
-    
+            
             $bill_date = strtotime($invoice['bill_date']);
-            $current_date = strtotime(date('d-m-Y'));
+            $current_date = strtotime(date('Y-m-d'));
             $due_date = strtotime("+$interest_days days", $bill_date);
-    
-            if ($current_date > $due_date) {
-                $days_late = ceil(($current_date - $due_date) / (60 * 60 * 24));
-                $daily_interest = ($final_total * ($interest_rate / 100)) / 365;
-                $interest_amount = $daily_interest * $days_late;
-            } else {
-                $days_late = 0;
-                $interest_amount = 0;
+            
+            $interest_amount = 0;
+            $days_late = 0;
+            
+            if (!empty($payment) && $payment[0]['due'] > 0) {
+                $bill_due_date = strtotime($payment[0]['date']);
+            
+                $start_interest_date = ($bill_date == $bill_due_date) ? $due_date : $bill_due_date;
+            
+                if ($current_date > $due_date) {
+                    $days_late = ceil(($current_date - $start_interest_date) / (60 * 60 * 24));
+                    $daily_interest = ($payment[0]['due'] * ($interest_rate / 100)) / 365;
+                    $interest_amount = $daily_interest * $days_late;
+                } else {
+                    $days_late = 0;
+                    $interest_amount = 0;
+                }
             }
-    
+            
             $invoice['interest_amount'] = round($interest_amount, 2);
             $invoice['interest_rate'] = $interest_rate;
             $invoice['interest_days'] = $interest_days;
             $invoice['days_late'] = $days_late;
-            $invoice['grand_total_with_interest'] = $final_total + $invoice['interest_amount'];
+            $invoice['grand_total_with_interest'] = $payment[0]['due'] + $invoice['interest_amount'];
             $invoice['last_due_date'] = date('d-m-Y', $due_date); // Store Last Due Date
    
         }
@@ -2093,7 +2102,7 @@ if($add){
             $this->CommonModal->deleteRowByuserId('payment', array('invoice_no' => $ID), array('user_id' => $iid));
             $this->CommonModal->deleteRowByuserId('return_invoice_payment', array('invoice_no' => $ID), array('user_id' => $iid));
     
-            redirect(base_url('admin_Dashboard/invoice/' . encryptId($iid)));
+            redirect($this->input->server('HTTP_REFERER'));
         }
     
         // Load View
@@ -4479,8 +4488,9 @@ if (!empty($rp) && isset($rp[0]['quantity']) && !empty($select) && isset($select
             if (count($_POST) > 0) {
 
                 $post = $this->input->post();
+                $paid= $post['paid']-$post['intrest'];
 
-$post['due']= $post['due']-$post['paid'];
+$post['due']= $post['due']-$paid;
 
             
 
@@ -4498,11 +4508,11 @@ $post['due']= $post['due']-$post['paid'];
 
                 }
 
-                  redirect(base_url('Admin_Dashboard/invoice/' . $id));
+                   redirect($this->input->server('HTTP_REFERER'));
 
             } else {
 
-            redirect(base_url('Admin_Dashboard/invoice/' . $id));
+             redirect($this->input->server('HTTP_REFERER'));
 
             }
 
@@ -4534,11 +4544,11 @@ $post['due']= $post['due']-$post['paid'];
 
                 }
 
-                  redirect(base_url('Admin_Dashboard/product/' . $id));
+                   redirect($this->input->server('HTTP_REFERER'));
 
             } else {
 
-            redirect(base_url('Admin_Dashboard/product/' . $id));
+             redirect($this->input->server('HTTP_REFERER'));
 
             }
 
@@ -4985,7 +4995,84 @@ public function profit($id)
     // Pass data to the profit view
     $this->load->view('user/profit', $data);
 }
+public function customer_leger($id)
+{
+    $data['title'] = "Customer Leger";    
+    $tid = decryptId($id);
+    $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
+    $data['customer_list'] = $this->CommonModal->getRowByIdDesc('customer', 'user_id', $tid, 'id', 'DESC');
 
+    // Default date range (First day of current month to today's date)
+    if ($this->input->post()) {
+       
+
+        $customer = $this->input->post('customer_name');
+       
+    } else {
+      
+
+        // Default customer is null (all customers)
+        $customer = null;
+    }
+
+    
+    
+    $this->db->select('invoice.invoice_no, invoice.status as stat, invoice.branch_id as branch, invoice.customer_name as c_id, invoice.date as bill_date, customer.name as customer_name, COUNT(*) as product_count, final_total, include_interest');
+    $this->db->from('invoice');
+    $this->db->join('customer', 'customer.id = invoice.customer_name', 'left'); 
+  $this->db->where('invoice.user_id', $tid);
+    $this->db->where('invoice.customer_name',  $customer);
+    $this->db->group_by(array('invoice.invoice_no', 'customer.name')); 
+    $this->db->order_by('invoice.id', 'DESC');
+    $invoices = $this->db->get()->result_array();
+     // Interest Calculation for Each Invoice
+     foreach ($invoices as &$invoice) {
+        $payment = $this->CommonModal->getRowByIdOrderByLimit('payment', 'invoice_no', $invoice['invoice_no'], 'user_id', $invoice['user_id'], 'id', 'DESC', '1');
+
+        $customer_id = $invoice['c_id'];
+        $customer = $this->CommonModal->getRowById('customer', 'id', $customer_id);
+        
+        $interest_rate = !empty($customer) ? floatval($customer[0]['interest_rate']) : 0;
+        $interest_days = !empty($customer) ? intval($customer[0]['interest_days']) : 0;
+        
+        $bill_date = strtotime($invoice['bill_date']);
+        $current_date = strtotime(date('Y-m-d'));
+        $due_date = strtotime("+$interest_days days", $bill_date);
+        
+        $interest_amount = 0;
+        $days_late = 0;
+        
+        if (!empty($payment) && $payment[0]['due'] > 0) {
+            $bill_due_date = strtotime($payment[0]['date']);
+        
+            $start_interest_date = ($bill_date == $bill_due_date) ? $due_date : $bill_due_date;
+        
+            if ($current_date > $due_date) {
+                $days_late = ceil(($current_date - $start_interest_date) / (60 * 60 * 24));
+                $daily_interest = ($payment[0]['due'] * ($interest_rate / 100)) / 365;
+                $interest_amount = $daily_interest * $days_late;
+            } else {
+                $days_late = 0;
+                $interest_amount = 0;
+            }
+        }
+        
+        $invoice['interest_amount'] = round($interest_amount, 2);
+        $invoice['interest_rate'] = $interest_rate;
+        $invoice['interest_days'] = $interest_days;
+        $invoice['days_late'] = $days_late;
+        $invoice['grand_total_with_interest'] = $payment[0]['due'] + $invoice['interest_amount'];
+        $invoice['last_due_date'] = date('d-m-Y', $due_date); // Store Last Due Date
+
+    }
+
+    $data['invoice'] = $invoices; // Pass updated invoice data with interest
+
+    // Delete functionality
+    
+    // Load the view with the data
+    $this->load->view('user/customer_leger', $data);
+}
 public function sales($id)
 {
     $data['title'] = "Sales Report";    
@@ -5063,6 +5150,41 @@ public function sales_return($id)
   
 
     $this->load->view('user/sales_return', $data);
+}
+public function vendor_leger($id)
+{
+    $data['title'] = "Vendor Leger";    $tid = decryptId($id);
+    $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
+    $data['vender_list'] = $this->CommonModal->getRowByIdDesc('vender', 'user_id', $tid, 'id', 'DESC');
+
+    if ($this->input->post()) {
+       
+        $vender=$this->input->post('vender_name');
+    $data['vender'] = $this->CommonModal->getRowById('vender', 'id',  $vender);
+
+    }
+  $data['product'] = $this->CommonModal->getRowsWithStatusesOrderedbyId(
+        'purchase_product', // Table name
+        'vender_name',            // User column
+        $vender,             // Status values
+        'p_id',             // Order by column
+        'DESC',
+         'user_id',            // User column
+         $tid
+        // Order direction
+    );
+     $this->db->select('id, vender_name');
+            $this->db->from('vender');
+               $this->db->where('user_id', $tid);
+            $data['vender'] = $this->db->get()->result_array();
+
+            $this->db->select('id, product_name');
+            $this->db->from('product');
+             $this->db->where('user_id', $tid);
+            $data['product_list'] = $this->db->get()->result_array();
+       
+
+    $this->load->view('user/vendor_leger', $data);
 }
 public function purchase($id)
 {

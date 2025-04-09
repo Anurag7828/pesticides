@@ -320,43 +320,7 @@
 
 
                                             </table>
-                                            <?php if ($invoice[0]['include_interest'] == 1 && $invoice[0]['days_late'] > 0): ?>
-
-                                                <table id="interestSection" class="table-striped w-auto text-nowrap table-bordered" style="width: 100%; border-collapse: collapse; border: 2px solid black;  ">
-                                                    <tr>
-                                                        <th colspan="3">Interest Tax Summary </th>
-
-
-                                                    </tr>
-                                                    <tr>
-
-                                                        <th>Taxable Amount <br>With Interest (₹)</th>
-                                                        <th>Interest Rate</th>
-
-                                                        <th>Total Interest <br>Amount (₹)</th>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <?php
-                                                        $packing = $this->CommonModal->getRowById('purchase_product', 'P_id', $row['packing']);
-                                                        ?>
-
-
-                                                        <td>₹<span id="interestAmount"><?= number_format($invoice[0]['final_total'] + $invoice[0]['interest_amount'], 2); ?>/-</td>
-                                                        <td><?= number_format($invoice[0]['interest_rate'], 2); ?>%</td>
-
-
-                                                        <td> ₹<?= number_format($invoice[0]['interest_amount'], 2); ?></td>
-                                                    </tr>
-                                                    <tr style="border:none !important ;">
-                                                        <td class="blank-height" colspan="3"></td> <!-- This cell spans 3 rows -->
-
-                                                    </tr>
-
-
-
-                                                </table>
-                                            <?php endif; ?>
+                                           
 
                                         </div>
                                         <div class="total-summary table-bordered table-striped">
@@ -385,28 +349,7 @@
                                                     <td><strong>Final Total:</strong></td>
                                                     <td><strong>₹<?= $row['final_total'] ?> /-</strong></td>
                                                 </tr>
-                                                <?php if ($invoice[0]['include_interest'] == 1 && $invoice[0]['days_late'] > 0): ?>
-
-                                                <tr>
-                                                    <td><strong>Interest Amount:</strong></td>
-                                                    <td><strong>₹<?= number_format($invoice[0]['interest_amount'], 2); ?> /-</strong></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>Total With Interest Amount:</strong></td>
-                                                    <td><strong>₹<?= number_format($invoice[0]['final_total'] + $invoice[0]['interest_amount'], 2); ?>/-</strong></td>
-                                                </tr>
-                                                
-                                                <?php endif; ?>
-
-                                              <?php if ($invoice[0]['include_interest'] == 1 && $invoice[0]['days_late'] > 0): ?>
-    <tr class="bg-light">
-        <th colspan="2">Amount In Words : <?= convertNumberToWords($invoice[0]['final_total'] + $invoice[0]['interest_amount']) ?> only</th>
-    </tr>
-<?php else: ?>
-    <tr class="bg-light">
-        <th colspan="2">Amount In Words : <?= convertNumberToWords($invoice[0]['final_total']) ?> only</th>
-    </tr>
-<?php endif; ?>
+                   
 
                                                 <?php
                                                 $payment = $this->CommonModal->getRowByIdOrderByLimit('payment', 'invoice_no',  $invoice['0']['invoice_no'], 'user_id', $user['0']['id'], 'id', 'DESC', '1');
@@ -414,9 +357,7 @@
 
                                                 // Final total calculation (Including Interest if applicable)
                                                 $final_total = $invoice[0]['final_total'];
-                                                if ($invoice[0]['include_interest'] == 1 && $invoice[0]['days_late'] > 0) {
-                                                    $final_total += $invoice[0]['interest_amount'];
-                                                }
+                                               
 
                                                 // Updated due amount calculation
                                                 $paid_amount = floatval($paymentsum[0]['total_sum']);
