@@ -243,8 +243,8 @@ text-align: right;
                                       <?php 
                                                  $packing = $this->CommonModal->getRowByMultitpleId('purchase_product', 'P_id', $row['packing'],'user_id',$user['0']['user_id']);
                                                 ?>
-                                    <td><?= isset($packing[0]['HSN_code']) ? $packing[0]['HSN_code'] : '' ?></td>
-                                    <td><?= isset($packing[0]['packing']) ? $packing[0]['packing'] : '' ?> <?= isset($row['unit']) ? $row['unit'] : '' ?></td>
+                                    <td><?= isset($product[0]['HSN']) ? $product[0]['HSN'] : '' ?></td>
+                                    <td><?= isset($product[0]['packing']) ? $product[0]['packing'] : '' ?> <?= isset($product[0]['unit']) ? $product[0]['unit'] : '' ?></td>
                                     <td>₹<?= isset($row['unit_rate']) ? $row['unit_rate'] : '' ?> /-</td>
                                     <td><?= isset($row['quantity']) ? $row['quantity'] : '' ?></td>
                                     <td>₹ <?= isset($row['total_price']) ? $row['total_price'] : '' ?> /-</td>
@@ -506,29 +506,49 @@ $customer = $this->CommonModal->getRowByMultitpleId('customer', 'id', $invoice['
 if (!empty($customer)) {  
     foreach ($customer as $cus) {
         // Invoice URL Same as Button Link
-        $invoiceUrl = base_url('Branch_Dashboard/tax_invoice/' . encryptId($user['0']['id']) . '/' . $invoice['0']['invoice_no']);
+        $invoiceUrl = base_url('Admin/tax_invoice/' . encryptId($user['0']['user_id']) . '/' . $invoice['0']['invoice_no']);
 ?>
-<script>
-    document.getElementById('whatsappBtn').addEventListener('click', function () {
+ <script>
+    document.getElementById('whatsappBtn').addEventListener('click', function() {
         let customerName = "<?= $cus['name'] ?>";
-        let contactNumber = "<?= $cus['contact'] ?>"; 
-        let totalAmount = "<?= $invoice['0']['final_total'] ?>";
-        let paidAmount = "<?= $paymentsum[0]['total_sum'] ?>"; 
-        let dueAmount = "<?= $payment[0]['due'] ?>"; 
+        let contactNumber = "<?= $cus['contact'] ?>";
+        let shopName = "<?= $u['0']['shop'] ?>";
+        let invoiceDate = "<?= date('d M Y', strtotime($invoice['0']['date'])) ?>"; // Format Date
+        let invoice_no = "<?= $u['0']['prefix'] ?>-<?= $invoice[0]['invoice_no'] ?>";
+        
+        // Default Total, Paid, and Due Amounts
+        let totalAmount = parseFloat("<?= $invoice['0']['final_total'] ?>");
+        let paidAmount = parseFloat("<?= $paymentsum[0]['total_sum'] ?>");
+        let dueAmount = parseFloat("<?= $payment[0]['due'] ?>");
+
+        // Check if interest is applied
+        let includeInterest = "<?= $invoice[0]['include_interest'] ?>";
+        let interestAmount = parseFloat("<?= $invoice[0]['interest_amount'] ?>");
+
+        if (includeInterest == "1" && interestAmount > 0) {
+            totalAmount += interestAmount; // Add interest to total amount
+            dueAmount = totalAmount - paidAmount; // Adjust due amount
+        }
+
         let invoiceUrl = "<?= $invoiceUrl ?>";
 
-        // WhatsApp Message Format
-        let message = `*Bill Details*%0A
-        *Customer Name:* ${customerName}%0A
-        *Total Amount:* ₹${totalAmount}%0A
-        *Paid Amount:* ₹${paidAmount}%0A
-        *Due Amount:* ₹${dueAmount}%0A
-        *Invoice Link:* ${invoiceUrl}%0A
-        Thank you for your purchase!`;
+        // WhatsApp Message Format (Fixes the link issue)
+        let message = `Hey ${customerName},%0A%0A
+Thank you for choosing *${shopName}*!%0A%0A
+Details of Your Sales Invoice,%0A
+ *Invoice Number:* ${invoice_no}%0A
+ *Invoice Date:* ${invoiceDate}%0A%0A
+ *Total Amount:* ₹ ${totalAmount.toFixed(2)}%0A
+ *Paid Amount:* ₹ ${paidAmount.toFixed(2)}%0A
+ *Due Amount:* ₹ ${dueAmount.toFixed(2)}%0A%0A
+   <?php if($formate[0]['whatsapp'] == '1'){ ?>
+View your invoice here:%0A${invoiceUrl}%0A%0A
+<?php } ?>
+Thank you for your purchase!`;
 
         let whatsappUrl = `https://wa.me/${contactNumber}?text=${message}`;
         window.open(whatsappUrl, '_blank');
-    });
+  });
 </script>
 <?php 
     } 

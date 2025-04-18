@@ -194,7 +194,7 @@
                                                                 <?= date('d-m-Y', strtotime($return_info['datte'])) ?></td>
                                                             <td
                                                                 class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color  address-wrap">
-                                                                <?= $return_info['name'] ?></td>
+                                                                <?= $return_info['name'] ;?></td>
                                                             <td
                                                                 class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
                                                                 <?= $user[0]['returne_code'] ?>-<?= $return_info['return_invoice_no'] ?>
@@ -214,7 +214,7 @@
                                                                 ₹ <?= $return_info['discount'] ?></td>
                                                             <td
                                                                 class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
-                                                                ₹ <?= $return_info['final_total'] ?></td>
+                                                                ₹ <?= $return_info['final_total'] ;?></td>
                                                             <?php
                                                             $payment = $this->CommonModal->getRowByIdOrderByLimit('return_invoice_payment', 'return_invoice_no', $return_info['return_invoice_no'], 'user_id', $user['0']['id'], 'id', 'DESC', '1');
                                                             $paymentsum = $this->CommonModal->getRowByIdSum('return_invoice_payment', 'return_invoice_no', $return_info['return_invoice_no'], 'user_id', $user['0']['id'], 'paid');
@@ -287,13 +287,13 @@
                                                                             View Return
                                                                         </a>
                                                                        
-                                                                        <!-- <?php if ($return_info['branch_id'] != 0) { ?>
+                                                                        <?php if ($return_info['branch_id'] != 0) { ?>
                                                                             <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
                                                                                 href="<?= base_url('admin_Dashboard/edit_return_invoice?user_id=' . $user['0']['id'] . '&branch_id=' . $return_info['branch_id'] . '&return_invoice_no=' . $return_info['return_invoice_no']) ?>">Edit</a>
                                                                         <?php } else { ?>
                                                                             <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
                                                                                 href="<?= base_url('admin_Dashboard/edit_return_invoice?user_id=' . $user['0']['id'] . '&branch_id=0&return_invoice_no=' . $return_info['return_invoice_no']) ?>">Edit</a>
-                                                                        <?php } ?> -->
+                                                                        <?php } ?>
 
                                                                         <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
                                                                             href="javascript:void(0);"

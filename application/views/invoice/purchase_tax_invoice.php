@@ -1,62 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from yashadmin.dexignzone.com/tailwind/demo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Sep 2024 07:42:52 GMT -->
-
 <head>
-    <!-- Meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="author" content="DexignZone">
-    <meta name="robots" content="index, follow">
+	
+	<!--Title-->
+	<title>Download Invoice | Pastosoft</title>
 
-    <meta name="keywords"
-        content="YashAdmin, sales Admin Dashboard, Tailwind CSS Template, Web Application, sales Management, Responsive Design, User Experience, Customizable, Modern UI, Dashboard Template, Admin Panel, Tailwind CSS, HTML5, CSS3, JavaScript, Analytics, Products, Admin Template, UI Kit, CRM, Analytics, Responsive Dashboard, responsive admin dashboard, sales dashboard, ui kit, web app, Admin Dashboard, Template, Admin, CMS pages, Authentication, FrontEnd Integration, Web Application UI, Tailwind CSS Framework, User Interface Kit, Financial Dashboard, Customizable Template, Product Management, HTML5/CSS3, CRM Dashboard, Analytics Dashboard, Admin Dashboard UI, Mobile-Friendly Design, UI Components, Dashboard Widgets, Dashboard Framework, Data Visualization, User Experience (UX), Dashboard Widgets, Real-time Analytics, Cross-Browser Compatibility, Interactive Charts, Product Processing, Performance Optimization, Multi-Purpose Template, Efficient Admin Tools, Task Management, Modern Web Technologies, Product Tracking, Responsive Tables, Dashboard Widgets, Invoice Management, Access Control, Modular Design, Product History, Trend Analysis, User-Friendly Interface">
 
-    <meta name="description"
-        content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
 
-    <meta property="og:title"
-        content="YashAdmin -Sales Management System Tailwind CSS Admin Dashboard Template | DexignZone">
-    <meta property="og:description"
-        content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-    <meta property="og:image" content="../social-image.png">
-
-    <meta name="format-detection" content="telephone=no">
-
-    <meta name="twitter:title"
-        content="YashAdmin -Sales Management System Tailwind CSS Admin Dashboard Template | DexignZone">
-    <meta name="twitter:description"
-        content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-    <meta name="twitter:image" content="../social-image.png">
-    <meta name="twitter:card" content="summary_large_image">
+	<?php include "includes/header-links.php" ?>
+	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php include "includes2/header-links.php" ?>
-    <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+ <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-        .invoice-box {
-            background: #fff;
-            padding: 10px;
-        }
-
-        .right-btn {
-            text-align: right;
-        }
-
+       
+        
+.invoice-box{
+    background:#fff;
+    padding:10px;
+}
+.right-btn{
+text-align: right;
+}
         .header-box {
             text-align: center;
             font-size: 22px;
             font-weight: bold;
             margin-bottom: 20px;
         }
-        .blank-height {
-            height: 39px;
-        }
+
         .company-info {
             border: 2px solid #000;
             padding: 10px;
@@ -72,13 +46,13 @@
 
         .customer-invoice-details div {
             width: 50%;
-            border: 2px solid #000;
+                border: 2px solid #000;
             padding: 10px;
         }
 
         .customer-invoice-details .left {
             border-right: 2px solid #000;
-
+            
         }
 
         table {
@@ -86,11 +60,11 @@
             border-collapse: collapse;
             margin-top: 0;
         }
-
+       
         th,
         td {
             border: 2px solid #000;
-            /* padding: 8px; */
+            padding: 8px;
             text-align: left;
         }
 
@@ -100,101 +74,71 @@
 
         .summary-container {
             display: flex;
-            width: 100%;
             justify-content: space-around;
 
         }
 
-        .tax-summary table tr,
+        .tax-summary tr,
         td {
             width: 50%;
             margin-top: 0;
             height: 30px;
-            border: 2px solid #000;
+                border: 2px solid #000;
         }
-        .tax-summary {
-            width: 50%;
-        }
+
         .total-summary {
             width: 50%;
             margin-top: 0;
-            border: 2px solid #000;
+                border: 2px solid #000;
 
         }
-
+    
         .terms {
             padding-top: 10px;
         }
+
+       
     </style>
     <style>
-        @media print {
+  
+    .address-wrap {
+    word-break: break-word; 
+    overflow-wrap: break-word;
+ 
+}
+.address-wrap ul, .address-wrap ol {
+    padding-left: 20px;
+    margin: 0;
+}
 
-            /* Hide all elements except for the content body */
-            body * {
-                visibility: hidden;
-            }
+.address-wrap ul {
+    list-style-type: disc;
+}
 
-            @page {
-                size: A4;
-                margin: 0;
-            }
+.address-wrap ol {
+    list-style-type: decimal;
+}
+.right-btn{
+text-align: right;
+}
+</style>
 
-            /* Make the content body visible and centered */
-            .content-body,
-            .content-body * {
-                visibility: visible;
-                /* Center the text */
-            }
-
-            .content-body {
-                position: absolute;
-                left: 0;
-                top: -190px !important;
-                right: 0px;
-                width: 100% !important;
-                /* Ensure full width for centering */
-                margin: 0px;
-                margin-left: 0px !important;
-             
-
-            }
-
-         
-
-
-            /* Hide buttons and any other elements that should not appear in print */
-            #generatePDF,
-            #printBtn,
-            #saveButton,
-            #invoicen,
-            #whatsappBtn {
-                display: none !important;
-            }
-        }
-    </style>
-    <!-- Include Bootstrap CSS -->
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">-->
+	
 </head>
+<body class="selection:text-white selection:bg-primary items-center" style="background-position:center;">
 
+	<!-- Main wrapper start -->
+	<div id="main-wrapper " class="relative items-center">
+	
 
-<body class="selection:text-white selection:bg-primary">
-
-    <!-- Main wrapper start -->
-    <div id="main-wrapper" class="relative">
-        <?php include "includes2/header.php" ?>
-        <?php include "includes2/sidebar.php" ?>
-
-        <div class="content-body">
-            <div class="right-btn mt-4 mr-4">
-
-                <button id="invoicen"
-                    class="py-2 px-4 bg-primary text-white rounded hover:bg-hover-primary duration-300">Normal
-                    Invoice</button>
-                <button id="invoicen1"
-                    class="py-2 px-4 bg-primary text-white rounded hover:bg-hover-primary duration-300">Basic
-                    Invoice</button>
-            </div>
-            <div class="container">
+<!-- Content body start -->
+<div class="content-body">
+<!--     <div class="right-btn mt-4 mr-4">-->
+                       
+<!--<button  id="invoicen" class="py-2 px-4 bg-primary text-white rounded hover:bg-hover-primary duration-300">Tally Invoice</button>-->
+<!--<button  id="invoicen1" class="py-2 px-4 bg-primary text-white rounded hover:bg-hover-primary duration-300">Basic Invoice</button>-->
+<!--                        </div>-->
+<div class="container">
                 <div class="row">
                     <div class="w-full">
                         <div class=" flex flex-col">
@@ -488,10 +432,11 @@
                     </div>
                 </div>
             </div>
+        </div> 
+            </div>
         </div>
-
-        <!-- Content body start -->
-
+        
+        
         <?php
         function convertNumberToWords($number)
         {
@@ -727,5 +672,4 @@ Thank you for your purchase!`;
         });
     </script>
 </body>
-
 </html>

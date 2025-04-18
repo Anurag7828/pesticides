@@ -441,7 +441,9 @@
                                                                                     <input type="number" name="paid"
                                                                                         class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
                                                                                         placeholder="paid amount"
-                                                                                        value="<?= number_format(round($due_total, 2)) ?>" max="<?= number_format(round($due_total, 2)) ?>"
+  value="<?= round($due_total, 2) ?>"
+       max="<?= round($due_total, 2) ?>"
+       step="0.01"
                                                                                         id="paidAmount<?= $customer_info['invoice_no'] ?>"
                                                                                         oninput="validatePaidAmount('<?= $customer_info['invoice_no'] ?>')">
                                                                                     <input type="hidden" name="due"

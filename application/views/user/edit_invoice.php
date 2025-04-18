@@ -329,7 +329,7 @@
                                                                                     id="unit-rate<?= $p_info['id'] ?>"
                                                                                     oninput="calculateTotalPrice(this.closest('.row'))"
                                                                                     required
-                                                                                    value="<?= $p_info['p_price'] ?> ">
+                                                                                    value="<?= $p_info['unit_rate'] ?> ">
                                                                             </div>
                                                                             <div class="sm:w-1/6 w-full mb-[30px]">
                                                                                 <?php if ($i == '1') { ?>

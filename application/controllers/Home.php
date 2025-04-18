@@ -95,6 +95,8 @@ class Home extends CI_Controller {
         if ($BdID) {
             $this->CommonModal->deleteRowById('users', array('id' => $BdID));
             $this->CommonModal->deleteRowById('agent_customer', array('customer_id' => $BdID));
+            $this->CommonModal->deleteRowById('sales_invoice', array('user_id' => $BdID));
+
 
             if ($img) {
                 unlink('./uploads/users/' . $img);
@@ -117,7 +119,10 @@ class Home extends CI_Controller {
             $post['image'] = imageUpload('image', 'uploads/users/');
             $savedata = $this->CommonModal->insertRowReturnId('users', $post);
 
-
+$data =[
+    'user_id' => $savedata,
+];
+$this->CommonModal->insertRowReturnId('sales_invoice', $data);
 
             if ($savedata) {
                 $agent_customer_data = [

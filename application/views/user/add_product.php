@@ -176,7 +176,7 @@
 																	<div class="sm:w-1/6 w-full mb-[30px]">
 																		<label
 																			class="text-dark dark:text-white text-[13px] mb-2">
-																			Unit Price</label>
+																			Purchase Price with Tax</label>
 																		<input type="number" name="p_price[]"
 																			class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
 																			placeholder="total Unit Amount"
@@ -757,6 +757,7 @@
 			<div class="sm:w-1/6 w-full mb-[30px]">
 				<label class="text-dark dark:text-white text-[13px] mb-2">Tax(IN %)</label>
 				<input type="text" name="tax[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="Tax" oninput="calculateTotalPrice(this.closest('.row'))">
+				<input type="hidden" name="tax_type[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="Tax" >
 			</div>
 		
 			<div class="sm:w-1/6 w-full mb-[30px]">
@@ -764,7 +765,7 @@
 				<input type="text" name="tax_amount[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="Tax Amount" readonly>
 			</div>
 			<div class="sm:w-1/6 w-full mb-[30px]">
-				<label class="text-dark dark:text-white text-[13px] mb-2">unit Price</label>
+				<label class="text-dark dark:text-white text-[13px] mb-2">Purchase Price With Tax</label>
 				<input type="text" name="p_price[]" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full" placeholder="Total Unit Price" readonly>
 			</div>
 				<div class="sm:w-1/6 w-full mb-[30px]">
@@ -857,6 +858,8 @@
 							if (data && !data.error) {
 								row.querySelector('[name="unit_rate[]"]').value = data.purchase_price;
 								row.querySelector('[name="tax[]"]').value = data.tax;
+								row.querySelector('[name="tax_type[]"]').value = data.tax_type;
+
 								row.querySelector('[name="tax_amount[]"]').value = data.tax_amount;
 								row.querySelector('[name="p_price[]"]').value = data.total_purchase_price;
 								row.querySelector('[name="quantity[]"]').value = 1;
@@ -880,6 +883,11 @@
         var quantity = parseFloat(row.querySelector('[name="quantity[]"]').value) || 0;
         var unitRate = parseFloat(row.querySelector('[name="unit_rate[]"]').value) || 0;
         var taxRate = parseFloat(row.querySelector('[name="tax[]"]').value) || 0;
+        var ppRate = parseFloat(row.querySelector('[name="p_price[]"]').value) || 0;
+        var taxtype = row.querySelector('[name="tax_type[]"]').value;
+
+
+		
         var discountType = row.querySelector('[name="p_discount_type[]"]').value;
         var discountValueInput = row.querySelector('[name="p_discount[]"]');
 
@@ -890,7 +898,14 @@
         var discountValue = parseFloat(discountValueInput.value) || 0;
 
         var taxAmount = (unitRate * quantity * taxRate) / 100;
-        var totalPrice = (unitRate * quantity) + taxAmount;
+		if (taxtype === 'Inclusive') {
+			var ppAmount = (unitRate * quantity) ;
+			var totalPrice = (unitRate * quantity);
+        } else if (taxtype === 'Exclusive') {
+			var ppAmount = (unitRate * quantity) + taxAmount;
+			var totalPrice = (unitRate * quantity) + taxAmount;
+        }
+     
 
         if (discountType === 'percent') {
             totalPrice -= (totalPrice * discountValue / 100);
@@ -899,6 +914,8 @@
         }
 
         row.querySelector('[name="tax_amount[]"]').value = taxAmount.toFixed(2);
+        row.querySelector('[name="p_price[]"]').value = ppAmount.toFixed(2);
+
         row.querySelector('[name="total_price[]"]').value = totalPrice.toFixed(2);
         updateSubTotal();
         updateGrandTotal();

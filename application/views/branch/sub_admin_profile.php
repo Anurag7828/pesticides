@@ -50,20 +50,18 @@
                     <div class="w-full">
                         <div class="profile card card-body p-4 pb-0">
                             <div class="profile-head">
-                                <div class="photo-content relative">
-                                    <div class="cover-photo rounded"></div>
-                                </div>
+                               
                                 <div class="sm:flex block sm:py-[0.9375rem] sm:px-5 max-sm:pb-5">
-									<div class="profile-photo sm:w-[6.65rem] w-[5rem] relative sm:mr-2.5 max-sm:mb-[1.25rem] max-sm:mx-auto mt-[-4.5rem] z-[1]">
-										<img src="<?= base_url() ?>uploads/users/<?= $user['0']['image'] ?>" class="max-w-full h-auto rounded-full" alt="">
+                                <div class="profile-photo sm:w-[6.65rem] w-[5rem] relative sm:mr-2.5 max-sm:mb-[1.25rem] max-sm:mx-auto ">
+										<img src="<?= base_url() ?>uploads/users/<?= $u['0']['image'] ?>" class="max-w-full h-auto" alt="">
 									</div>
 									<div class="sm:flex block w-full max-sm:text-center">
 										<div class="profile-name px-4 pt-2">
-											<h4 class="text-primary text-lg"><?= $user['0']['name']?></h4>
-											<p class="mb-4"><?= $user['0']['shop']?></p>
+											<h4 class="text-primary text-lg"><?= $u['0']['name']?></h4>
+											<p class="mb-4"><?= $u['0']['shop']?></p>
 										</div>
 										<div class="profile-email px-2 pt-2">
-											<h4 class="text-[#464a53] text-lg"><?= $user['0']['email']?></h4>
+											<h4 class="text-[#464a53] text-lg"><?= $u['0']['email']?></h4>
 											<p class="mb-4">Email</p>
 										</div>
 										

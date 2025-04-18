@@ -245,8 +245,8 @@ text-align: right;
                                     <td class="text-wrap" style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                         <?= isset($product[0]['product_name']) ? $product[0]['product_name'] : '' ?>
                                     </td>
-                                    <td><?= isset($packing[0]['HSN_code']) ? $packing[0]['HSN_code'] : '' ?></td>
-                                    <td><?= isset($packing[0]['packing']) ? $packing[0]['packing'] : '' ?> <?= isset($row['unit']) ? $row['unit'] : '' ?></td>
+                                    <td><?= isset($product[0]['HSN']) ? $product[0]['HSN'] : '' ?></td>
+                                    <td><?= isset($product[0]['packing']) ? $product[0]['packing'] : '' ?> <?= isset($product[0]['net_unit']) ? $product[0]['net_unit'] : '' ?></td>
                                     <td>₹<?= isset($row['unit_rate']) ? $row['unit_rate'] : '' ?> /-</td>
                                     <td><?= isset($row['quantity']) ? $row['quantity'] : '' ?></td>
                                     <td>₹ <?= isset($row['total_price']) ? $row['total_price'] : '' ?> /-</td>

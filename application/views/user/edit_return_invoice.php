@@ -91,7 +91,7 @@
                                                 <div class="xl:w-6/4 lg:w-4/3">
                                                     <div class="card flex flex-col max-sm:mb-[30px] profile-card">
 
-                                                        <div class="sm:p-10 sm:pb-2.5 p-[25px] pb-0">
+                                                        <div class="pb-0">
                                                             <?php $p_produc = $this->CommonModal->getRowByMultitpleId('return_invoice', 'return_invoice_no', $invoice[0]['return_invoice_no'], 'user_id', $user[0]['id']); ?>
                                                             <?php foreach ($p_produc as $p_info): ?>
                                                                 <div id="product-container">
@@ -100,7 +100,7 @@
                                                                         <!-- Product Dropdown in the Row -->
                                                                         <div class="sm:w-1/6 w-full mb-[30px]">
                                                                             <label
-                                                                                class="text-dark dark:text-white text-[13px] mb-2">Select
+                                                                                class="text-dark dark:text-white text-[13px] mb-2">
                                                                                 Product</label>
 
                                                                             <?php foreach ($product_list as $product_info) {
@@ -120,8 +120,7 @@
 
                                                                         <div class="sm:w-1/6 w-full mb-[30px]">
                                                                             <label
-                                                                                class="text-dark dark:text-white text-[13px] mb-2">Net
-                                                                                Quantity</label>
+                                                                                class="text-dark dark:text-white text-[13px] mb-2">Packing</label>
 
                                                                             <?php $pp_produc = $this->CommonModal->getRowById('purchase_product', 'p_id', $p_info['packing']);
                                                                             if ($p_info['packing'] == $pp_produc[0]['p_id']) { ?>
@@ -139,13 +138,40 @@
                                                                                 data-index="${rowIndex}" placeholder="Unit "
                                                                                 required value="<?= $p_info['unit'] ?> ">
                                                                         </div>
+                                                                        <?php if ($p_info['box_product'] == '1') { ?>
+                                                                                <div class="mb-[30px]" style="width: 120px; !important">
+                                                                                    <label
+                                                                                        class="text-dark dark:text-white text-[13px] mb-2">Unit</label>
+                                                                                        <input type="text" name="box[]"
+                                                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                                                 required readonly
+                                                                                value="<?=$p_info['box']?>">
+                                                                                <input type="hidden" name="box_product[]"
+                                                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                                                 required readonly
+                                                                                value="<?=$p_info['box_product'] ?>">
+                                                                                <input type="hidden" name="per_box[]"
+                                                                                class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+                                                                                 required readonly
+                                                                                value="<?=$p_info['per_box'] ?>">
+                                                                                </div>
+                                                                            <?php } ?>
                                                                         <div class="sm:w-1/6 w-full mb-[30px]">
                                                                             <label
                                                                                 class="text-dark dark:text-white text-[13px] mb-2">Quantity</label>
                                                                             <input type="hidden" name="available_quantity[]"
                                                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
                                                                                 id="available" required readonly
-                                                                                value="<?= $pp_produc[0]['availabile_quantity'] ?> ">
+                                                                                value="<?php 
+        if ($p_info['box'] == 'Single') {
+            echo $pp_produc[0]['per_product_availabile_quantity'];
+        } else {
+            echo $pp_produc[0]['availabile_quantity'];
+        }
+    ?>">
+     <?php
+                                                                            $ava = $p_info['quantity'] - $p_info['return_quantity'];
+                                                                            ?>
                                                                             <input type="hidden" name="id[]"
                                                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full"
                                                                                 value="<?= $p_info['id'] ?>">
@@ -155,7 +181,7 @@
                                                                             <input type="hidden" name="ava_quantity[]"
                                                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
                                                                                 id="availablee" required readonly
-                                                                                value="<?= $p_info['available_quantity'] ?> ">
+                                                                                value="<?= $ava ?> ">
                                                                             <input type="float" name="quantity[]"
                                                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
                                                                                 placeholder="Quantity" required
@@ -191,12 +217,12 @@ oninput="this.value = this.value.replace(/[^0-9.]/g, ''); calculateTotalPrice(th
        onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"                   placeholder="Total Price" required
                                                                                 value="<?= $p_info['total_price'] ?> ">
                                                                         </div>
-                                                                        <div class="sm:w-1/6 w-full mb-[0px] " style="margin-top: 35px;">
+                                                                        <div class="sm:w-1/6 w-full mb-[0px] " >
                                                                             <label
                                                                                 class="text-dark dark:text-white text-[13px] mb-2"></label>
-                                                                            <button type="button" class="btn btn-danger"
+                                                                            <button type="button" class="btn btn-danger form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none "
                                                                                 onclick="deleteProductForm(this)">
-                                                                                <i class="fas fa-trash-alt"></i>
+                                                                                <i class="fas fa-trash-alt" style="color:red"></i>
                                                                             </button>
                                                                         </div>
                                                                     </div>
@@ -385,35 +411,7 @@ oninput="this.value = this.value.replace(/[^0-9.]/g, ''); calculateTotalPrice(th
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
-            // Function to add a new product row
-
-
-
-
-            var stockPlaceId = document.querySelector('select[name="stock_place"]').value;
-            var productSelect = newProductRow.querySelector(`.category-select[data-index="${rowIndex}"]`);
-
-            if (stockPlaceId) {
-                $.ajax({
-                    url: '<?= base_url("Admin_Dashboard/get_products_by_stock_place") ?>',
-                    type: 'POST',
-                    data: { stock_place_id: stockPlaceId },
-                    dataType: 'json',
-                    success: function (products) {
-                        // Clear existing options before appending new ones
-                        productSelect.innerHTML = '<option value="">Select Product</option>';
-
-                        // Loop through the products and add them as options
-                        products.forEach(function (product) {
-                            productSelect.innerHTML += '<option value="' + product.pro_id + '">' + product.product_name + '</option>';
-                        });
-                    },
-                    error: function () {
-                        console.error('Failed to fetch products.');
-                    }
-                });
-            }
-}
+        
             // Function to delete a product row
             function deleteProductForm(button) {
                 const productRow = button.closest('.product-row');

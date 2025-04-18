@@ -1,35 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from yashadmin.dexignzone.com/tailwind/demo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Sep 2024 07:42:52 GMT -->
 <head>	
-    <!-- Meta -->
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="author" content="DexignZone">
-	<meta name="robots" content="index, follow">
-
-	<meta name="keywords"
-		content="YashAdmin, sales Admin Dashboard, Tailwind CSS Template, Web Application, sales Management, Responsive Design, User Experience, Customizable, Modern UI, Dashboard Template, Admin Panel, Tailwind CSS, HTML5, CSS3, JavaScript, Analytics, Products, Admin Template, UI Kit, CRM, Analytics, Responsive Dashboard, responsive admin dashboard, sales dashboard, ui kit, web app, Admin Dashboard, Template, Admin, CMS pages, Authentication, FrontEnd Integration, Web Application UI, Tailwind CSS Framework, User Interface Kit, Financial Dashboard, Customizable Template, Product Management, HTML5/CSS3, CRM Dashboard, Analytics Dashboard, Admin Dashboard UI, Mobile-Friendly Design, UI Components, Dashboard Widgets, Dashboard Framework, Data Visualization, User Experience (UX), Dashboard Widgets, Real-time Analytics, Cross-Browser Compatibility, Interactive Charts, Product Processing, Performance Optimization, Multi-Purpose Template, Efficient Admin Tools, Task Management, Modern Web Technologies, Product Tracking, Responsive Tables, Dashboard Widgets, Invoice Management, Access Control, Modular Design, Product History, Trend Analysis, User-Friendly Interface">
-
-	<meta name="description"
-		content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-
-	<meta property="og:title" content="YashAdmin -Sales Management System Tailwind CSS Admin Dashboard Template | DexignZone">
-	<meta property="og:description"
-		content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-	<meta property="og:image" content="../social-image.png">
-
-	<meta name="format-detection" content="telephone=no">
-
-	<meta name="twitter:title" content="YashAdmin -Sales Management System Tailwind CSS Admin Dashboard Template | DexignZone">
-	<meta name="twitter:description"
-		content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-	<meta name="twitter:image" content="../social-image.png">
-	<meta name="twitter:card" content="summary_large_image">
-
-	<!-- MOBILE SPECIFIC -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    
    <?php include "includes2/header-links.php" ?>
 	
 </head>
@@ -83,7 +56,23 @@
 											<input type="text" name="address" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" placeholder="address" value="<?= $customer['0']['address']?>" >
 										</div>
                                         
-									
+										<div class="sm:w-1/2 w-full mb-[30px]">
+											<label class="text-dark dark:text-white text-[13px] mb-2">interest rate</label>
+											<input type="text" name="interest_rate" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" placeholder="interest rate" value="<?= $customer['0']['interest_rate'] ?>">
+										</div>
+										<div class="sm:w-1/2 w-full mb-[30px]">
+											<label class="text-dark dark:text-white text-[13px] mb-2">interest days</label>
+											<input type="text" name="interest_days" class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500  outline-none w-full" placeholder="interest days" value="<?= $customer['0']['interest_days'] ?>">
+										</div>
+										<div class="sm:w-1/2 w-full mb-[30px]">
+											<label class="text-dark dark:text-white text-[13px] mb-2">Price Type</label>
+											<select name="price" class="form-control text-[13px] text-body-color border border-b-color rounded-md py-1.5 px-3 w-full" required>
+												<option value="">Select Price Type</option>
+												<option value="1" <?= ($customer['0']['price'] == '1') ? 'selected' : '' ?>>A (Sales Price 1)</option>
+												<option value="2" <?= ($customer['0']['price'] == '2') ? 'selected' : '' ?>>B (Sales Price 2)</option>
+												<option value="3" <?= ($customer['0']['price'] == '3') ? 'selected' : '' ?>>C (Sales Price 3)</option>
+											</select>
+										</div>
 										
 									</div>
 								</div>

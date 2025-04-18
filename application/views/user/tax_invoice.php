@@ -59,7 +59,7 @@
         th,
         td {
             border: 2px solid #000;
-            padding: 8px;
+            /* padding: 8px; */
             text-align: left;
         }
 
@@ -80,7 +80,12 @@
             height: 30px;
             border: 2px solid #000;
         }
-
+        .tax-summary {
+            width: 50%;
+        }
+        .blank-height {
+            height: 133px;
+        }
         .total-summary {
             width: 50%;
             margin-top: 0;
@@ -101,7 +106,7 @@
             }
 
             @page {
-                size: A3;
+                size: A4;
                 margin: 0;
             }
 
@@ -115,7 +120,7 @@
             .content-body {
                 position: absolute;
                 left: 0;
-                top: -50px !important;
+                top: -150px !important;
                 right: 0px;
                 width: 100% !important;
                 /* Ensure full width for centering */
@@ -283,10 +288,10 @@
                                         </tfoot>
                                     </table>
 
-                                    <div class="summary-container " style="display: flex; justify-content: space-between; width: 100%; ">
-                                        <div class="tax-summary" style="width:50%">
+                                    <div class="summary-container " style="display: flex; justify-content: space-between;  ">
+                                        <div class="tax-summary" >
 
-                                            <table class="table-striped w-auto text-nowrap table-bordered" style="width: 100%; border-collapse: collapse; border: 2px solid black;  ">
+                                            <table >
                                                 <tr>
                                                     <th colspan="3">Tax Summary </th>
 
@@ -324,7 +329,7 @@
 
                                         </div>
                                         <div class="total-summary table-bordered table-striped">
-                                            <table class="table-bordered text-sm" style="width: 100%; border-collapse: collapse; border: 2px solid black; padding-right:30px">
+                                            <table class="table-bordered text-sm" style="border-collapse: collapse; border: 2px solid black; padding-right:30px">
                                                 <tr>
                                                     <td>Sub Total:</td>
                                                     <td>₹<?= $row['grand_total'] ?> /-</td>

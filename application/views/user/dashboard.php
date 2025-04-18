@@ -10,7 +10,61 @@
     overflow-wrap: break-word;
 
 }
+
+    #completeProfileModal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        background-color: rgba(0, 0, 0, 0.6); /* dark transparent backdrop */
+        z-index: 9999;
+    }
+
+    .modal-content {
+        background: #fff;
+        width: 90%;
+        max-width: 400px;
+        margin: 10% auto;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .modal-content h3 {
+        margin-bottom: 15px;
+        font-size: 22px;
+    }
+
+    .modal-content p {
+        font-size: 16px;
+        margin-bottom: 20px;
+        color: #444;
+    }
+
+    .modal-content a {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background 0.3s ease;
+    }
+
+    .modal-content a:hover {
+        background-color: #0056b3;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
 </style>
+	
 	
 </head>
 <body class="selection:text-white selection:bg-primary">
@@ -613,8 +667,7 @@ PDF
                 </td>
             </tr>
         <?php endforeach; ?>
-    <?php else : ?>
-        <!-- <tr><td colspan="5">No data found</td></tr> -->
+  
     <?php endif; ?>
 </tbody>
 
@@ -703,10 +756,7 @@ PDF
                     </td>
                 </tr>
         <?php endif; endforeach; ?>
-    <?php else : ?>
-        <tr>
-            <!-- <td colspan="7" class="text-center">No data found</td> -->
-        </tr>
+
     <?php endif; ?>
 </tbody>
 
@@ -816,7 +866,25 @@ PDF
 										</div>
 									</div>
          <!-- Content body end -->
-		 
+		 <div id="completeProfileModal">
+    <div class="modal-content">
+        <h3>Complete Your Profile</h3>
+        <p>Please Update Profile to continue.</p>
+        <a href="<?= base_url('admin_Dashboard/sub_admin/'.encryptId($user['0']['id'])) ?>">Update Profile</a>
+    </div>
+</div>
+<script>
+    // Inject PHP variable into JavaScript
+    var shopname = "<?= isset($user[0]['shop']) ? trim($user[0]['shop']) : '' ?>";
+
+    // Check if it's blank, and show modal
+    if (shopname === "") {
+        // Show your modal (basic example)
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('completeProfileModal').style.display = 'block';
+        });
+    }
+</script>
          <!-- Content body end -->
   <script>
     $(document).ready(function() {

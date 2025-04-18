@@ -335,8 +335,8 @@
                                                                                 oninput="calculateTotalPrice(this.closest('.row'))"
                                                                                 class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
                                                                                 required>
-                                                                                <option value="rupee" selected>₹</option>
-                                                                                <option value="percent">%
+                                                                                <option value="rupee" <?= ($p_info[0]['p_discount_type'] == 'rupee') ? 'selected' : ''; ?>>₹</option>
+                                                                                <option value="percent" <?= ($p_info[0]['p_discount_type'] == 'percent') ? 'selected' : ''; ?>>%
                                                                                 </option>
 
                                                                             </select>
@@ -348,7 +348,7 @@
                                                                             <input type="number" name="p_discount[]"
                                                                                 class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
                                                                                 placeholder="Discount Value"
-                                                                                id="total-unit-price"
+                                                                                id="total-unit-price"  value="<?= $p_info['p_discount'] ?>"
                                                                                 oninput="calculateTotalPrice(this.closest('.row'))">
                                                                         </div>
                                                                         <div class="sm:w-1/6 w-full mb-[30px]">

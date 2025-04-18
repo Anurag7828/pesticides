@@ -31,13 +31,13 @@
 							</defs>
 					</svg>
 					</div>	
-						<span class="nav-text">Invoice</span>
+						<span class="nav-text">Sales</span>
 						</a>
 						<ul aria-expanded="false">			
 						
-							<li><a href="<?= base_url('Branch_Dashboard/add_invoice/'.encryptId($user['0']['id']))?>">Add Invoice</a></li>	
-								<li><a href="<?= base_url('Branch_Dashboard/invoice/'.encryptId($user['0']['id'])) ?>">Invoice List</a></li>
-									<li><a href="<?= base_url('Branch_Dashboard/view_return_invoice/'.encryptId($user['0']['id'])) ?>">Return Invoice</a></li>
+							<li><a href="<?= base_url('Branch_Dashboard/add_invoice/'.encryptId($user['0']['id']))?>">Add Sales</a></li>	
+								<li><a href="<?= base_url('Branch_Dashboard/invoice/'.encryptId($user['0']['id'])) ?>">Sales List</a></li>
+									<li><a href="<?= base_url('Branch_Dashboard/view_return_invoice/'.encryptId($user['0']['id'])) ?>">Return Sales</a></li>
 								
 						</ul>
 					</li>
@@ -106,6 +106,8 @@
 						
 							<li><a href="<?= base_url('Branch_Dashboard/add_product_name/'.encryptId($user['0']['id']).'/0')?>">Add Product</a></li>
 								<li><a href="<?= base_url('Branch_Dashboard/product_name/'.encryptId($user['0']['id'])) ?>">Product List</a></li>
+								<li><a href="<?= base_url('Branch_Dashboard/bulk_upload/'.encryptId($user['0']['id'])) ?>">Bulk Upload</a></li>
+
 						</ul>
 					</li>
 					<?php } ?>
@@ -125,6 +127,8 @@
 						
 							<li><a href="<?= base_url('Branch_Dashboard/add_customer/'.encryptId($user['0']['id']).'/0')?>">Add Customers</a></li>
 								<li><a href="<?= base_url('Branch_Dashboard/customer/'.encryptId($user['0']['id'])) ?>">Customers List</a></li>
+								<li><a href="<?= base_url('Branch_Dashboard/bulk_upload_customer/'.encryptId($user['0']['id'])) ?>">Bulk Upload</a></li>
+
 						</ul>
 					</li>
 					<?php } ?>
@@ -145,6 +149,8 @@
 						
 							<li><a href="<?= base_url('Branch_Dashboard/add_vender/'.encryptId($user['0']['id']).'/0')?>">Add Vendor </a></li>
 								<li><a href="<?= base_url('Branch_Dashboard/vender/'.encryptId($user['0']['id'])) ?>">Vendor List</a></li>
+								<li><a href="<?= base_url('Branch_Dashboard/bulk_upload_vendor/'.encryptId($user['0']['id'])) ?>">Bulk Upload</a></li>
+
 						</ul>
 					</li>
 					<?php } ?>
@@ -173,8 +179,8 @@
 						</a>
 					</li>
 					<div class="copyright mb-8 mt-[1.2rem] px-4">
-					<p class="mb-[6px] text-[0.775rem]">Version 1.0 <br>Pesticides Management System © <span class="current-year">2025</span> All Rights Reserved</p>
-					<p class="mb-[6px] text-[0.775rem]">Developed by Namami Software</p>
+					<p class="mb-[6px] text-[0.775rem]">Version 1.0 <br>Pestosoft © <span class="current-year">2025</span> </p>
+					<p class="mb-[6px] text-[0.775rem]">All Rights Reserved</p>
 				</div>
 				</ul>
 				

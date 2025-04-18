@@ -83,9 +83,11 @@
                                                 <select name="net_unit"
                                                     class="form-control text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 outline-none w-full"
                                                     required>
-                                                    <option value="grams">Grams</option>
-                                                    <option value="liters">Liters</option>
-                                                    <option value="kilograms">Kilograms</option>
+                                                    <option value="Grams">Grams</option>
+<option value="Kilograms">Kilograms</option>
+<option value="Milligrams">Milligrams</option>
+<option value="Liters">Liters</option>
+<option value="Milliliters">Milliliters</option>
                                                 </select>
                                             </div>
                                         </div>

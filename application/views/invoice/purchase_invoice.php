@@ -1,55 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from yashadmin.dexignzone.com/tailwind/demo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Sep 2024 07:42:52 GMT -->
-
 <head>
+	
+	<!--Title-->
+	<title> Download Invoice | Pastosoft </title>
+	<?php include "includes/header-links.php" ?>
 	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<?php include "includes2/header-links.php" ?>
-    <style>
-    @media print {
-        /* Hide all elements except for the content body */
-        body * {
-            visibility: hidden;
-        }
-        @page {
-            size: A3;
-        }
-
-        /* Make the content body visible and centered */
-        .content-body, .content-body * {
-            visibility: visible;
-            /* Center the text */
-        }
-
-        .content-body {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%; /* Ensure full width for centering */
-            margin: 0 ;
-        }
-.detail{
-    width:30% !important;
+	<style>
+.container {
+  --bs-gutter-x: 0!important!important;
+  --bs-gutter-y: 0!important;
+  width: 1050px !important;
+  padding-right: calc(var(--bs-gutter-x) * .5)!important;
+  padding-left: calc(var(--bs-gutter-x) * .5)!important;
+  margin-right: auto!important;
+  margin-left: auto!important;
+  margin-top: 2.5rem;
 }
-        /* Hide buttons and any other elements that should not appear in print */
-        #generatePDF,
-        #printBtn, #saveButton {
-            display: none;
-        }
+
+.invoice-container {
+    max-width: 100% !important;
+    margin: auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Make the header responsive */
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.invoice-header img {
+    max-width: 350px;
+    height: auto;
+}
+
+/* Adjust the invoice details section */
+.invoice-details {
+    width: 100% !important;
+    text-align: left;
+}
+
+/* Responsive table */
+.invoice-table {
+    width: 100% !important;
+    border-collapse: collapse;
+}
+
+.invoice-table th, .invoice-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+/* Ensure table is scrollable on small screens */
+@media (max-width: 600px) {
+    .invoice-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
     }
-      .address-wrap {
+
+    .invoice-header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .invoice-header img {
+        margin-bottom: 10px;
+    }
+
+    .invoice-details {
+        text-align: center;
+    }
+
+    .invoice-table th, .invoice-table td {
+        font-size: 12px;
+    }
+}
+
+    .address-wrap {
     word-break: break-word; 
     overflow-wrap: break-word;
  
 }
 .address-wrap ul, .address-wrap ol {
-    padding-left: 20px;
+    padding-left: 10px;
     margin: 0;
 }
 
@@ -65,75 +109,91 @@ text-align: right;
 }
 </style>
 
+	
 </head>
-
-<body class="selection:text-white selection:bg-primary">
+<body class="selection:text-white selection:bg-primary items-center" style="background-position:center;">
 
 	<!-- Main wrapper start -->
-	<div id="main-wrapper" class="relative">
-		<?php include "includes2/header.php" ?>
-		<?php include "includes2/sidebar.php" ?>
+	<div id="main-wrapper " class="relative items-center">
+	
 
 <!-- Content body start -->
 <div class="content-body">
-      <div class="right-btn mt-4 mr-4">
-         <button  id="invoicen" class="py-2 px-4 bg-primary text-white rounded hover:bg-hover-primary duration-300">Tally Invoice</button>
-       <button  id="invoicen1" class="py-2 px-4 bg-primary text-white rounded hover:bg-hover-primary duration-300">Basic Invoice</button>
-        </div>
-            <div class="container-fluid">
-                <div class="row">
+
+            <div class="container">
+                
+            <div class="row">
                     <div class="w-full">
                         <div class="card mt-4 flex flex-col">
-                            <div class="card-header flex justify-between sm:p-5 sm:pt-6 py-5 px-4 items-center relative flex-wrap border-b border-[#E6E6E6] dark:border-[#ffffff1a] sm:text-sm text-xs text-body-color"><span class="float-end"> <strong>Purchase Code.  </strong> <?= $user_main['0']['purchase_code'] ?>-<?= $purchase_product[0]['purchase_code']?></span><strong>श्री गणेशाय नमः</strong> <span class="float-end">
+                            <div class="card-header flex justify-between sm:p-5 sm:pt-6 py-5 px-4 items-center relative flex-wrap border-b border-[#E6E6E6] dark:border-[#ffffff1a] sm:text-sm text-xs text-body-color"><span class="float-end"> <strong>Purchase Code.  </strong> <?= $user['0']['purchase_code'] ?>-<?= $purchase_product[0]['purchase_code']?></span><strong>श्री गणेशाय नमः</strong> <span class="float-end">
                              <strong>Date:</strong><?= date('d-m-Y', strtotime($purchase_product[0]['date']))?></span></div>
                             <div class="sm:p-5 p-4 flex-auto">
-                               <div class="row mb-12 flex justify-between items-center">
+                                <div class="row mb-12">
+                                <div class="mt-6 lg:w-1/4 md:w-1/2 w-full detail">
+                                        <div class="2xl:w-7/12 w-full row items-center">
+											<div class="sm:w-3/4"> 
+												
+                                              	<?php	if($user['0']['image'] ){?>
+                                                <img src="<?= base_url() ?>uploads/users/<?= $user['0']['image'] ?>" style="height:100px;" alt="">
+													
+												<?php } else {?>
+                                                 <div class="text-body-color sm:text-sm text-xs  whitespace-normal break-words"><strong style="font-size: 36px;line-height: 47px;"> <?= $user['0']['shop'] ?></strong></div>
+                                                 <?php } ?>
+					         
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+									<div class="mt-6 lg:w-1/3 md:w-1/2 w-full detail">
+										
+                                    <div class="text-body-color sm:text-sm text-xs"><strong>Shop Name.:</strong> <?= $user['0']['shop'] ?></div>
 
-    <!-- Vendor Info (Right Corner) -->
-    <div class="mt-6 lg:w-1/3 md:w-1/2 w-full detail text-left">
-        <?php
-        $vender = $this->CommonModal->getRowByMultitpleId(
-            'vender',
-            'id',
-            $purchase_product['0']['vender_name'],
-            'user_id',
-            $user['0']['user_id']
-        );
-        ?>
-        <div class="text-body-color sm:text-sm text-xs break-words">
-            <strong>Vender Name:</strong> <?= $vender[0]['vender_name'] ?>
-        </div>
-        <input type="hidden" id="custommer" value="<?= $vender[0]['vender_name'] ?>">
-        <div class="text-body-color sm:text-sm text-xs">
-            <strong>Contact No.:</strong> <?= $vender[0]['mobile'] ?>
-        </div>
-        <div class="text-body-color sm:text-sm text-xs break-words">
-            <strong>Address:</strong> <?= $vender[0]['address'] ?>
-        </div>
-        <div class="text-body-color sm:text-sm text-xs">
-            <strong>GST No.:</strong> <?= $vender[0]['gst_no'] ?>
-        </div>
-    </div>
-</div>
-
+                                                <div class="text-body-color sm:text-sm text-xs"><strong>Contact No.:</strong> <?= $user['0']['contact'] ?></div>
+                                                      <div class="text-body-color sm:text-sm text-xs"><strong>Address:</strong> <?= $user['0']['address']?> <?= $user['0']['city']?> <br><?= $user['0']['district']?> ,<?= $user['0']['state']?> <?= $user['0']['pincode']?></div>
+                                                <div class="text-body-color sm:text-sm text-xs"><strong>Email Id:</strong> <?= $user['0']['email'] ?></div>
+                                                <div class="text-body-color sm:text-sm text-xs"><strong>GST NO.:</strong> <?= $user['0']['gst_no'] ?></div>
+                                                 <?php if($user['0']['lic_no'] ){ ?>
+                                                <div class="text-body-color sm:text-sm text-xs"><strong>LIC No.:</strong> <?= $user['0']['lic_no'] ?></div>
+                                                <?php } if($user['0']['cin_no']){?>
+                                                 <div class="text-body-color sm:text-sm text-xs"><strong>CIN No.:</strong> <?= $user['0']['cin_no'] ?></div>
+                                            <?php } ?>
+                                            
+									</div>
+									<div class="mt-6 lg:w-1/3 md:w-1/2 w-full detail">
+									
+                                        <?php
+                            $vender = $this->CommonModal->getRowByMultitpleId('vender', 'id', $purchase_product['0']['vender_name'],'user_id',$user['0']['id']);
+                         
+                    ?>
+                                        <div class="text-body-color sm:text-sm text-xs  whitespace-normal break-words"><strong>Vender Name:</strong> <?= $vender[0]['vender_name'] ?></div>
+                                         <input type="hidden" id="custommer" value="<?= $vender[0]['vender_name'] ?>">
+                                                <div class="text-body-color sm:text-sm text-xs"><strong>Contact No.:</strong> <?= $vender[0]['mobile'] ?></div>
+                                                <div class="text-body-color sm:text-sm text-xs  whitespace-normal break-words"><strong>Address:</strong> <?= $vender[0]['address'] ?></div>
+                                                  <div class="text-body-color sm:text-sm text-xs"><strong>GST No.:</strong> <?= $vender[0]['gst_no'] ?></div>
+                                          
+									</div>
+                                   
+                                </div>
                                 <div class="overflow-x-auto table-scroll">
                                     <table class="table w-full mb-4 table-border">
                                         <thead>
                                             <tr>
-                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left center text-dark">#</th>
+                                                <th class="py-[0.9375rem] border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left center text-dark" style="width:1%">#</th>
                                                 <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Item</th>
-                                                                            
-                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Net Quantity</th>
-                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left right text-dark">Unit rate</th>
+                                                <!-- <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">HSN </th> -->
+                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Net Qty</th>
+                                                
+                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left right text-dark">Unit Rate</th>
                                                 <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left center text-dark">Qty</th>
-                                               <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left center text-dark">Tax</th>
-                                               <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Discount</th>
+                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left center text-dark">Tax</th>
+
+                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left center text-dark">Discount</th>
                                                 <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-right text-dark">Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         <?php
-                            $purchase_code = $this->CommonModal->getRowByMultitpleId('purchase_product', 'purchase_code', $purchase_product['0']['purchase_code'],'branch_id',$user['0']['id'],'user_id',$user['0']['user_id']);
+                            $purchase_code = $this->CommonModal->getRowByMultitpleId('purchase_product', 'purchase_code', $purchase_product['0']['purchase_code'],'user_id',$user['0']['id']);
                             $i=0;
                             if (!empty($purchase_code)) { 
                                 foreach ($purchase_code as $row)
@@ -141,17 +201,21 @@ text-align: right;
                     ?>
                                             <tr>
                                
-                                            <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $i ?></td>
+                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $i ?>. </td>
                                                 <?php 
-                                                 $product = $this->CommonModal->getRowByMultitpleId('product', 'id',  $row['product_name'],'user_id',$user['0']['user_id']);
+                                                 $product = $this->CommonModal->getRowById('product', 'id',  $row['product_name']);
                                                 ?>
-                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] sm:text-sm text-xs text-body-color left strong address-wrap"><?= $product[0]['product_name']?></td>
-                                                                                               
+                                               <td class="py-[0.9375rem] border-b border-[#E6E6E6] dark:border-[#ffffff1a] sm:text-sm text-xs text-body-color left strong address-wrap">
+     <?=  $product[0]['product_name'] ?>-<?=  $product[0]['unit'] ?>
+</td>
+                                                 <!-- <td class="py-[0.9375rem]  border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left strong"><?= $product[0]['HSN']?></td> -->
                                                 <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"><?= $product[0]['packing']?><?= $product[0]['net_unit']?></td>
                                                 <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color right">₹<?= $row['unit_rate']?> /-</td>
                                                 <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $row['quantity']?></td>
                                                 <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $row['gst_tax']?></td>
+
                                                 <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $row['p_discount']?></td>
+
                                                 <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color text-right">₹<?= $row['total_price']?> /-</td>
                                             </tr>
                                            <?php } } ?>
@@ -159,19 +223,23 @@ text-align: right;
                                
                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><strong class="text-dark">Total Amount Without Discount</strong></td>
                             <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"></td>
+                            <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"></td>
+
+                            <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"></td>
                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left strong"></td>
-                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left strong"></td>
                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"></td>
-                               <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"></td>
+                               <!-- <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"></td> -->
                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><strong class="text-dark"></strong></td>
                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color text-right">₹<?= $row['sub_total']?> /-</td>
                            </tr>
                            <tr >
-                               
+                              
                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><strong class="text-dark">Discount In (<?= $row['discount_type']?>)</strong></td>
                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left strong"></td>
                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"></td>
-                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left strong"></td>
+                               <!-- <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"></td> -->
+
+                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"></td>
                                        <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"></td>
                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"></td>
                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><strong class="text-dark"></strong></td>
@@ -185,12 +253,14 @@ text-align: right;
 </td>
                            </tr>
                            <tr >
-                               
+                              
                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><strong class="text-dark">Total Amount In Rupees (In Words)</strong></td>
                               
                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left strong"><?= convertNumberToWords($row['grand_total'])?> only</td>
                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"></td>
-                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left strong"></td>
+                               <!-- <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"></td> -->
+
+                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"></td>
                                                             <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"></td>
                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"></td>
                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"></td>
@@ -202,7 +272,7 @@ text-align: right;
                                
                              
                                 <div class="row">
-                                   <div class="lg:w-1/2 sm:w-5/12 w-full ml-auto">
+                                    <div class="lg:w-1/2 sm:w-5/12 w-full ml-auto">
                                         
                                         <table class="table w-full mb-4 table-clear">
                                         
@@ -211,7 +281,7 @@ text-align: right;
                                                 <tr>
                                                     
 
-                                                    <td class="py-[0.9375rem] px-2.5  whitespace-nowrap sm:text-sm text-xs text-body-color text-right"> <img src="<?= base_url() ?>uploads/users/<?= $user_main['0']['sealimage'] ?>" width="100px"  alt="" style="margin-top:-25px; height:100px; "><img src="<?= base_url() ?>uploads/users/<?= $user_main['0']['signimage'] ?>" width="100px"  alt="" style="margin-top:-32px ; height:100px;"></td>
+                                                    <td class="py-[0.9375rem] px-2.5  whitespace-nowrap sm:text-sm text-xs text-body-color text-right"> <img src="<?= base_url() ?>uploads/users/<?= $user['0']['sealimage'] ?>" width="100px"  alt="" style="margin-top:-25px; height:100px; "><img src="<?= base_url() ?>uploads/users/<?= $user['0']['signimage'] ?>" width="100px"  alt="" style="margin-top:-32px ; height:100px;"></td>
                                                           <td class="py-[0.9375rem] px-2.5 whitespace-nowrap sm:text-sm text-xs text-body-color text-right"> </td>
                                                 </tr>
                                                
@@ -223,8 +293,8 @@ text-align: right;
                                     <div class="lg:w-1/3 sm:w-5/12 w-full ml-auto">
                                         <table class="table w-full mb-4 table-clear">
                                         <?php
-                              $payment = $this->CommonModal->getRowByIdOrderByLimit('purchase_payment', 'purchase_code',  $purchase_product['0']['purchase_code'],'branch_id',$user['0']['id'],'id','DESC','1');
-                                                          $paymentsum = $this->CommonModal->getRowByIdSum('purchase_payment', 'purchase_code', $purchase_product['0']['purchase_code'],'branch_id',$user['0']['id'],'paid');?>
+                              $payment = $this->CommonModal->getRowByIdOrderByLimit('purchase_payment', 'purchase_code',  $purchase_product['0']['purchase_code'],'user_id',$user['0']['id'],'id','DESC','1');
+                                                          $paymentsum = $this->CommonModal->getRowByIdSum('purchase_payment', 'purchase_code', $purchase_product['0']['purchase_code'],'user_id',$user['0']['id'],'paid');?>
                                             <tbody>
                                               
                                                 <tr>
@@ -251,8 +321,8 @@ text-align: right;
                                <td class=" px-2.5 border-a border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><strong class="text-dark">Term And Condition :-</strong></td>
               </tr>
               <tr>
-      <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] address-wrap sm:text-sm text-xs text-body-color left strong">
-    <div class="text-left"><?= html_entity_decode($user_main[0]['term']) ?></div>
+                           <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] address-wrap sm:text-sm text-xs text-body-color left strong">
+    <div class="text-left"><?= html_entity_decode($user[0]['term']) ?></div>
 </td>
 
                            
@@ -264,9 +334,7 @@ text-align: right;
                                     </div>
                                 </div>
                                 <button id="generatePDF" class="py-2 px-4 bg-primary text-white rounded hover:bg-hover-primary duration-300">Download</button>
-                               <button id="printBtn" class="py-2 px-4 bg-primary text-white rounded hover:bg-hover-primary duration-300">Print</button>
-                               <button id="saveButton" class="py-2 px-4 bg-secondary text-white rounded hover:bg-hover-secondary duration-300">Save</button>
-                               <button id="whatsappBtn" class="py-2 px-2 bg-secondary text-white rounded hover:bg-hover-green duration-300" style="background-color: green !important;">WhatsApp</button>
+
 
                             </div>
                         </div>
@@ -276,8 +344,7 @@ text-align: right;
             </div>
         </div>
         
-	 <!-- Content body end -->
-   <?php
+         <?php
 function convertNumberToWords($number) {
     $words = array(
         0 => '', 1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four',
@@ -329,37 +396,36 @@ function convertNumberToWords($number) {
 
 ?>
 
+</div>
+<?php 
 
-        <?php include "includes2/footer-links.php" ?>
-	</div>
-	<?php include "includes2/footer.php" ?>
-	
-	<?php 
-    $payment = $this->CommonModal->getRowByIdOrderByLimit('purchase_payment', 'purchase_code',  $purchase_product['0']['purchase_code'],'branch_id',$user['0']['id'],'id','DESC','1');
-    $paymentsum = $this->CommonModal->getRowByIdSum('purchase_payment', 'purchase_code', $purchase_product['0']['purchase_code'],'branch_id',$user['0']['id'],'paid');
-    $customer = $this->CommonModal->getRowByMultitpleId('vender', 'id', $purchase_product['0']['vender_name'],'user_id',$user['0']['user_id']);
+$payment = $this->CommonModal->getRowByIdOrderByLimit('payment', 'invoice_no',  $invoice['0']['invoice_no'], 'user_id', $user['0']['id'], 'id', 'DESC', '1');
 
-    if (!empty($customer)) {  
-        foreach ($customer as $cus) {
-            // Invoice URL updated to match the "View Purchase" button
-            $invoiceUrl = base_url('Branch_Dashboard/print_purchase_normal/' . encryptId($user[0]['id']) . '/' . $purchase_product[0]['purchase_code']);
+$paymentsum = $this->CommonModal->getRowByIdSum('payment', 'invoice_no', $invoice['0']['invoice_no'], 'user_id', $user['0']['id'], 'paid');
+
+$customer = $this->CommonModal->getRowById('customer', 'id', $invoice['0']['customer_name'], 'user_id', $user['0']['id']);
+
+if (!empty($customer)) {  
+    foreach ($customer as $cus) {
+        // Invoice URL Same as Button Link
+        $invoiceUrl = base_url('Admin/download_invoice/' . encryptId($user['0']['id']) . '/' . $invoice['0']['invoice_no']);
 ?>
 <script>
     document.getElementById('whatsappBtn').addEventListener('click', function () {
-        let customerName = "<?= $cus['vender_name'] ?>"; // Fixed variable
-        let contactNumber = "<?= $cus['mobile'] ?>"; 
+        let customerName = "<?= $cus['name'] ?>";
+        let contactNumber = "<?= $cus['contact'] ?>"; 
         let totalAmount = "<?= $invoice['0']['final_total'] ?>";
         let paidAmount = "<?= $paymentsum[0]['total_sum'] ?>"; 
         let dueAmount = "<?= $payment[0]['due'] ?>"; 
-        let invoiceUrl = "<?= $invoiceUrl ?>"; // Updated Invoice URL
+        let invoiceUrl = "<?= $invoiceUrl ?>";
 
         // WhatsApp Message Format
-        let message = `*Purchase Bill Details*%0A
-        *Vendor Name:* ${customerName}%0A
+        let message = `*Bill Details*%0A
+        *Customer Name:* ${customerName}%0A
         *Total Amount:* ₹${totalAmount}%0A
         *Paid Amount:* ₹${paidAmount}%0A
         *Due Amount:* ₹${dueAmount}%0A
-       
+        *Invoice Link:* ${invoiceUrl}%0A
         Thank you for your purchase!`;
 
         let whatsappUrl = `https://wa.me/${contactNumber}?text=${message}`;
@@ -367,37 +433,13 @@ function convertNumberToWords($number) {
     });
 </script>
 <?php 
-        } 
     } 
+} 
 ?>
-	
-    <script>
- document.getElementById('saveButton').addEventListener('click', function () {
-            alert("Invoice saved!");
-              window.location.href = "<?php echo base_url('Branch_Dashboard/product/' . encryptId($user['0']['id'])); ?>";
-        });
 
-document.getElementById('printBtn').addEventListener('click', function() {
-    window.print();  // Trigger print
-});
 
- document.getElementById('invoicen').addEventListener('click', function() {
-            // Show the alert
-            alert("Change Invoice Formate");
 
-            // Redirect to the desired page after the alert
-            window.location.href = "<?= base_url('Branch_Dashboard/print_purchase_tax/' . encryptId($user['0']['id']) . '/' . $purchase_product[0]['purchase_code']); ?>";
-        });
-        
-        document.getElementById('invoicen1').addEventListener('click', function() {
-            // Show the alert
-            alert("Change Invoice Formate");
-
-            // Redirect to the desired page after the alert
-            window.location.href = "<?= base_url('Branch_Dashboard/print_purchase_normal/' . encryptId($user['0']['id']) . '/' . $purchase_product[0]['purchase_code']); ?>";
-        });
-</script>
-
+ 
 <script>
     document.getElementById('generatePDF').addEventListener('click', function () {
         const { jsPDF } = window.jspdf;
@@ -409,13 +451,13 @@ document.getElementById('printBtn').addEventListener('click', function() {
         const generateButton = document.getElementById('generatePDF');
             const printButton = document.getElementById('printBtn');
             const saveButton = document.getElementById('saveButton');
-             const invoiceButton = document.getElementById('invoicen');
-              const invoiceButton1 = document.getElementById('invoicen1');
+                        const invoiceButton = document.getElementById('invoicen');
+                              const invoiceButton1 = document.getElementById('invoicen1');
             generateButton.style.display = 'none';  // Hide the button
             printButton.style.display = 'none';    // Hide the print button
             saveButton.style.display = 'none';      // Hide the button
-              invoiceButton.style.display = 'inline-block';
-    invoiceButton1.style.display = 'inline-block';
+            invoiceButton.style.display = 'none';   
+                invoiceButton1.style.display = 'none';
         // Use html2canvas to convert the HTML to canvas and then use jsPDF to create a PDF
         html2canvas(invoiceElement, {
             scale: 2,  // Increase scale for better resolution in the PDF
@@ -425,9 +467,8 @@ document.getElementById('printBtn').addEventListener('click', function() {
             generateButton.style.display = 'inline-block';  // Show the button again
             printButton.style.display = 'inline-block';    // Show the print button again
             saveButton.style.display = 'inline-block';
-              invoiceButton.style.display = 'inline-block';
+             invoiceButton.style.display = 'inline-block';
               invoiceButton1.style.display = 'inline-block';
-              
             // Get image data from canvas
             const imgData = canvas.toDataURL('image/png');
             const imgWidth = 595.28;  // A4 page width in points (JS uses points for size)
@@ -463,8 +504,5 @@ doc.save(filename);
         });
     });
 </script>
-
-
 </body>
-
 </html>

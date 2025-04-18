@@ -44,6 +44,7 @@ public function download_invoice($id, $invoice_number)
     
     // Validate if user exists
     $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
+    $data['formate'] = $this->CommonModal->getRowById('sales_invoice', 'user_id', $tid);
     if (empty($data['user'])) {
         show_error('Invalid User ID', 404);
         return;
@@ -196,7 +197,35 @@ public function basic_invoice($id, $invoice_number)
     // Load the invoice view
     $this->load->view('invoice/basic_invoice', $data);
 }
+public function print_purchase($id, $purchase_code)
+{
+    $data['title'] = "Purchase Invoice";
+    // Get Vendor ID from the URL query string
+    $tid = decryptId($id);
 
+
+    $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
+
+    $data['purchase_product'] = $this->CommonModal->getRowByMultitpleId('purchase_product', 'purchase_code', $purchase_code, 'user_id', $tid);
+
+    // Load the view
+    $this->load->view('invoice/purchase_invoice', $data);
+}
+public function purchase_tax_invoice($id, $purchase_code)
+{
+    $data['title'] = "Purchase Invoice";
+    // Get Vendor ID from the URL query string
+    $tid = decryptId($id);
+
+
+
+    $data['user'] = $this->CommonModal->getRowById('users', 'id', $tid);
+
+    $data['purchase_product'] = $this->CommonModal->getRowByMultitpleId('purchase_product', 'purchase_code', $purchase_code, 'user_id', $tid);
+
+    // Load the view
+    $this->load->view('invoice/purchase_tax_invoice', $data);
+}
     public function adminlogin()
 {
     // Set validation rules for login form fields

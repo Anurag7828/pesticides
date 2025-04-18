@@ -174,6 +174,9 @@
 																					onkeypress="return event.charCode >= 48 && event.charCode <= 57 || event.charCode === 46"
 																					value="<?= $p_info['gst_percent'] ?>"
 																					readonly>
+																					<input type="hidden" name="tax_type[]"
+																			class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
+																			placeholder="Tax" id="tax_type" 	value="<?= $p_info['tax_type'] ?>">
 																			</div>
 																			
 																			<div class="sm:w-1/6 w-full mb-[30px]">
@@ -188,8 +191,7 @@
 																	</div>
 																			<div class="sm:w-1/6 w-full mb-[30px]">
 																				<label
-																					class="text-dark dark:text-white text-[13px] mb-2">Unit
-																					Price</label>
+																					class="text-dark dark:text-white text-[13px] mb-2">Purchase Price with Tax</label>
 																				<input type="float" name="p_price[]"
 																					class="form-control relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full relative text-[13px] text-body-color h-[2.813rem] border border-b-color block rounded-md py-1.5 px-3 duration-500 outline-none w-full"
 																					placeholder="Unit price"
@@ -418,6 +420,8 @@ function calculateTotalPrice(row) {
     var quantity = parseFloat(row.querySelector('[name="quantity[]"]').value) || 0;
     var unitRate = parseFloat(row.querySelector('[name="unit_rate[]"]').value) || 0;
     var taxRate = parseFloat(row.querySelector('[name="tax[]"]').value) || 0;
+	var ppRate = parseFloat(row.querySelector('[name="p_price[]"]').value) || 0;
+	var taxtype = row.querySelector('[name="tax_type[]"]').value;
 
     // Fetch discount type and value correctly
     var discountType = row.querySelector('[name="p_discount_type[]"]')?.value || "rupee";
@@ -430,17 +434,17 @@ function calculateTotalPrice(row) {
     }
     var discountValue = parseFloat(discountValueInput.value) || 0;
 
+	var taxAmount = (unitRate * quantity * taxRate) / 100;
+		if (taxtype === 'Inclusive') {
+			var ppAmount = (unitRate * quantity) ;
+			var totalPrice = (unitRate * quantity);
+        } else if (taxtype === 'Exclusive') {
+			var ppAmount = (unitRate * quantity) + taxAmount;
+			var totalPrice = (unitRate * quantity) + taxAmount;
+        }
     // ✅ Calculate Tax Amount
-    var taxAmount = (unitRate * quantity * taxRate) / 100;
 
-    // ✅ Calculate Unit Price including tax (for single unit)
-    var unitPriceWithTax = unitRate + (unitRate * taxRate / 100);
 
-    // ✅ Set updated Unit Price
-    row.querySelector('[name="p_price[]"]').value = unitPriceWithTax.toFixed(2);
-
-    // ✅ Calculate total price (with discount applied)
-    var totalPrice = unitPriceWithTax * quantity;
 
     if (discountType === 'percent') {
         totalPrice -= (totalPrice * discountValue / 100);
@@ -451,6 +455,8 @@ function calculateTotalPrice(row) {
     // ✅ Update tax_amount and total_price
     let taxAmountInput = row.querySelector('[name="tax_amount[]"]');
     if (taxAmountInput) taxAmountInput.value = taxAmount.toFixed(2);
+	row.querySelector('[name="p_price[]"]').value = ppAmount.toFixed(2);
+
 
     row.querySelector('[name="total_price[]"]').value = totalPrice.toFixed(2);
 

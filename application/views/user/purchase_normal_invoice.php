@@ -88,25 +88,7 @@ text-align: right;
                              <strong>Date:</strong><?= date('d-m-Y', strtotime($purchase_product[0]['date']))?></span></div>
                             <div class="sm:p-5 p-4 flex-auto">
                                 <div class="row mb-12">
-                                <div class="mt-6 lg:w-1/4 md:w-1/2 w-full detail">
-                                        <div class="2xl:w-7/12 w-full row items-center">
-											<div class="sm:w-3/4"> 
-												
-                                              	<?php	if($user['0']['image'] ){?>
-                                                <img src="<?= base_url() ?>uploads/users/<?= $user['0']['image'] ?>" style="height:100px;" alt="">
-													
-												<?php } else {?>
-                                                 <div class="text-body-color sm:text-sm text-xs  whitespace-normal break-words"><strong style="font-size: 36px;line-height: 47px;"> <?= $user['0']['shop'] ?></strong></div>
-                                                 <?php } ?>
-					         
-                                            </div>
-                                           
-                                        </div>
-                                    </div>
-									<div class="mt-6 lg:w-1/3 md:w-1/2 w-full detail">
-										
-                                    
-									</div>
+                              
 									<div class="mt-6 lg:w-1/3 md:w-1/2 w-full detail">
 									
                                         <?php
@@ -388,19 +370,27 @@ if (!empty($customer)) {
     document.getElementById('whatsappBtn').addEventListener('click', function () {
         let customerName = "<?= $cus['vender_name'] ?>";
         let contactNumber = "<?= $cus['mobile'] ?>"; 
+        let purchaseCode = "<?= $purchase_product['0']['purchase_code'] ?>";
+      
         let totalAmount = "<?= $purchase_product['0']['grand_total'] ?>";
         let paidAmount = "<?= $paymentsum[0]['total_sum'] ?>"; 
         let dueAmount = "<?= $payment[0]['due'] ?>"; 
+        let shopName = "<?= $user['0']['shop'] ?>";
+        let prifix = "<?= $user['0']['purchase_code'] ?>";
+
+      
         let purchaseInvoiceUrl = "<?= $purchaseInvoiceUrl ?>";
 
-        // WhatsApp Message Format
-        let message = `*Purchase Products Bill Details*%0A
-        *Vendor Name:* ${customerName}%0A
-        *Total Amount:* ₹${totalAmount}%0A
-        *Paid Amount:* ₹${paidAmount}%0A
-        *Due Amount:* ₹${dueAmount}%0A
-        *Purchase Invoice Link:* ${purchaseInvoiceUrl}%0A
-        Thank you!`;
+        // Updated WhatsApp Message Format
+        let message = `Hey ${customerName},%0A%0A
+Thank you for Business with ${shopName}!%0A%0A
+Details of My Purchase Invoice,%0A
+Invoice Number:- ${prifix}-${purchaseCode}%0A
+Total Amount:-  ₹${totalAmount}%0A
+Paid Amount:- ₹${paidAmount}%0A
+Due Amount:- ₹${dueAmount}%0A%0A
+
+Thank you for your purchase!`;
 
         let whatsappUrl = `https://wa.me/${contactNumber}?text=${message}`;
         window.open(whatsappUrl, '_blank');

@@ -98,7 +98,7 @@
                                                                         <!-- Product Dropdown in the Row -->
                                                                         <div class="sm:w-1/6 w-full mb-[30px]">
                                                                             <label
-                                                                                class="text-dark dark:text-white text-[13px] mb-2">Select
+                                                                                class="text-dark dark:text-white text-[13px] mb-2">
                                                                                 Product</label>
 
                                                                             <?php foreach ($product_list as $product_info) {

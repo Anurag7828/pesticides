@@ -4,30 +4,7 @@
 <!-- Mirrored from yashadmin.dexignzone.com/tailwind/demo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Sep 2024 07:42:52 GMT -->
 
 <head>
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="author" content="DexignZone">
-	<meta name="robots" content="index, follow">
-
-	<meta name="keywords"
-		content="YashAdmin, sales Admin Dashboard, Tailwind CSS Template, Web Application, sales Management, Responsive Design, User Experience, Customizable, Modern UI, Dashboard Template, Admin Panel, Tailwind CSS, HTML5, CSS3, JavaScript, Analytics, Products, Admin Template, UI Kit, CRM, Analytics, Responsive Dashboard, responsive admin dashboard, sales dashboard, ui kit, web app, Admin Dashboard, Template, Admin, CMS pages, Authentication, FrontEnd Integration, Web Application UI, Tailwind CSS Framework, User Interface Kit, Financial Dashboard, Customizable Template, Product Management, HTML5/CSS3, CRM Dashboard, Analytics Dashboard, Admin Dashboard UI, Mobile-Friendly Design, UI Components, Dashboard Widgets, Dashboard Framework, Data Visualization, User Experience (UX), Dashboard Widgets, Real-time Analytics, Cross-Browser Compatibility, Interactive Charts, Product Processing, Performance Optimization, Multi-Purpose Template, Efficient Admin Tools, Task Management, Modern Web Technologies, Product Tracking, Responsive Tables, Dashboard Widgets, Invoice Management, Access Control, Modular Design, Product History, Trend Analysis, User-Friendly Interface">
-
-	<meta name="description"
-		content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-
-	<meta property="og:title" content="YashAdmin -Sales Management System Tailwind CSS Admin Dashboard Template | DexignZone">
-	<meta property="og:description"
-		content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-	<meta property="og:image" content="../social-image.png">
-
-	<meta name="format-detection" content="telephone=no">
-
-	<meta name="twitter:title" content="YashAdmin -Sales Management System Tailwind CSS Admin Dashboard Template | DexignZone">
-	<meta name="twitter:description"
-		content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-	<meta name="twitter:image" content="../social-image.png">
-	<meta name="twitter:card" content="summary_large_image">
+	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -101,7 +78,7 @@ text-align: right;
 <div class="content-body">
        <div class="right-btn mt-4 mr-4">
                        
-<button  id="invoicen" class="py-2 px-4 bg-primary text-white rounded hover:bg-hover-primary duration-300">Telly Invoice</button>
+<button  id="invoicen" class="py-2 px-4 bg-primary text-white rounded hover:bg-hover-primary duration-300">Tally Invoice</button>
 <button  id="invoicen1" class="py-2 px-4 bg-primary text-white rounded hover:bg-hover-primary duration-300">Normal Invoice</button>
                         </div>
             <div class="container-fluid">
@@ -112,25 +89,10 @@ text-align: right;
                                     <strong>Date:</strong>  <?= date('d-m-Y', strtotime($invoice[0]['date']))?></span> </div>
                             <div class="sm:p-5 p-4 flex-auto">
                                <div class="row mb-12 flex justify-between items-center">
-    <!-- Logo or Shop Name -->
-    <div class="mt-6 lg:w-1/4 md:w-1/2 w-full detail">
-        <div class="2xl:w-7/12 w-full flex items-center">
-            <div class="sm:w-3/4">
-                <?php if ($u['0']['image']) { ?>
-                    <img src="<?= base_url() ?>uploads/users/<?= $u['0']['image'] ?>" style="height:100px;" alt="">
-                <?php } else { ?>
-                    <div class="text-body-color sm:text-sm text-xs break-words">
-                        <strong style="font-size: 36px;line-height: 47px;">
-                            <?= $u['0']['shop'] ?>
-                        </strong>
-                    </div>
-                <?php } ?>
-            </div>
-        </div>
-    </div>
+   
 
     <!-- Customer Info (Right Corner) -->
-    <div class="mt-6 lg:w-1/3 md:w-1/2 w-full detail text-right">
+    <div class="mt-6 lg:w-1/3 md:w-1/2 w-full detail text-left">
         <?php
         $customer = $this->CommonModal->getRowByMultitpleId(
             'customer',
@@ -186,8 +148,8 @@ text-align: right;
                                                 <?php 
                                                  $packing = $this->CommonModal->getRowByMultitpleId('purchase_product', 'P_id', $row['packing'],'user_id',$user['0']['user_id']);
                                                 ?>
-                                                 <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"><?= $packing[0]['HSN_code']?></td>
-                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"><?= $packing[0]['packing']?> <?= $row['unit']?></td>
+                                                 <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"><?= $product[0]['HSN']?></td>
+                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"><?= $product[0]['packing']?> <?= $product[0]['net_unit']?></td>
                                                 <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color right">₹<?= $row['unit_rate']?> /-</td>
                                                 <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $row['quantity']?></td>
                                                 
@@ -405,29 +367,47 @@ $customer = $this->CommonModal->getRowByMultitpleId('customer', 'id', $invoice['
 if (!empty($customer)) {  
     foreach ($customer as $cus) {
         // Invoice URL Same as Button Link
-        $invoiceUrl = base_url('Branch_Dashboard/normal_invoice/' . encryptId($user['0']['id']) . '/' . $invoice['0']['invoice_no']);
+      
 ?>
-<script>
-    document.getElementById('whatsappBtn').addEventListener('click', function () {
+ <script>
+    document.getElementById('whatsappBtn').addEventListener('click', function() {
         let customerName = "<?= $cus['name'] ?>";
-        let contactNumber = "<?= $cus['contact'] ?>"; 
-        let totalAmount = "<?= $invoice['0']['final_total'] ?>";
-        let paidAmount = "<?= $paymentsum[0]['total_sum'] ?>"; 
-        let dueAmount = "<?= $payment[0]['due'] ?>"; 
+        let contactNumber = "<?= $cus['contact'] ?>";
+       
+        let invoiceDate = "<?= date('d M Y', strtotime($invoice['0']['date'])) ?>"; // Format Date
+        let invoice_no = "<?= $u['0']['prefix'] ?>-<?= $invoice[0]['invoice_no'] ?>";
+        
+        // Default Total, Paid, and Due Amounts
+        let totalAmount = parseFloat("<?= $invoice['0']['final_total'] ?>");
+        let paidAmount = parseFloat("<?= $paymentsum[0]['total_sum'] ?>");
+        let dueAmount = parseFloat("<?= $payment[0]['due'] ?>");
+
+        // Check if interest is applied
+        let includeInterest = "<?= $invoice[0]['include_interest'] ?>";
+        let interestAmount = parseFloat("<?= $invoice[0]['interest_amount'] ?>");
+
+        if (includeInterest == "1" && interestAmount > 0) {
+            totalAmount += interestAmount; // Add interest to total amount
+            dueAmount = totalAmount - paidAmount; // Adjust due amount
+        }
+
         let invoiceUrl = "<?= $invoiceUrl ?>";
 
-        // WhatsApp Message Format
-        let message = `*Bill Details*%0A
-        *Customer Name:* ${customerName}%0A
-        *Total Amount:* ₹${totalAmount}%0A
-        *Paid Amount:* ₹${paidAmount}%0A
-        *Due Amount:* ₹${dueAmount}%0A
-        *Invoice Link:* ${invoiceUrl}%0A
-        Thank you for your purchase!`;
+        // WhatsApp Message Format (Fixes the link issue)
+        let message = `Hey ${customerName},%0A%0A
+Thank you for choosing !%0A%0A
+Details of Your Sales Invoice,%0A
+ *Invoice Number:* ${invoice_no}%0A
+ *Invoice Date:* ${invoiceDate}%0A%0A
+ *Total Amount:* ₹ ${totalAmount.toFixed(2)}%0A
+ *Paid Amount:* ₹ ${paidAmount.toFixed(2)}%0A
+ *Due Amount:* ₹ ${dueAmount.toFixed(2)}%0A%0A
+ 
+Thank you for your purchase!`;
 
         let whatsappUrl = `https://wa.me/${contactNumber}?text=${message}`;
         window.open(whatsappUrl, '_blank');
-    });
+  });
 </script>
 <?php 
     } 

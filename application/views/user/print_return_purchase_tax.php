@@ -554,7 +554,7 @@ if (!empty($customer)) {
         *Total Amount:* ₹${totalAmount}%0A
         *Paid Amount:* ₹${paidAmount}%0A
         *Due Amount:* ₹${dueAmount}%0A
-        *Return Purchase Invoice Link:* ${returnPurchaseInvoiceUrl}%0A
+       
         Thank you!`;
 
         let whatsappUrl = `https://wa.me/${contactNumber}?text=${message}`;

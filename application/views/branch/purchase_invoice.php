@@ -1,33 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from yashadmin.dexignzone.com/tailwind/demo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Sep 2024 07:42:52 GMT -->
 
 <head>
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="author" content="DexignZone">
-	<meta name="robots" content="index, follow">
-
-	<meta name="keywords"
-		content="YashAdmin, sales Admin Dashboard, Tailwind CSS Template, Web Application, sales Management, Responsive Design, User Experience, Customizable, Modern UI, Dashboard Template, Admin Panel, Tailwind CSS, HTML5, CSS3, JavaScript, Analytics, Products, Admin Template, UI Kit, CRM, Analytics, Responsive Dashboard, responsive admin dashboard, sales dashboard, ui kit, web app, Admin Dashboard, Template, Admin, CMS pages, Authentication, FrontEnd Integration, Web Application UI, Tailwind CSS Framework, User Interface Kit, Financial Dashboard, Customizable Template, Product Management, HTML5/CSS3, CRM Dashboard, Analytics Dashboard, Admin Dashboard UI, Mobile-Friendly Design, UI Components, Dashboard Widgets, Dashboard Framework, Data Visualization, User Experience (UX), Dashboard Widgets, Real-time Analytics, Cross-Browser Compatibility, Interactive Charts, Product Processing, Performance Optimization, Multi-Purpose Template, Efficient Admin Tools, Task Management, Modern Web Technologies, Product Tracking, Responsive Tables, Dashboard Widgets, Invoice Management, Access Control, Modular Design, Product History, Trend Analysis, User-Friendly Interface">
-
-	<meta name="description"
-		content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-
-	<meta property="og:title" content="YashAdmin -Sales Management System Tailwind CSS Admin Dashboard Template | DexignZone">
-	<meta property="og:description"
-		content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-	<meta property="og:image" content="../social-image.png">
-
-	<meta name="format-detection" content="telephone=no">
-
-	<meta name="twitter:title" content="YashAdmin -Sales Management System Tailwind CSS Admin Dashboard Template | DexignZone">
-	<meta name="twitter:description"
-		content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-	<meta name="twitter:image" content="../social-image.png">
-	<meta name="twitter:card" content="summary_large_image">
+	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -100,7 +76,7 @@ text-align: right;
 <!-- Content body start -->
 <div class="content-body">
       <div class="right-btn mt-4 mr-4">
-         <button  id="invoicen" class="py-2 px-4 bg-primary text-white rounded hover:bg-hover-primary duration-300">Telly Invoice</button>
+         <button  id="invoicen" class="py-2 px-4 bg-primary text-white rounded hover:bg-hover-primary duration-300">Tally Invoice</button>
        <button  id="invoicen1" class="py-2 px-4 bg-primary text-white rounded hover:bg-hover-primary duration-300">Basic Invoice</button>
         </div>
             <div class="container-fluid">
@@ -160,11 +136,12 @@ text-align: right;
                                             <tr>
                                                 <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left center text-dark">#</th>
                                                 <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Item</th>
-                                                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">HSN</th>
+
                                                 <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Net Quantity</th>
-                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left right text-dark">Unit Cost</th>
+                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left right text-dark">Unit rate</th>
                                                 <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left center text-dark">Qty</th>
                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left center text-dark">Tax</th>
+                                               <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left center text-dark">Discount</th>
                                                 <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-right text-dark">Total</th>
                                             </tr>
                                         </thead>
@@ -183,11 +160,12 @@ text-align: right;
                                                  $product = $this->CommonModal->getRowByMultitpleId('product', 'id',  $row['product_name'],'user_id',$user['0']['user_id']);
                                                 ?>
                                                 <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] sm:text-sm text-xs text-body-color left strong address-wrap"><?= $product[0]['product_name']?></td>
-                                                                                                   <td class="py-[0.9375rem]  border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left strong"><?= $row['HSN_code']?></td>
-                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"><?= $row['packing']?><?= $row['unit']?></td>
-                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color right">₹<?= $row['p_price']?> /-</td>
+                                                                                               
+                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"><?= $product[0]['packing']?><?= $product[0]['net_unit']?></td>
+                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color right">₹<?= $row['unit_rate']?> /-</td>
                                                 <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $row['quantity']?></td>
                                                 <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $row['gst_tax']?></td>
+                                                <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $row['p_discount']?></td>
                                                 <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color text-right">₹<?= $row['total_price']?> /-</td>
                                             </tr>
                                            <?php } } ?>
@@ -378,25 +356,34 @@ function convertNumberToWords($number) {
     if (!empty($customer)) {  
         foreach ($customer as $cus) {
             // Invoice URL updated to match the "View Purchase" button
-            $invoiceUrl = base_url('Branch_Dashboard/print_purchase/' . encryptId($user[0]['id']) . '/' . $purchase_product[0]['purchase_code']);
+            $purchaseInvoiceUrl = base_url('Admin/print_purchase/' . encryptId($user[0]['user_id']) . '/' . $purchase_product[0]['purchase_code']);
 ?>
 <script>
     document.getElementById('whatsappBtn').addEventListener('click', function () {
-        let customerName = "<?= $cus['vender_name'] ?>"; // Fixed variable
+        let customerName = "<?= $cus['vender_name'] ?>";
         let contactNumber = "<?= $cus['mobile'] ?>"; 
-        let totalAmount = "<?= $invoice['0']['final_total'] ?>";
+        let purchaseCode = "<?= $purchase_product['0']['purchase_code'] ?>";
+      
+        let totalAmount = "<?= $purchase_product['0']['grand_total'] ?>";
         let paidAmount = "<?= $paymentsum[0]['total_sum'] ?>"; 
         let dueAmount = "<?= $payment[0]['due'] ?>"; 
-        let invoiceUrl = "<?= $invoiceUrl ?>"; // Updated Invoice URL
+        let shopName = "<?= $user_main['0']['shop'] ?>";
+        let prifix = "<?= $user_main['0']['purchase_code'] ?>";
 
-        // WhatsApp Message Format
-        let message = `*Purchase Bill Details*%0A
-        *Vendor Name:* ${customerName}%0A
-        *Total Amount:* ₹${totalAmount}%0A
-        *Paid Amount:* ₹${paidAmount}%0A
-        *Due Amount:* ₹${dueAmount}%0A
-        *Invoice Link:* ${invoiceUrl}%0A
-        Thank you for your purchase!`;
+      
+        let purchaseInvoiceUrl = "<?= $purchaseInvoiceUrl ?>";
+
+        // Updated WhatsApp Message Format
+        let message = `Hey ${customerName},%0A%0A
+Thank you for Business with ${shopName}!%0A%0A
+Details of My Purchase Invoice,%0A
+Invoice Number:- ${prifix}-${purchaseCode}%0A
+Total Amount:-  ₹${totalAmount}%0A
+Paid Amount:- ₹${paidAmount}%0A
+Due Amount:- ₹${dueAmount}%0A%0A
+View your invoice here:%0A
+${purchaseInvoiceUrl}%0A%0A
+Thank you for your purchase!`;
 
         let whatsappUrl = `https://wa.me/${contactNumber}?text=${message}`;
         window.open(whatsappUrl, '_blank');

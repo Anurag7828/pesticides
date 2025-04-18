@@ -1,37 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from yashadmin.dexignzone.com/tailwind/demo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Sep 2024 07:42:52 GMT -->
 
 <head>
-    <!-- Meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="author" content="DexignZone">
-    <meta name="robots" content="index, follow">
-
-    <meta name="keywords"
-        content="YashAdmin, sales Admin Dashboard, Tailwind CSS Template, Web Application, sales Management, Responsive Design, User Experience, Customizable, Modern UI, Dashboard Template, Admin Panel, Tailwind CSS, HTML5, CSS3, JavaScript, Analytics, Products, Admin Template, UI Kit, CRM, Analytics, Responsive Dashboard, responsive admin dashboard, sales dashboard, ui kit, web app, Admin Dashboard, Template, Admin, CMS pages, Authentication, FrontEnd Integration, Web Application UI, Tailwind CSS Framework, User Interface Kit, Financial Dashboard, Customizable Template, Product Management, HTML5/CSS3, CRM Dashboard, Analytics Dashboard, Admin Dashboard UI, Mobile-Friendly Design, UI Components, Dashboard Widgets, Dashboard Framework, Data Visualization, User Experience (UX), Dashboard Widgets, Real-time Analytics, Cross-Browser Compatibility, Interactive Charts, Product Processing, Performance Optimization, Multi-Purpose Template, Efficient Admin Tools, Task Management, Modern Web Technologies, Product Tracking, Responsive Tables, Dashboard Widgets, Invoice Management, Access Control, Modular Design, Product History, Trend Analysis, User-Friendly Interface">
-    <meta name="description"
-        content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-
-    <meta property="og:title"
-        content="YashAdmin -Sales Management System Tailwind CSS Admin Dashboard Template | DexignZone">
-    <meta property="og:description"
-        content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-    <meta property="og:image" content="../social-image.png">
-
-    <meta name="format-detection" content="telephone=no">
-
-    <meta name="twitter:title"
-        content="YashAdmin -Sales Management System Tailwind CSS Admin Dashboard Template | DexignZone">
-    <meta name="twitter:description"
-        content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-    <meta name="twitter:image" content="../social-image.png">
-    <meta name="twitter:card" content="summary_large_image">
-
-    <!-- MOBILE SPECIFIC -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
     <?php include "includes2/header-links.php" ?>
 
 </head>
@@ -140,7 +112,7 @@
                             <div class="card">
                                 <div class="sm:py-5 py-4">
                                     <div class="overflow-x-auto active-projects user-tbl ItemsCheckboxSec dt-filter">
-                                        <table id="user-tbl" class="table">
+                                    <table id="user-tbl" class="table">
                                             <thead>
                                                 <tr>
                                                     <th
@@ -148,8 +120,9 @@
                                                         s No.
                                                     </th>
                                                     <th
-                                                        class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">
-                                                        Vendor Name</th>
+                                                        class="bg-primary-light text-[13px] py-2.5 px-4 text-primary capitalize border-b border-b-color font-medium bg-none whitespace-nowrap text-left">
+                                                        Date</th>
+                                                   
                                                     <th
                                                         class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">
                                                         Purchase <br>code</th>
@@ -177,6 +150,9 @@
                                                     <th
                                                         class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">
                                                         Status</th>
+                                                    <th
+                                                        class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">
+                                                        Add By</th>
                                                     <th
                                                         class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">
                                                         Action</th>
@@ -245,16 +221,18 @@
                                                                 class="border-b border-b-color py-2.5 px-4 pr-0 text-[13px] font-normal text-body-color whitespace-nowrap">
                                                                 <?= $i ?>
                                                             </td>
-                                                            <td
-                                                                class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color address-wrap">
-                                                                <?= $vender_name ?></td>
+                                                            
                                                             <td
                                                                 class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
-                                                                <?= $u[0]['purchase_code'] ?>-<?= $product_info['purchase_code'] ?>
+                                                                <?= date('d-m-Y', strtotime($product_info['date'])) ?></td>
+                                                            
+                                                            <td
+                                                                class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
+                                                                <?= $u['0']['purchase_code']?>-<?= $product_info['purchase_code'] ?>
                                                             </td>
                                                             <td
                                                                 class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
-                                                                <?= $total_products ?></td>
+                                                                <?= $total_products ?> </td>
                                                             <td
                                                                 class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
                                                                 <?= $product_info['total_quantity'] ?><br>
@@ -272,8 +250,6 @@
                                                                             <?= $total_return_quantity ?> Return Product
                                                                         </span>
                                                                     </a>
-                                                                <?php } else { ?>
-                                                                    <?= "" ?>
                                                                 <?php } ?>
                                                             </td>
                                                             <td
@@ -290,30 +266,30 @@
 </td>
                                                             <td
                                                                 class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
-                                                                ₹ <?= number_format((float)$product_info['grand_total'], 2) ?></td>
+                                                                ₹ <?= $product_info['grand_total'] ?></td>
                                                             <?php
-                                                            $payment = $this->CommonModal->getRowByIdOrderByLimit('purchase_payment', 'purchase_code', $product_info['purchase_code'], 'user_id', $user['0']['user_id'], 'id', 'DESC', '1');
-                                                            $paymentsum = $this->CommonModal->getRowByIdSum('purchase_payment', 'purchase_code', $product_info['purchase_code'], 'user_id', $user['0']['user_id'], 'paid');
+                                                            $payment = $this->CommonModal->getRowByIdOrderByLimit('purchase_payment', 'purchase_code', $product_info['purchase_code'], 'user_id', $user['0']['id'], 'id', 'DESC', '1');
+                                                            $paymentsum = $this->CommonModal->getRowByIdSum('purchase_payment', 'purchase_code', $product_info['purchase_code'], 'user_id', $user['0']['id'], 'paid');
                                                             ?>
                                                             <td
                                                                 class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
-                                                                ₹ <?= number_format((float)$paymentsum[0]['total_sum'], 2) ?></td>
+                                                                ₹ <?= $paymentsum[0]['total_sum'] ?></td>
                                                             <td
                                                                 class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
                                                                 ₹ <?= number_format((float)$payment[0]['due'], 2) ?></td>
-                                                            <?php if ($paymentsum[0]['total_sum'] < $payment[0]['total'] && $paymentsum[0]['total_sum'] != 0) { ?>
+                                                            <?php if ($paymentsum[0]['total_sum'] < $payment[0]['total']  && $paymentsum[0]['total_sum'] !=0) { ?>
                                                                 <td
                                                                     class="py-[0.9375rem] px-2.5 capitalize whitespace-nowrap sm:text-sm text-xs font-normal border-t border-[#E6E6E6] dark:border-[#ffffff1a] text-left text-body-color">
                                                                     <span
                                                                         class="text-xs py-[5px] px-3 rounded leading-[1.5] inline-block text-warning bg-warning-light">partial</span>
                                                                 </td>
-                                                            <?php } elseif ($paymentsum[0]['total_sum'] = $payment[0]['total'] && $paymentsum[0]['total_sum'] != 0) { ?>
+                                                            <?php } elseif ($paymentsum[0]['total_sum'] = $payment[0]['total']  && $paymentsum[0]['total_sum'] !=0) { ?>
                                                                 <td
                                                                     class="py-[0.9375rem] px-2.5 capitalize whitespace-nowrap sm:text-sm text-xs font-normal border-t border-[#E6E6E6] dark:border-[#ffffff1a] text-left text-body-color">
                                                                     <span
                                                                         class="text-xs py-[5px] px-3 rounded leading-[1.5] inline-block text-success bg-success-light dark:text-white dark:bg-[#3a9b941a]">Complete</span>
                                                                 </td>
-                                                            <?php } elseif ($paymentsum[0]['total_sum'] > $payment[0]['total'] && $paymentsum[0]['total_sum'] != 0) { ?>
+                                                            <?php } elseif ($paymentsum[0]['total_sum'] > $payment[0]['total']  && $paymentsum[0]['total_sum'] !=0) { ?>
                                                                 <td
                                                                     class="py-[0.9375rem] px-2.5 capitalize whitespace-nowrap sm:text-sm text-xs font-normal border-t border-[#E6E6E6] dark:border-[#ffffff1a] text-left text-body-color">
                                                                     <span
@@ -325,7 +301,19 @@
                                                                     <span
                                                                         class="text-xs py-[5px] px-3 rounded leading-[1.5] inline-block text-danger bg-danger-light">pending</span>
                                                                 </td>
-                                                            <?php } ?>
+                                                            <?php }
+                                                            if ($product_info['branch_id'] != 0) {
+                                                                $branch = $this->CommonModal->getRowByMultitpleId('branch', 'id', $product_info['branch_id'], 'user_id', $user[0]['user_id']); ?>
+                                                                <td
+                                                                    class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
+                                                                    <?= $branch[0]['name'] ?></td>
+                                                            <?php } else {
+                                                                ?>
+                                                                <td
+                                                                    class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
+                                                                    Admin</td>
+                                                            <?php }
+                                                            ?>
                                                             <td
                                                                 class="py-[0.9375rem] px-2.5 capitalize whitespace-nowrap sm:text-sm text-xs font-normal border-t border-[#E6E6E6] dark:border-[#ffffff1a] text-left text-body-color">
                                                                 <div class="dropdown">
@@ -349,10 +337,15 @@
                                                                             href="<?= base_url('Branch_Dashboard/print_purchase/' . encryptId($user[0]['id']) . '/' . $product_info['purchase_code']); ?>">
                                                                             View purchase
                                                                         </a>
-                                                                        
-                                                                        <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
-                                                                            href="<?= base_url('Branch_Dashboard/edit_product?user_id=' . $user['0']['id'] . '&purchase_code=' . $product_info['purchase_code']) ?>">Edit</a>
+                                                                      
 
+                                                                        <?php if ($product_info['branch_id'] != 0) { ?>
+                                                                            <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
+                                                                                href="<?= base_url('Branch_Dashboard/edit_product?user_id=' . $user['0']['id']  . '&purchase_code=' . $product_info['purchase_code']); ?>">Edit</a>
+                                                                        <?php } else { ?>
+                                                                            <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
+                                                                                href="<?= base_url('Branch_Dashboard/edit_product?user_id=' . $user['0']['id'] . '&branch_id=0&purchase_code=' . $product_info['purchase_code']); ?>">Edit</a>
+                                                                        <?php } ?>
                                                                         <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
                                                                             href="javascript:void(0);"
                                                                             onclick="openModal('<?= $product_info['purchase_code'] ?>')">View
@@ -362,23 +355,32 @@
                                                                             href="javascript:void(0);"
                                                                             onclick="dueModal('<?= $product_info['purchase_code'] ?>')">Pay
                                                                             Due Payment</a>
-                                                                        <!--<a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]" href="<?= base_url('Branch_Dashboard/product/' . encryptId($user[0]['id']) . '?purchase_code=' . $product_info['purchase_code']); ?>" onclick="return confirm('Are you sure you want to delete this Product Detail?')">Delete</a>-->
-
-
                                                                         <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
-                                                                            href="<?= base_url('Branch_Dashboard/return_product?user_id=' . $user[0]['id'] . '&purchase_code=' . $product_info['purchase_code']); ?>"
-                                                                            onclick="return confirm('Are you sure you want to Return this Purchas Detail?')">Returne
-                                                                            Purchase</a>
+                                                                            href="<?= base_url('Branch_Dashboard/product/' . encryptId($user[0]['id']) . '?purchase_code=' . $product_info['purchase_code']); ?>"
+                                                                            onclick="return confirm('Are you sure you want to delete this Product Detail?')">Delete</a>
 
+
+                                                                        
+                                                                            <?php if ($product_info['branch_id'] != 0) { ?>
+
+                                                                                <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
+                                                                            href="<?= base_url('Branch_Dashboard/return_product?user_id=' . $user[0]['id'] . '&branch_id=' . $product_info['branch_id']. '&purchase_code=' . $product_info['purchase_code']); ?>"
+                                                                            onclick="return confirm('Are you sure you want to Return this Purchas Detail?')">Return
+                                                                            Purchase</a>
+                                                                        <?php } else { ?>
+
+                                                                                <a class="dropdown-item py-2 px-5 text-body-color text-[13px] text-left block w-full whitespace-nowrap hover:bg-[#f8f9fa] hover:text-primary dark:hover:bg-[#151C2C]"
+                                                                            href="<?= base_url('Branch_Dashboard/return_product?user_id=' . $user[0]['id'] . '&branch_id=0&purchase_code=' . $product_info['purchase_code']); ?>"
+                                                                            onclick="return confirm('Are you sure you want to Return this Purchas Detail?')">Return
+                                                                            Purchase</a>
+                                                                        <?php } ?>
                                                                     </div>
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                     <?php endforeach; ?>
                                                 <?php else: ?>
-                                                    <tr>
-                                                        <td colspan="11">No data found</td>
-                                                    </tr>
+                                                    <!-- <tr><td colspan="11">No data found</td></tr> -->
                                                 <?php endif; ?>
                                             </tbody>
 
@@ -775,10 +777,7 @@
                                                 </div>
                                             </div>
                                         <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <tr>
-                                            <td colspan="11">No data found</td>
-                                        </tr>
+                                
                                     <?php endif; ?>
 
                                 </div>

@@ -102,16 +102,18 @@
                                     <strong>Date:</strong> <?= date('d-m-Y', strtotime($invoice[0]['date'])) ?></span> </div>
                             <div class="sm:p-5 p-4 flex-auto">
                                 <div class="row mb-12">
+                                    <?php if($formate[0]['s_logo'] == '1'){ ?>
                                     <div class="mt-6 lg:w-1/4 md:w-1/2 w-full detail">
                                         <div class="2xl:w-7/12 w-full row items-center">
                                             <div class="sm:w-3/4">
 
-                                                <?php if ($user['0']['image']) { ?>
+                                                <?php 
+                                                    if ($user['0']['image']) { ?>
                                                     <img src="<?= base_url() ?>uploads/users/<?= $user['0']['image'] ?>" style="height:100px;" alt="">
 
                                                 <?php } else { ?>
                                                     <div class="text-body-color sm:text-sm text-xs break-words"><strong style="font-size: 36px;line-height: 47px;"> <?= $user['0']['shop'] ?></strong></div>
-                                                <?php } ?>
+                                                <?php }  ?>
 
 
 
@@ -119,19 +121,31 @@
 
                                         </div>
                                     </div>
+                                    <?php } ?>
                                     <div class="mt-6 lg:w-1/3 md:w-1/2 w-full detail">
-
+                                    <?php if($formate[0]['s_name'] == '1'){ ?>
                                         <div class="text-body-color sm:text-sm text-xs break-words"><strong>Shop Name.:</strong> <?= $user['0']['shop'] ?></div>
-
+                                        <?php } ?>
+                                        <?php if($formate[0]['s_contact_no'] == '1'){ ?>
                                         <div class="text-body-color sm:text-sm text-xs"><strong>Contact No.:</strong> <?= $user['0']['contact'] ?></div>
+                                        <?php } ?>
+                                        <?php if($formate[0]['s_address'] == '1'){ ?>
                                         <div class="text-body-color sm:text-sm text-xs"><strong>Address:</strong> <?= $user['0']['address'] ?> <?= $user['0']['city'] ?> <br><?= $user['0']['district'] ?> ,<?= $user['0']['state'] ?> <?= $user['0']['pincode'] ?></div>
+                                        <?php } ?>
+                                        <?php if($formate[0]['s_email'] == '1'){ ?>
                                         <div class="text-body-color sm:text-sm text-xs"><strong>Email Id:</strong> <?= $user['0']['email'] ?></div>
+                                        <?php } ?>
+                                        <?php if($formate[0]['s_gst'] == '1'){ ?>
                                         <div class="text-body-color sm:text-sm text-xs"><strong>GST NO.:</strong> <?= $user['0']['gst_no'] ?></div>
-                                        <?php if ($user['0']['lic_no']) { ?>
+                                        <?php } ?>
+                                      
+                                        <?php if ($user['0']['lic_no'] && $formate[0]['s_lic'] == '1') { ?>
                                             <div class="text-body-color sm:text-sm text-xs"><strong>LIC No.:</strong> <?= $user['0']['lic_no'] ?></div>
+                                          
                                         <?php }
-                                        if ($user['0']['cin_no']) { ?>
+                                        if ($user['0']['cin_no'] && $formate[0]['s_cin'] == '1') { ?>
                                             <div class="text-body-color sm:text-sm text-xs"><strong>CIN No.:</strong> <?= $user['0']['cin_no'] ?></div>
+                                          
                                         <?php } ?>
                                     </div>
                                     <div class="mt-6 lg:w-1/3 md:w-1/2 w-full detail">
@@ -155,12 +169,23 @@
                                         <thead>
                                             <tr>
                                                 <th class="py-[0.9375rem] border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left center text-dark" style="width:1%;">#</th>
+                                             
+                                                <?php if($formate[0]['i_name'] == '1'){ ?>
                                                 <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Item</th>
+                                                <?php } ?>
+                                                <?php if($formate[0]['i_hsn'] == '1'){ ?>
                                                 <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">HSN</th>
+                                                <?php } ?>
+                                                <?php if($formate[0]['i_packing_quantity'] == '1'){ ?>
                                                 <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left text-dark">Net Quantity</th>
-                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left right text-dark">Unit Rate</th>
+                                                <?php } ?>
+                                               
+                                                <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left right text-dark">Unit Rate</th>   
                                                 <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-left center text-dark">Qty</th>
+                                        
                                                 <th class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap  sm:text-base text-sm font-medium text-right text-dark">Total</th>
+                                           
+                                             
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -172,17 +197,24 @@
                                                     $i++;
                                             ?>
                                                     <tr>
-
+                                                   
                                                         <td class="py-[0.9375rem]  border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $i ?></td>
                                                         <?php
                                                         $product = $this->CommonModal->getRowById('product', 'id',  $row['p_name']);
                                                         ?>
-                                                        <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a]  sm:text-sm text-xs text-body-color left strong address-wrap"><?= $product[0]['product_name'] ?>-<?= $product[0]['unit'] ?></td>
+                                                         <?php if($formate[0]['i_name'] == '1'){ ?>
+                                                        <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a]  sm:text-sm text-xs text-body-color left strong address-wrap"><?= $product[0]['product_name'] ?><?php if($formate[0]['i_unit'] == '1'){ ?>-<?= $product[0]['unit'] ?><?php }?></td>
+                                                        <?php } ?>
+                                                        <?php if($formate[0]['i_hsn'] == '1'){ ?>
                                                         <?php
                                                         $packing = $this->CommonModal->getRowById('purchase_product', 'P_id', $row['packing']);
                                                         ?>
                                                         <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"><?= $product[0]['HSN'] ?></td>
+                                                        <?php } ?>
+                                                        <?php if($formate[0]['i_packing_quantity'] == '1'){ ?>
                                                         <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color left"><?= $product[0]['packing'] ?> <?= $product[0]['net_unit'] ?></td>
+                                                        <?php } ?>
+                                                      
                                                         <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color right">₹<?= $row['unit_rate'] ?> /-</td>
                                                         <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><?= $row['quantity'] ?></td>
 
@@ -271,8 +303,9 @@
 
                                                 <tr>
 
-
-                                                    <td class="py-[0.9375rem] px-2.5  whitespace-nowrap sm:text-sm text-xs text-body-color text-right"> <img src="<?= base_url() ?>uploads/users/<?= $user['0']['sealimage'] ?>" width="100px" alt="" style="margin-top:-25px; height:100px; "><img src="<?= base_url() ?>uploads/users/<?= $user['0']['signimage'] ?>" width="100px" alt="" style="margin-top:-32px ; height:100px;"></td>
+                                               
+                                                    <td class="py-[0.9375rem] px-2.5  whitespace-nowrap sm:text-sm text-xs text-body-color text-right">  <?php if($formate[0]['seal'] == '1'){ ?> <img src="<?= base_url() ?>uploads/users/<?= $user['0']['sealimage'] ?>" width="100px" alt="" style="margin-top:-25px; height:100px; "> <?php } ?>
+                                                    <?php if($formate[0]['sign'] == '1'){ ?><img src="<?= base_url() ?>uploads/users/<?= $user['0']['signimage'] ?>" width="100px" alt="" style="margin-top:-32px ; height:100px;"><?php } ?></td>
                                                     <td class="py-[0.9375rem] px-2.5 whitespace-nowrap sm:text-sm text-xs text-body-color text-right"> </td>
                                                 </tr>
 
@@ -297,24 +330,28 @@
                                     <div class="lg:w-1/3 sm:w-5/12 w-full ml-auto">
                                         <table class="table w-full mb-4 table-clear">
                                             <tbody>
+                                            <?php if($formate[0]['paid'] == '1'){ ?>
                                                 <tr>
                                                     <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs left"><strong class="text-dark">Paid Amount</strong></td>
                                                     <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color text-right">₹ <?= number_format($paid_amount, 2) ?> /-</td>
                                                 </tr>
+                                                <?php } ?>
+                                                <?php if($formate[0]['due'] == '1'){ ?>
                                                 <tr>
                                                     <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs left"><strong class="text-dark">Due Amount</strong></td>
                                                     <td class="py-[0.9375rem] px-2.5 border-b border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color text-right">₹ <?= number_format($due_amount, 2) ?> /-</td>
                                                 </tr>
+                                                <?php } ?>
                                             </tbody>
                                         </table>
                                     </div>
-
+                                    <?php if($formate[0]['term_condition'] == '1'){ ?>
                                     <div class="lg:w-1  w-full  ">
 
                                         <table class="table w-full mb-4 table-clear">
 
                                             <tbody>
-
+                                          
                                                 <tr>
 
                                                     <td class=" px-2.5 border-a border-[#E6E6E6] dark:border-[#ffffff1a] whitespace-nowrap sm:text-sm text-xs text-body-color center"><strong class="text-dark">Term And Condition :-</strong></td>
@@ -329,6 +366,7 @@
 
                                         </table>
                                     </div>
+                                    <?php } ?>
                                 </div>
                                 <button id="generatePDF" class="py-2 px-2 bg-primary text-white rounded hover:bg-hover-primary duration-300">Download</button>
                                 <button id="printBtn" class="py-2 px-2 bg-primary text-white rounded hover:bg-hover-primary duration-300">Print</button>
@@ -478,7 +516,9 @@ Details of Your Sales Invoice,%0A
  *Total Amount:* ₹ ${totalAmount.toFixed(2)}%0A
  *Paid Amount:* ₹ ${paidAmount.toFixed(2)}%0A
  *Due Amount:* ₹ ${dueAmount.toFixed(2)}%0A%0A
+   <?php if($formate[0]['whatsapp'] == '1'){ ?>
 View your invoice here:%0A${invoiceUrl}%0A%0A
+<?php } ?>
 Thank you for your purchase!`;
 
         let whatsappUrl = `https://wa.me/${contactNumber}?text=${message}`;

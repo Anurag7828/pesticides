@@ -379,7 +379,7 @@ function convertNumberToWords($number) {
         *Total Amount:* ₹${totalAmount}%0A
         *Paid Amount:* ₹${paidAmount}%0A
         *Due Amount:* ₹${dueAmount}%0A
-        *Invoice Link:* ${invoiceUrl}%0A
+       
         Thank you for your purchase!`;
 
         let whatsappUrl = `https://wa.me/${contactNumber}?text=${message}`;

@@ -1,39 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from yashadmin.dexignzone.com/tailwind/demo/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Sep 2024 07:42:52 GMT -->
-
 <head>
-	<!-- Meta -->
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="author" content="DexignZone">
-	<meta name="robots" content="index, follow">
 
-	<meta name="keywords" content="YashAdmin, sales Admin Dashboard, Tailwind CSS Template, Web Application, sales Management, Responsive Design, User Experience, Customizable, Modern UI, Dashboard Template, Admin Panel, Tailwind CSS, HTML5, CSS3, JavaScript, Analytics, Products, Admin Template, UI Kit, CRM, Analytics, Responsive Dashboard, responsive admin dashboard, sales dashboard, ui kit, web app, Admin Dashboard, Template, Admin, CMS pages, Authentication, FrontEnd Integration, Web Application UI, Tailwind CSS Framework, User Interface Kit, Financial Dashboard, Customizable Template, Product Management, HTML5/CSS3, CRM Dashboard, Analytics Dashboard, Admin Dashboard UI, Mobile-Friendly Design, UI Components, Dashboard Widgets, Dashboard Framework, Data Visualization, User Experience (UX), Dashboard Widgets, Real-time Analytics, Cross-Browser Compatibility, Interactive Charts, Product Processing, Performance Optimization, Multi-Purpose Template, Efficient Admin Tools, Task Management, Modern Web Technologies, Product Tracking, Responsive Tables, Dashboard Widgets, Invoice Management, Access Control, Modular Design, Product History, Trend Analysis, User-Friendly Interface">
-	<meta name="description" content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-
-	<meta property="og:title" content="YashAdmin -Sales Management System Tailwind CSS Admin Dashboard Template | DexignZone">
-	<meta property="og:description" content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-	<meta property="og:image" content="../social-image.png" >
-
-	<meta name= "format-detection" content= "telephone=no">
-
-	<meta name="twitter:title" content="YashAdmin -Sales Management System Tailwind CSS Admin Dashboard Template | DexignZone">
-	<meta name="twitter:description" content="The Yash Admin Sales Management System is a robust and intuitive platform designed to streamline sales operations and enhance business productivity. This comprehensive admin dashboard offers a feature-rich environment tailored specifically for managing sales processes effectively.With its modern and responsive design, Yash Admin provides a seamless user experience across various devices and screen sizes. The user interface is highly customizable, allowing administrators to tailor the dashboard to their specific needs and branding requirements.">
-	<meta name="twitter:image" content="../social-image.png">
-	<meta name="twitter:card" content="summary_large_image">
-
-	<!-- MOBILE SPECIFIC -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?php include "includes2/header-links.php" ?>
-	<style>
-	      .address-wrap {
+<style>
+  
+ .address-wrap {
     word-break: break-word; 
     overflow-wrap: break-word;
- 
+    white-space: pre-wrap;
+
 }
-	</style>
+</style>
 </head>
 <body class="selection:text-white selection:bg-primary">
 <!-- Main wrapper start -->
@@ -45,7 +24,10 @@
 			<div class="container-fluid">
 				<div class="row dz-tab-area">
 					<div class="flex justify-between items-center mb-5">
-                    <a href="<?= base_url('Branch_Dashboard/add_product_name/'.encryptId($user['0']['id']).'/0') ?>" class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-auto">+ add product_name</a><br>
+                    <a href="<?= base_url('Branch_Dashboard/add_product_name/'.encryptId($user['0']['id']).'/0') ?>" class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-auto">Add Product</a><br>
+                    <a href="<?= base_url('Branch_Dashboard/bulk_upload/'.encryptId($user['0']['id'])) ?>" class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-2">
+    Bulk Upload
+</a>
                     	<a href="#" onclick="exportTableToExcel()" class="py-[5px] px-3 text-[13px] rounded text-white bg-primary leading-[18px] inline-block border border-primary duration-500 hover:bg-hover-primary hover:border-hover-primary ml-2">
     Export to Excel
 </a>
@@ -54,7 +36,7 @@
 </a>
 </div>
                     <div class="flex items-center">
-							<h3 style="font-size: 25px; margin: 10px;color: #454592;">View Products Name list</h3>
+							<h3 style="font-size: 25px; margin: 10px;color: #454592;">View Products  list</h3>
 							<ul class="nav nav-pills mix-chart-tab user-m-tabe flex flex-wrap">
 								<li class="nav-item">
 									<button class="nav-link py-[3px] px-2 mx-1 rounded text-[13px] block tab-btn active" data-tab="pills-colm">
@@ -92,11 +74,11 @@
     <thead>
         <tr>
               <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">S No.</th>
+              <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">Product Id</th>
        
-            <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">Products Name</th>
+            <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">Product Name</th>
                   <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">Company Name</th>
-                  <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">Add by</th>
-
+                  <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">Add By</th>
                                    <th class="border-b border-b-color text-[13px] py-2.5 px-4 bg-primary-light text-primary capitalize font-medium bg-none whitespace-nowrap text-left">Action</th>
         </tr>
     </thead>
@@ -107,28 +89,30 @@
         ?>
             <tr>
                   <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"><?= $serial++ ?></td>
+                  <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color address-wrap"><?= $product_name_info['product_id']; ?></td>
             
            
-                 <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color address-wrap"><?= $product_name_info['product_name']; ?></td>
+                 <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color address-wrap"><?= $product_name_info['product_name']; ?><?php if( $product_name_info['box'] =='1'){?> (Box)<?php }?></td>
               <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color address-wrap"><?= $product_name_info['company_name']; ?></td>
-              
-              <?php if($product_name_info['branch_id'] != 0) {?>
-                                                               
-                                                               <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color address-wrap"><?= $user[0]['name'] ?></td>
-                                                              <?php } else { ?>
-                                                                <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">Admin</td>
-                                                                <?php  }?>
+               <?php if( $product_name_info['branch_id'] != 0){ 
+                                                                        $branch = $this->CommonModal->getRowByMultitpleId('branch', 'id', $product_name_info['branch_id'] ,'user_id',$user[0]['user_id']);?>
+                                                                      <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap"> <?= $branch[0]['name'] ?></td>
+                                                                      <?php } else{
+                                                                      ?>
+                                                                           <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">Admin</td>
+                                                                            <?php } 
+                                                                      ?>
                               <td class="border-b border-b-color py-2.5 px-4 text-[13px] font-normal text-body-color whitespace-nowrap">
                      <div class="button-container">
+                    <a class="button" style="width:90px;" href="<?= base_url('Branch_Dashboard/view1_product_name?id=' . $product_name_info['id'] . '&user_id=' . $user[0]['id']); ?>">View</a>
+
                     <a class="button" style="width:90px;" href="<?= base_url('Branch_Dashboard/edit_product_name?id=' . $product_name_info['id'] . '&user_id=' . $user[0]['id']); ?>">Edit</a>
-                    <!--<a class="button"  style="width:90px;"  href="<?= base_url('Branch_Dashboard/product_name/' . encryptId($user[0]['id']) . '?id=' . $product_name_info['id']); ?>" onclick="return confirm('Are you sure you want to delete this vendor?')">Delete</a>-->
+                    <a class="button"  style="width:90px;"  href="<?= base_url('Branch_Dashboard/product_name/' . encryptId($user[0]['id']) . '?id=' . $product_name_info['id']); ?>" onclick="return confirm('Are you sure you want to delete this vendor?')">Delete</a>
                </div>
                 </td> 
             </tr>
             <?php
             }
-        } else {
-            echo "<tr><td colspan='9'>No data found</td></tr>";
         }
         ?>
 </tbody>
